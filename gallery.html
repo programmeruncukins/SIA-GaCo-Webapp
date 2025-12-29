@@ -13,6 +13,27 @@
 <style>
 
 /* FOTOGALERIJA */
+
+.site-header {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: #000;
+    border-bottom: 2px solid #e10600;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.site-header,
+.gallery-page .bottom-nav {
+    width: 100vw;   /* garantē pilnu viewport platumu */
+    left: 0;
+}
+
 .gallery {
     text-align: center;
     margin-top: 40px;
@@ -157,6 +178,11 @@ section:hover {
     overflow-x: hidden;
 }
 
+body.gallery-page,
+.gallery-page {
+    overflow-x: hidden;  /* novērš horizontālo scroll */
+}
+
 body.gallery-page {
     flex-direction: column;
     min-height: 100vh;
@@ -164,7 +190,8 @@ body.gallery-page {
 
 .gallery-page main {
     width: 100%;
-    padding: 50px;
+    padding: 0 20px 100px 20px; /* only horizontal padding inside viewport */
+    box-sizing: border-box;
     display: block;
     padding-bottom: 100px; /* space for bottom-nav + extra */
     padding-top: 0px; /* adjust as needed */
@@ -213,10 +240,11 @@ body.gallery-page {
 
 /* gallery photo grid */
 .gallery-page .photo-grid {
-    display: flex;          /* Flexbox */
-    flex-wrap: wrap;        /* pārnes uz nākamo rindu */
-    justify-content: center; /* centrējas horizontāli */
-    gap: 20px;              /* atstarpe starp bildēm */
+    max-width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin: 0 auto;
 }
 
 .gallery-page .photo-item {
@@ -298,6 +326,7 @@ body.gallery-page {
     justify-content: space-around;
     align-items: center;
     border-top: 2px solid #e10600;
+    z-index: 1000;
 }
 
 .gallery-page .bottom-nav a {
