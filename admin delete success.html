@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konts dzēsts</title>
+    <link rel="stylesheet" href="style.css">
+
+  <!-- PWA manifest -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="/app-icons/iPhone_app_2160x2160.png">
+
+<style>
+
+/* ===== ADMIN DELETE ACC SUCCESS PAGE ===== */
+
+body.admin-success-page {
+    background: #111;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    display: block;  /* ← tas pats kā citās lapās */
+    margin: 0;
+    padding: 0;
+}
+
+.admin-success-section {
+    margin-top: 20px; /* atdala no header */
+}
+
+.site-header {
+    border-bottom: 2px solid #e10600; /* ← šī ir tava red line */
+}
+
+.admin-success-page {
+    background: #000000;  /* tumšā fona tonis kā pārējām lapām */
+    color: white;
+}
+
+.admin-success-section {
+    max-width: 420px;
+    margin: 100px auto;
+    background: #000000;  /* tumšāks panelis */
+    padding: 40px;
+    border-radius: 14px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+.admin-success-section h1 {
+    color: #e10600;  /* sarkans, kā brīdinājumu pogām */
+    margin-bottom: 15px;
+    font-size: 28px;
+} 
+
+.admin-success-section .admin-success-text {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.admin-small-text {
+    font-size: 16px;
+    color: #aaa;
+    margin-top: 10px;
+}
+
+.admin-main-btn {
+    margin-top: 25px;
+    background: #e10600;
+    color: white;
+    border: none;
+    padding: 14px 25px;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.admin-main-btn:hover {
+    background: #9b0000;  /* tumšāks sarkans hover efekts */
+}
+
+/* ===== END ADMIN DELETE ACC SUCCESS PAGE ===== */
+
+</style>
+
+</head>
+
+<body class="admin-success-page">
+
+<header class="site-header">
+    <img src="GaCo_logo_horizontal_white.png" class="site-logo" alt="Logo">
+</header>
+
+<section class="admin-success-section">
+    <h1>Konts ir dzēsts.</h1>
+
+    <p class="admin-success-text">
+        Tavs konts un visi ar to saistītie dati ir veiksmīgi dzēsti.
+    </p>
+
+    <p class="admin-small-text">
+        Paldies, ka izmantoji GaCo pakalpojumus!
+    </p>
+
+    <button class="admin-main-btn"
+            onclick="location.href='home.html'">
+        Atgriezties uz sākumlapu
+    </button>
+</section>
+
+</body>
+</html>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Reģistrācijas lapa</title>
+
+  <!-- PWA manifest -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="/app-icons/iPhone_app_2160x2160.png">
+
+<style>
+
+/* ==== LOGIN / REGISTRATION PAGE ==== */
+.login-page {
+    background-color: #000;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.login-container {
+    background: #111;
+    padding: 30px 25px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 380px;
+    border: 1px solid #e10600;
+    box-shadow: 0 0 15px rgba(225, 6, 0, 0.4);
+}
+
+.login-container h2 {
+    text-align: center;
+    color: #e10600;
+    margin-bottom: 20px;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.login-form label {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.login-form input {
+    padding: 12px;
+    border-radius: 5px;
+    border: 1px solid #fff;
+    background-color: #000;
+    color: #fff;
+}
+
+.login-btn {
+    padding: 12px;
+    background-color: #e10600;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.login-btn:hover {
+    background-color: #ff2a2a;
+}
+
+.register-link {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.register-link a {
+    color: #e10600;
+    text-decoration: none;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+}
+
+.error-msg {
+    color: #e10600;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 5px;
+    animation: shake 0.2s ease-in-out 2;
+}
+
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    50% { transform: translateX(4px); }
+    75% { transform: translateX(-4px); }
+    100% { transform: translateX(0); }
+}
+
+/* ==== BOTTOM NAV ==== */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #000;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-top: 2px solid #e10600;
+    z-index: 1000;
+}
+
+.bottom-nav a {
+    text-decoration: none;
+    font-size: 1.5rem;
+    color: #ffffff;
+    padding: 8px 14px;
+    border-radius: 10px;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.bottom-nav a:hover {
+    background: rgba(225, 7, 0, 0.3);
+    color: #e10600;
+}
+
+.bottom-nav a.active {
+    background: #e10700b2;
+    color: #e10600;
+}
+
+
+</style>
+
+</head>
+
+<body class="login-page">
+
+    <div class="login-container">
+
+        <h2>Reģistrācija</h2>
+
+        <form id="regForm" class="login-form">
+            <label>Vārds</label>
+            <input type="text" id="firstName" placeholder="Ievadi vārdu">
+
+            <label>Uzvārds</label>
+            <input type="text" id="lastName" placeholder="Ievadi uzvārdu">
+
+            <label>E-pasts</label>
+            <input type="email" id="email" placeholder="E-pasts">
+
+            <label>Parole</label>
+            <input type="password" id="password" placeholder="Izveido paroli">
+
+            <button type="submit" class="login-btn">Reģistrēties</button>
+
+            <!-- kļūdu teksts -->
+            <p id="errorMsg" class="error-msg"></p>
+        </form>
+
+        <p class="register-link">
+            Jau ir profils? <a href="login.html">Ielogoties</a>
+        </p>
+
+    </div>
+
+<script>
+function normalizeEmail(email){
+    return email.trim().toLowerCase();
+}
+
+document.getElementById("regForm").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    const firstName = document.getElementById("firstName").value.trim();
+    const lastName = document.getElementById("lastName").value.trim();
+    const emailRaw = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const errorMsg = document.getElementById("errorMsg");
+
+    if(!firstName || !lastName || !emailRaw || !password){
+        errorMsg.textContent = "Visi lauki ir obligāti!";
+        return;
+    }
+
+    if(password.length < 8){
+        errorMsg.textContent = "Parolei jābūt vismaz 8 rakstzīmēm!";
+        return;
+    }
+
+    const email = normalizeEmail(emailRaw);
+    const role = email.endsWith("@gaco.lv") ? "admin" : "user";
+
+    let users = JSON.parse(localStorage.getItem("users")) || [];
+
+    if(users.some(u => u.email === email)){
+        errorMsg.textContent = "Šis e-pasts jau ir reģistrēts!";
+        return;
+    }
+
+    const newUser = {
+        id: Date.now(),
+        firstName,
+        lastName,
+        email,
+        password,
+        role,
+        createdAt: new Date().toISOString()
+    };
+
+    users.push(newUser);
+    localStorage.setItem("users", JSON.stringify(users));
+
+    if(role === "admin"){
+        localStorage.setItem("loggedAdmin", JSON.stringify(newUser));
+    } else {
+        localStorage.setItem("loggedUser", JSON.stringify(newUser));
+    }
+
+    window.location.href = "registration success.html";
+});
+</script>
+
+
+
+    <!-- BOTTOM NAVIGATION -->
+<nav class="bottom-nav">
+    <a href="home.html">🏠</a>
+    <a href="gallery.html">🖼️</a>
+    <a href="order form.html">📝</a>
+    <a href="info.html">📍</a>
+    <a href="profile.html" class="active">👤</a>
+</nav>
+
+</body>
+</html>

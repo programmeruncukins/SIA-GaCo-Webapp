@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="style.css">
+<title>Rediģēt profilu</title>
+
+  <!-- PWA manifest -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="/app-icons/iPhone_app_2160x2160.png">
+
+<style>
+
+/* ===== EDIT PROFILE ADMIN PAGE ===== */
+
+body.admin-form-page {
+    background-color: #111;      /* dark background */
+    font-family: Arial, sans-serif; /* same font as other pages */
+    color: white;
+    padding-top: 120px; /* if you have a fixed header */
+}
+
+/* Container box styling like request cards */
+.admin-edit-profile-container {
+    width: 90%;
+    max-width: 450px;
+    margin: 0vh auto 0 auto; /* 5% no viewport augstuma uz augšu */
+    background: #000;               /* black background like cards */
+    border: 1px solid #e10600;     /* red border */
+    border-radius: 12px;
+    padding: 25px;
+    color: white;
+    transition: transform 0.2s, box-shadow 0.2s; /* hover effect */
+}
+
+/* Hover glow effect like request cards */
+.admin-edit-profile-container:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0 15px #e10600;
+}
+
+/* Title */
+.admin-edit-profile-container h1 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 26px;
+    letter-spacing: 1px;
+    color: #ff0800;                /* red title */
+    font-family: Arial, sans-serif;
+}
+
+/* Labels */
+.admin-edit-profile-container label {
+    display: block;
+    margin-top: 12px;
+    font-size: 14px;
+    color: #ccc;
+}
+
+/* Input fields */
+.admin-edit-profile-container input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    background: #000;
+    border: 1px solid #444;
+    border-radius: 8px;
+    color: white;
+    font-size: 15px;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.admin-edit-profile-container input:focus {
+    border-color: red;
+    background: #111;
+}
+
+/* Save button */
+.admin-save-btn {
+    width: 100%;
+    margin-top: 20px;
+    padding: 12px;
+    background: red;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.admin-save-btn:hover {
+    background: #cc0000;
+}
+
+/* Cancel button */
+.admin-cancel-btn {
+    width: 100%;
+    margin-top: 10px;
+    padding: 12px;
+    background: transparent;
+    color: #ccc;
+    border: 1px solid #444;
+    border-radius: 10px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.admin-cancel-btn:hover {
+    background: #222;
+    color: white;
+    border-color: red;
+}
+
+/* Popup */
+.admin-popup {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(225, 6, 0, 0.8);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 16px;
+    display: none;
+    font-weight: 600;
+    box-shadow: 0 0 10px #900;
+    animation: fadeOut 2s forwards;
+}
+
+@keyframes fadeOut {
+    0% { opacity: 1; }
+    70% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+/* Back button */
+.admin-back-btn {
+    display: block;
+    margin: 0 auto 20px auto;
+    padding: 12px 20px;
+    background-color: #e10600;
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    width: 200px;
+    transition: 0.3s;
+}
+
+.admin-back-btn:hover {
+    background-color: #ff3333;
+}
+
+/* Input error messages */
+.admin-input-message {
+    color: #ff4d4d;
+    font-size: 13px;
+    margin-top: 3px;
+    min-height: 18px;
+}
+/* ===== END EDIT PROFILE ADMIN PAGE ===== */
+
+</style>
+
+</head>
+<body class="admin-form-page">
+
+<div class="admin-edit-profile-container">
+    <h1>Rediģēt profilu</h1>
+
+    <button class="admin-back-btn" onclick="window.location.href='admin profile.html'">← Atpakaļ uz profilu</button>
+
+    <form id="adminEditProfileForm">
+        <label for="firstName">Vārds</label>
+        <input type="text" id="firstName" placeholder="Ievadi vārdu">
+
+        <label for="lastName">Uzvārds</label>
+        <input type="text" id="lastName" placeholder="Ievadi uzvārdu">
+
+        <label for="email">E-pasts</label>
+        <input type="email" id="email" placeholder="example@mail.com">
+
+        <label for="username">Lietotājvārds</label>
+        <input type="text" id="username" placeholder="Lietotājvārds">
+
+        <label for="password">Parole</label>
+        <input type="password" id="password" placeholder="Jauna parole">
+        <div id="passwordMsg" class="admin-input-message"></div>
+
+        <label for="confirmPassword">Atkārto paroli</label>
+        <input type="password" id="confirmPassword" placeholder="Atkārto paroli">
+        <div id="confirmMsg" class="admin-input-message"></div>
+
+        <button type="submit" class="admin-save-btn">Saglabāt</button>
+        <button type="button" class="admin-cancel-btn" id="cancelChanges">Atcelt izmaiņas</button>
+    </form>
+</div>
+
+<div id="savedPopup" class="admin-popup">
+    <span>✓ Izmaiņas saglabātas!</span>
+</div>
+
+<script>
+// password regex
+const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+
+// login check
+const currentAdmin = JSON.parse(localStorage.getItem("loggedAdmin"));
+if(!currentAdmin) window.location.href="login.html";
+
+const originalData = {
+    firstName: currentAdmin.firstName || "",
+    lastName: currentAdmin.lastName || "",
+    email: currentAdmin.email || "",
+    username: currentAdmin.username || ""
+};
+
+// aizpilda formu
+document.getElementById("firstName").value = originalData.firstName;
+document.getElementById("lastName").value = originalData.lastName;
+document.getElementById("email").value = originalData.email;
+document.getElementById("username").value = originalData.username;
+
+// pārbauda izmaiņas
+function hasChanges() {
+    return (
+        document.getElementById("firstName").value !== originalData.firstName ||
+        document.getElementById("lastName").value !== originalData.lastName ||
+        document.getElementById("email").value !== originalData.email ||
+        document.getElementById("username").value !== originalData.username ||
+        document.getElementById("password").value !== "" ||
+        document.getElementById("confirmPassword").value !== ""
+    );
+}
+
+// cancel
+document.getElementById("cancelChanges").addEventListener("click", () => {
+    if(!hasChanges()) return;
+    document.getElementById("firstName").value = originalData.firstName;
+    document.getElementById("lastName").value = originalData.lastName;
+    document.getElementById("email").value = originalData.email;
+    document.getElementById("username").value = originalData.username;
+    document.getElementById("password").value = "";
+    document.getElementById("confirmPassword").value = "";
+    document.getElementById("passwordMsg").textContent = "";
+    document.getElementById("confirmMsg").textContent = "";
+});
+
+// submit
+document.getElementById("adminEditProfileForm").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    const firstName = document.getElementById("firstName").value.trim();
+    const lastName = document.getElementById("lastName").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const username = document.getElementById("username").value.trim();
+    const pass = document.getElementById("password").value.trim();
+    const confirm = document.getElementById("confirmPassword").value.trim();
+
+    const passwordMsg = document.getElementById("passwordMsg");
+    const confirmMsg = document.getElementById("confirmMsg");
+
+    passwordMsg.textContent = "";
+    confirmMsg.textContent = "";
+
+    let hasError = false;
+
+        // paroles validācija
+    if(pass !==""){
+        if(pass === currentAdmin.password){
+            passwordMsg.textContent="Šī ir pašreizējā parole!";
+            hasError = true;
+        } else if(!passwordRegex.test(pass)){
+            passwordMsg.textContent="Parolei jābūt vismaz 8 simbolus garai, ar lielo, mazo burtu un ciparu.";
+            hasError=true;
+        }
+    }
+
+    if(pass!=="" && pass!==confirm){
+        confirmMsg.textContent="Paroles nesakrīt!";
+        hasError=true;
+    }
+
+    if(!firstName || !lastName || !email || !username){
+        alert("Lūdzu aizpildi visus profila laukus.");
+        return;
+    }
+
+    if(hasError) return;
+
+    // saglabā datus
+    const oldEmail=currentAdmin.email;
+    currentAdmin.firstName=firstName;
+    currentAdmin.lastName=lastName;
+    currentAdmin.email=email;
+    currentAdmin.username=username;
+    if(pass!=="") currentAdmin.password=pass;
+
+let admins = JSON.parse(localStorage.getItem("admins")) || [];
+const index = admins.findIndex(a => a.email === oldEmail);
+if (index !== -1) {
+    admins[index] = currentAdmin;
+    localStorage.setItem("admins", JSON.stringify(admins));
+}
+
+    localStorage.setItem("loggedAdmin", JSON.stringify(currentAdmin));
+
+    // popup
+    const popup = document.getElementById("savedPopup");
+    popup.style.display="block";
+    setTimeout(()=>popup.style.display="none",2000);
+
+    document.getElementById("password").value="";
+    document.getElementById("confirmPassword").value="";
+
+    // atjauno originalData
+    originalData.firstName=currentAdmin.firstName;
+    originalData.lastName=currentAdmin.lastName;
+    originalData.email=currentAdmin.email;
+    originalData.username=currentAdmin.username;
+});
+</script>
+</body>
+</html>

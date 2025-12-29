@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Paziņojumi</title>
+
+  <!-- PWA manifest -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="/app-icons/iPhone_app_2160x2160.png">
+
+<style>
+
+/* ===== NOTIFICATIONS PAGE CLIENTS ===== */
+/* Header fiksēts augšā */ 
+.site-header {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: #000;
+    border-bottom: 2px solid #e10600;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+body.profile-page {
+    background-color: #111;
+    font-family: Arial, sans-serif;
+    color: white;
+    padding-top: 160px;       /* vieta headeram */
+    padding-bottom: 60px;     /* vieta bottom nav scroll laikā */
+}
+
+/* ===== Lielais notifications box ===== */
+.notifications-section {
+    width: 95%;
+    max-width: 700px;
+    margin: 20px auto 40px auto;
+    padding: 25px;
+    background: #000;
+    border: 1px solid #e10600;
+    border-radius: 12px;
+    box-shadow: 0 0 15px #000;
+    transition: transform 0.2s, box-shadow 0.2s;
+
+}
+
+.notifications-section:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0 15px #e10600;
+}
+
+/* Title iekš box */
+.notifications-section h2 {
+    text-align: center;
+    color: #e10600;
+    margin-bottom: 20px;
+}
+
+/* Notifications grupas (cards) */
+.notification-group h3 {
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+.notification-card {
+    background: #111;              /* tumšāks par box */
+    padding: 15px 15px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #e10600;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+}
+
+.notification-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 12px #e10600;
+}
+
+.notification-card p {
+    margin: 0;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+}
+
+/* Scrollbar */
+.notifications-section::-webkit-scrollbar {
+    width: 6px;
+}
+
+.notifications-section::-webkit-scrollbar-thumb {
+    background: #e10600;
+    border-radius: 3px;
+}
+
+/* Back button */
+.back-btn {
+    display: block;
+    margin: 0 auto 15px auto;
+    padding: 12px 25px;
+    background-color: #e10600;
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    width: 200px;
+    transition: 0.3s;
+}
+
+.back-btn:hover {
+    background-color: #ff3333;
+}
+
+
+/* Apple-style toggle (nezog hover efektu no kastes) */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 28px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    border-radius: 28px;
+    transition: 0.4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 22px;
+    width: 22px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    border-radius: 50%;
+    transition: 0.4s;
+}
+
+input:checked + .slider {
+    background-color: #4cd964;
+}
+
+input:checked + .slider:before {
+    transform: translateX(22px);
+}
+
+/* Empty message */
+.empty-msg {
+    text-align: center;
+    margin-top: 40px;
+    font-size: 16px;
+    color: #ccc;
+}
+        /* BOTTOM NAVigation */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #000; /* black bg */
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-top: 2px solid #e10600; /* red top border */
+}
+
+.bottom-nav a {
+    text-decoration: none;
+    font-size: 1.5rem;
+    color: #ffffff; /* white icons */
+    transition: color 0.3s ease;
+    padding: 8px 14px;
+    border-radius: 10px;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.bottom-nav a:hover {
+    background: rgba(225, 7, 0, 0.299);
+    color: #e10600;
+}
+
+.bottom-nav a.active {
+    background: #e10700b2;
+    color: #e10600;
+}
+/* ===== END NOTIFICATIONS PAGE CLIENTS ===== */
+
+</style>
+
+</head>
+<body class="profile-page">
+
+<header class="site-header">
+    <img src="GaCo_logo_horizontal_white.png" class="site-logo" alt="Logo">
+</header>
+
+<section class="notifications-section">
+    <button class="back-btn" onclick="window.location.href='clients profile.html'">← Atpakaļ uz profilu</button>
+    <h2>Paziņojumi</h2>
+
+    <!-- Sekcijas konteineri -->
+    <div id="statusNotifications" class="notification-group">
+        <h3>Pasākuma statusa paziņojumi</h3>
+    </div>
+
+    <div id="reminderNotifications" class="notification-group">
+        <h3>Atgādinājumi</h3>
+    </div>
+
+    <div id="messageNotifications" class="notification-group">
+        <h3>Ziņojumi un komentāri</h3>
+    </div>
+</section>
+
+<script>
+// ✅ Klienta paziņojumi
+let notifications = JSON.parse(localStorage.getItem("notifications")) || [
+    { id: 1, text: "Pasākuma apstiprinājumi", category: "status", enabled: true },
+    { id: 2, text: "Pasākuma noraidījumi", category: "status", enabled: true },
+    { id: 3, text: "Ziņojumi no atbalsta par aplikāciju", category: "message", enabled: true },
+    { id: 4, text: "Komentāri par pasākumu", category: "message", enabled: true },
+    { id: 5, text: "Atgādinājumi par pasākuma sākumu", category: "reminder", enabled: true },
+    { id: 6, text: "Atgādinājumi par ar profilu saistītām lietām", category: "reminder", enabled: true },
+    { id: 7, text: "Jaunu funkciju palaišanas paziņojumi", category: "message", enabled: true }
+];
+
+// konteineri
+const statusContainer = document.getElementById("statusNotifications");
+const reminderContainer = document.getElementById("reminderNotifications");
+const messageContainer = document.getElementById("messageNotifications");
+
+// funkcija paziņojuma HTML ģenerēšanai
+function createNotificationCard(notif) {
+    const div = document.createElement("div");
+    div.className = "notification-card";
+    div.innerHTML = `
+        <p>${notif.text}</p>
+        <label class="switch">
+            <input type="checkbox" ${notif.enabled ? "checked" : ""} data-id="${notif.id}">
+            <span class="slider"></span>
+        </label>
+    `;
+    return div;
+} 
+
+// paziņojumu sadale pa sekcijām
+notifications.forEach(n => {
+    let container;
+    if (n.category === "status") container = statusContainer;
+    else if (n.category === "reminder") container = reminderContainer;
+    else container = messageContainer;
+
+    const card = createNotificationCard(n);
+    container.appendChild(card);
+
+    card.querySelector('input[type="checkbox"]').addEventListener("change", (e) => {
+        n.enabled = e.target.checked;
+        localStorage.setItem("notifications", JSON.stringify(notifications));
+    });
+});
+
+// login pārbaude
+const loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
+if (!loggedUser) {
+    window.location.href = "login.html";
+}
+</script>
+
+<nav class="bottom-nav">
+    <a href="home.html">🏠</a>
+    <a href="gallery.html">🖼️</a>
+    <a href="order form.html">📝</a>
+    <a href="info.html">📍</a>
+    <a href="clients profile.html" class="active">👤</a>
+</nav>
+
+</body>
+</html>
+
+

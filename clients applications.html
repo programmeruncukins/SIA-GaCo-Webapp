@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Mani pieteikumi — Klients</title>
+
+  <!-- PWA manifest -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="/app-icons/iPhone_app_2160x2160.png">
+
+<style>
+
+/* ===== APPLICATIONS PAGE CLIENTS ===== */ 
+.site-header {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: #000;
+    border-bottom: 2px solid #e10600;
+    justify-content: center;
+    position: fixed;   /* fiksēts augšā */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1001;
+}
+
+.profile-page {
+    background-color: #111; 
+    color: #fff;
+    font-family: Arial, sans-serif;
+    padding: 25px 25px 80px 25px; /* apakšējais padding nav obligāts, bet top tagad ir 25px + header augstums */
+    padding-top: 150px; /* šis nodrošina, ka saturs nav aiz headera */
+}
+
+.applications-section {
+    margin-top: 0; /* lieka atstarpe nav vajadzīga */
+}
+
+/* Section title */
+.applications-section h2 {
+    text-align: center;
+    color: #e10600; /* match header underline color */
+    margin-bottom: 20px;
+}
+
+/* Back button styling like profile buttons */
+.back-btn {
+    display: block;
+    margin: 0 auto 20px auto; /* center and spacing */
+    padding: 12px 25px;
+    background-color: #e10600; /* red */
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    width: 200px; /* optional fixed width like profile buttons */
+    transition: 0.3s;
+}
+
+.back-btn:hover {
+    background-color: #ff3333;
+}
+
+/* Request cards */
+.request-card {
+    background: #000000;
+    color: white;
+    border: 1px solid #e10600;
+    border-radius: 12px;
+    padding: 15px;
+    margin: 12px auto;
+    max-width: 500px;
+    box-shadow: 0 0 10px #000;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.request-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0 15px #e10600;
+}
+        .request-card h3 {
+            margin-top: 0;
+        }
+
+.status {
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+    display: inline-block;
+    color: white; /* default color for all */
+}
+
+.status.procesā {
+    background: orange;
+    color: #111;
+}
+
+.status.apstiprināts {
+    background: green;
+    color: white;
+}
+
+.status.noraidīts {
+    background: red;
+    color: white;
+}
+
+        .view-btn {
+            margin-top: 10px;
+            padding: 8px 12px;
+            background: red;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .view-btn:hover { background: #cc0000; }
+
+        /* Popup/modal */
+        #requestPopup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #111;
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 450px;
+            box-shadow: 0 0 20px #000;
+            display: none;
+            z-index: 1000;
+        }
+
+        #requestPopup h3 {
+            margin-top: 0;
+        }
+
+        #requestPopup button {
+            margin-top: 15px;
+            padding: 8px 12px;
+            background: red;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        #requestPopup button:hover { background: #cc0000; }
+
+        /* Overlay */
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            display: none;
+            z-index: 900;
+        }
+
+        .empty-msg {
+            color: #ccc;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+/* DELETE BUTTON NEXT TO VIEW */
+.delete-btn {
+    background-color: black; /* normālais fons */
+    color: white;
+    border: 2px solid red;
+    border-radius: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: 0.3s; 
+}
+
+.delete-btn:hover {
+    background-color: red;  /* hover fons sarkans */
+    color: rgb(255, 255, 255);           /* teksts melns */
+}
+
+.view-btn, .delete-btn {
+    display: inline-block;
+    margin: 8px 5px 0 0;
+    padding: 8px 12px;
+    background: rgb(0, 0, 0);
+    color: white;
+    border: 1px solid #e10600;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.view-btn:hover, .delete-btn:hover {
+    background: #cc0000;
+}
+
+.popup-delete {
+ position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #111;
+    color: white;
+    padding: 20px;
+    border-radius: 12px;
+    display: none;
+    z-index: 1000;
+    text-align: center;
+    border: 1px solid red; /* red border */
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.popup-delete:hover {
+    transform: translate(-50%, -50%) translateY(-4px);
+    box-shadow: 0 0 20px #e10600;
+}
+
+.popup-buttons {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+/* POPUP BUTTONS (Jā / Nē) */
+.popup-buttons button {
+    background-color: black;
+    color: white;
+    border: 2px solid red;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.popup-buttons button:hover {
+    background-color: red;  /* hover fons sarkans */
+    color: black;           /* teksts melns */
+}
+
+#confirmDelete {
+    background: red;
+    color: white;
+}
+
+#cancelDelete {
+    background: #333;
+    color: white;
+}
+
+#applicationsList {
+    max-height: 60vh; /* vai cik piemēroti */
+    overflow-y: auto;
+    padding-right: 10px; /* scroll bar vietai */
+}
+
+/* Bottom nav */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #000;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-top: 2px solid #e10600;
+    z-index: 1000;
+}
+
+.bottom-nav a {
+    text-decoration: none;
+    font-size: 1.5rem;
+    color: #ffffff;
+    padding: 8px 14px;
+    border-radius: 10px;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.bottom-nav a:hover {
+    background: rgba(225, 7, 0, 0.299);
+    color: #e10600;
+}
+
+.bottom-nav a.active {
+    background: #e10700b2;
+    color: #e10600;
+}
+
+/* ===== END APPLICATIONS PAGE CLIENTS ===== */
+
+</style>
+
+</head>
+<body class="profile-page">
+
+<header class="site-header">
+    <img src="GaCo_logo_horizontal_white.png" class="site-logo" alt="Logo">
+</header>
+
+<section class="applications-section">
+    <h2>Mani pieteikumi</h2>
+
+    <button class="back-btn" onclick="window.location.href='clients profile.html'">← Atpakaļ uz profilu</button>
+
+    <div id="applicationsList">
+        <!-- Šeit tiks ielādēti klienta pieteikumi -->
+    </div>
+
+<!-- Delete confirmation popup -->
+<div id="deletePopup" class="popup-delete">
+    <p>Vai tiešām vēlies dzēst šo pieteikumu?</p>
+    <div class="popup-buttons">
+        <button id="confirmDelete">Jā</button>
+        <button id="cancelDelete">Nē</button>
+    </div>
+</div>
+
+</section>
+
+<!-- Popup / Modal -->
+<div id="overlay"></div>
+<div id="requestPopup">
+    <div id="requestDetails"></div>
+    <button onclick="closePopup()">Aizvērt</button>
+</div>
+
+<nav class="bottom-nav">
+    <a href="home.html">🏠</a>
+    <a href="gallery.html">🖼️</a>
+    <a href="order form.html">📝</a>
+    <a href="info.html">📍</a>
+    <a href="clients profile.html"class="active">👤</a>
+</nav>
+
+<script>
+const container = document.getElementById("applicationsList");
+const currentUser = JSON.parse(localStorage.getItem("loggedUser"));
+
+if (!currentUser) {
+    window.location.href = "login.html";
+}
+
+let requestToDelete = null; // saglabā ID, ko dzēsīsim
+const deletePopup = document.getElementById("deletePopup");
+const confirmBtn = document.getElementById("confirmDelete");
+const cancelBtn = document.getElementById("cancelDelete");
+
+function renderRequests() {
+    const allRequests = JSON.parse(localStorage.getItem("requests")) || [];
+    const myRequests = allRequests.filter(r => r.userEmail === currentUser.email);
+
+    if (myRequests.length === 0) {
+        container.innerHTML = `<p class="empty-msg">Tev vēl nav neviena pieteikuma.</p>`;
+    } else {
+        container.innerHTML = myRequests.map(req => `
+            <div class="request-card">
+                <h3>${req.title}</h3>
+                <p><strong>Statuss:</strong> <span class="status ${req.status.toLowerCase()}">${req.status}</span></p>
+                <p><strong>Datums:</strong> ${formatDateDMY(req.date)}</p>
+                <button class="view-btn" onclick="viewRequest(${req.id})">Apskatīt</button>
+                <button class="delete-btn" onclick="deleteRequest(${req.id})">Dzēst</button>
+            </div>
+        `).join("");
+    }
+}
+
+// Dzēšanas funkcija
+function deleteRequest(id) {
+    requestToDelete = id;
+    deletePopup.style.display = "block"; // parādi popup
+}
+
+// Dzēšanas popup pogas
+confirmBtn.addEventListener("click", () => {
+    if (requestToDelete !== null) {
+        let requests = JSON.parse(localStorage.getItem("requests")) || [];
+        requests = requests.filter(r => r.id !== requestToDelete);
+        localStorage.setItem("requests", JSON.stringify(requests));
+        requestToDelete = null;
+        deletePopup.style.display = "none";
+        renderRequests();
+    }
+});
+
+cancelBtn.addEventListener("click", () => {
+    requestToDelete = null;
+    deletePopup.style.display = "none";
+});
+
+function formatDateDMY(dateString) {
+    if (!dateString) return "—";
+
+    const d = new Date(dateString);
+
+    const day = String(d.getDate()).padStart(2, "0");
+    const month = String(d.getMonth() + 1).padStart(2, "0");
+    const year = d.getFullYear();
+
+    const hours = String(d.getHours()).padStart(2, "0");
+    const minutes = String(d.getMinutes()).padStart(2, "0");
+
+    return `${day}.${month}.${year} ${hours}:${minutes}`;
+}
+
+// View popup
+function viewRequest(id) {
+    const allRequests = JSON.parse(localStorage.getItem("requests")) || [];
+    const req = allRequests.find(r => r.id === id);
+    if (!req) return;
+
+    const details = `
+        <h3>${req.title}</h3>
+        <p><strong>Uzņēmums:</strong> ${req.company}</p>
+        <p><strong>Kontaktpersona:</strong> ${req.contact}</p>
+        <p><strong>Telefons:</strong> ${req.phone}</p>
+        <p><strong>E-pasts:</strong> ${req.email}</p>
+        <p><strong>Tēma/joma:</strong> ${req.eventTopic}</p>
+        <p><strong>Info:</strong> ${req.eventInfo}</p>
+        <p><strong>Pasākuma datums:</strong> ${formatDateDMY(req.eventDate)}</p>
+        <p><strong>Vieta:</strong> ${req.eventPlace}</p>
+        <p><strong>Budžets:</strong> ${req.budget}€</p>
+        <p><strong>Statuss:</strong> ${req.status}</p>
+    `;
+
+    document.getElementById("requestDetails").innerHTML = details;
+    document.getElementById("requestPopup").style.display = "block";
+    document.getElementById("overlay").style.display = "block";
+}
+
+function closePopup() {
+    document.getElementById("requestPopup").style.display = "none";
+    document.getElementById("overlay").style.display = "none";
+}
+
+// Inicializē sarakstu
+renderRequests();
+</script>
+
+</body>
+</html>

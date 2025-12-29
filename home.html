@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Sākumlapa</title>
+
+  <!-- PWA manifest -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="/app-icons/iPhone_app_2160x2160.png">
+
+<style>
+
+/* ===== HOME PAGE ===== */
+.home-page {
+    margin: 0;
+    padding: 0 0 100px 0; /* padding-bottom vieta bottom-nav */
+    font-family: Arial, sans-serif;
+    background-color: #111;
+    color: #fff;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.home-page section {
+    background: #000;            
+    border: 2px solid #e10600;   
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 1100px;
+    text-align: center;
+    transition: box-shadow 0.3s ease;
+}
+
+.home-page section:hover {
+    box-shadow: 0 0 20px rgba(225, 6, 0, 0.6);
+}
+
+.home-page h2 {
+    font-size: 28px;
+    color: #e10600;
+    margin-bottom: 10px;
+}
+
+.home-page p {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #fff;
+    text-align: center;
+    margin: 10px auto;
+}
+
+.home-page ul {
+    list-style-position: inside;
+    text-align: left;
+    margin: 0 auto;
+    max-width: 90%;
+}
+
+.home-page ul li {
+    margin: 5px 0;
+}
+
+.compact-list {
+  list-style-position: outside;   /* punkts + teksts kopā */
+  padding-left: 7em;
+  margin: 0;
+}
+
+.compact-list li {
+  margin: 4px 0;
+  text-align: left;
+    line-height: 1.3;
+}
+
+.red-box {
+  display: inline-block;
+  border: 2px solid #e10600;
+  border-radius: 12px;
+  padding: 10px 40px;
+  margin: 12px 0;
+}
+
+
+.red-box li {
+  margin: 4px 0;
+}
+
+/* Bottom nav */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #000;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-top: 2px solid #e10600;
+    z-index: 1000;
+}
+
+.bottom-nav a {
+    text-decoration: none;
+    font-size: 1.5rem;
+    color: #ffffff;
+    padding: 8px 14px;
+    border-radius: 10px;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.bottom-nav a:hover {
+    background: rgba(225, 7, 0, 0.299);
+    color: #e10600;
+}
+
+.bottom-nav a.active {
+    background: #e10700b2;
+    color: #e10600;
+}
+
+/* ===== GALLERY BUTTON ===== */
+.home-page .gallery-toggle-btn {
+    display: inline-block;
+    margin: 15px 0;
+    padding: 12px 28px;
+    background-color: #e10600;
+    color: #ffffff;
+    border-radius: 12px;
+    font-size: 18px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.home-page .gallery-toggle-btn:hover {
+    background-color: #e74c3c;
+    color: #fff;
+}
+
+/* ===== END HOME PAGE ===== */
+
+
+</style>
+
+</head>
+<body class="home-page">
+
+    <!-- HEADER -->
+<header class="site-header">
+    <img src="GaCo_logo_horizontal_white.png" alt="GaCo logo" class="site-logo"> <!-- Add your logo image here -->
+</header>
+
+<main>
+
+    <!-- Intro -->
+    <section class="intro">
+        <h2>Sveicināti GaCo oficiālajā mājaslapā!</h2>
+        <p>Šeit Jūs atradīsiet info par uzņēmumu, foto galeriju, veidus, kā sazināties ar Mums un pasākumu pieteikuma formu. Ja radušies kādi jautājumi vai nepieciešama tehniska palīdzība, sazinies ar Mums!</p>
+    </section>
+
+    <!-- PAR MUMS -->
+    <section class="about">
+        <h2>Par mums</h2>
+        <p>SIA GaCo ir Latvijā dibināts uzņēmums, kas darbojas pasākumu tehniskā nodrošinājuma nozarē jau kopš 1997. gada. Uzņēmums specializējas profesionālu skaņas, gaismas un skatuves iekārtu nodrošināšanā un tehniskajā apkalpošanā koncertiem, festivāliem, korporatīvajiem pasākumiem un citiem publiskiem notikumiem. </p>
+    </section>
+
+    <!-- MŪSU MĒRĶIS -->
+    <section class="goal">
+        <h2>Mūsu mērķis</h2>
+        <p>Mūsu galvenais mērķis ir nodrošināt kvalitatīvu, drošu un tehniski nevainojamu pasākumu tehnisko daļu ikvienam klientam, sākot no maza korporatīva pasākuma līdz lielam festivālam vai koncertam. Mēs pastāvam, lai padarītu skaņu, gaismu un skatuves tehnisko nodrošinājumu kvalitatīvu, uzticamu un radoši pielāgotu dažādu pasākumu vajadzībām.
+</p>
+    </section>
+
+        <!-- MĒRĶAUDITORIJA -->
+    <section class="people">
+        <h2>Mērķauditorija</h2>
+        <p>Mūsu galvenā mērķauditorija ir pasākumu organizatori, uzņēmumi, pašvaldības un kultūras iestādes, kuriem nepieciešams profesionāls un uzticams tehniskais nodrošinājums. Uzņēmums strādā ar klientiem, kuri novērtē kvalitāti, drošību un pieredzi, kā arī meklē pasākumu tehniskā nodrošinājuma partneri ilgtermiņa sadarbībai.
+
+</p>
+    </section>
+
+        <!-- Uzņēmuma loma pasākumā -->
+    <section class="role">
+        <h2>Uzņēmuma loma pasākumā</h2>
+        <p>Mūsu loma pasākumā ir nodrošināt stabilu un kvalitatīvu tehnisko pamatu, uz kura var balstīties visa pasākuma norise. Skaņa, apgaismojums un skatuves risinājumi ir būtiska pasākuma daļa, kas ietekmē gan dalībnieku pieredzi, gan pasākuma kopējo kvalitāti. Uzņēmums rūpējas, lai tehniskie aspekti būtu precīzi, droši un nemanāmi skatītājam, ļaujot organizatoriem un māksliniekiem pilnībā koncentrēties uz pasākuma saturu.</p>
+    </section>
+
+            <!-- Vīzija -->
+    <section class="vision">
+        <h2>Vīzija</h2>
+        <p>Mēs tiecamies būt vadošais tehniskā aprīkojuma īres uzņēmums pasākumu industrijā Baltijā — uzņēmums, pie kura klienti vēršas, zinot, ka saņems modernus un augstas kvalitātes risinājumus, profesionālu tehnisko atbalstu un radošu pieeju, kas padara katru pasākumu neaizmirstamu.</p>
+    </section>
+
+            <!-- Vērtības -->
+    <section class="values">
+        <h2>Vērtības</h2>
+        <ul class="compact-list">
+            <li>Profesionālisms — visos projektos nodrošinām augstāko tehnisko kvalitāti un rūpību. </li>
+            <li>Atbildība un drošība — izmantojam tehnoloģijas un aprīkojumu, kas garantē drošu tehnisko ekspluatāciju. </li>
+            <li>Inovācija — regulāri atjauninām iekārtas un aizvietojam tās ar modernākajām tehnoloģijām, lai apmierinātu pat prasīgāko klientu vajadzības. </li>
+            <li>Komandas darbs — mūsu komandā ir pieredzējuši tehniskie speciālisti, kas sadarbojas, lai realizētu klienta redzējumu.</li>
+        </ul>
+    </section>
+
+            <!-- Pieredze -->
+    <section class="experience">
+        <h2>Pieredze</h2>
+        <p>GaCo ir viena no pieredzes bagātākajām kompānijām pasākumu tehniskā nodrošinājuma jomā Latvijā, darbojoties tirgū jau 28 gadus. Uzņēmums nodrošinājis tehnisko atbalstu daudziem nozīmīgiem pasākumiem, tostarp mūzikas koncertiem, festivāliem, publiskiem pilsētas pasākumiem un lieliem korporatīvajiem projektiem.
+SIA GaCo ir strādājis ar dažāda mēroga pasākumiem koncertzālēs, brīvdabas norises vietās un arēnās, sadarbojoties ar pasākumu organizatoriem, māksliniekiem un uzņēmumiem visā Latvijā. Uzkrātā pieredze ļauj uzņēmumam pielāgot tehniskos risinājumus katra pasākuma specifikai un prasībām.
+</p>
+    </section>
+
+            <!-- Priodukti un pakalpojumi -->
+    <section class="products">
+        <h2>Produkti un pakalpojumi</h2>
+        <p>SIA GaCo piedāvā:
+        <ul class="compact-list red-box">
+<li>Profesionālu skaņas tehniku un aprīkojumu nomu un uzstādīšanu. </li>
+<li>Gaismas sistēmu risinājumus un tehnisko apgaismojumu. </li>
+<li>Skatuves konstrukciju nomu un montāžu. </li>
+<li>Vispusīgu tehnisko atbalstu un apkalpošanu pasākumu laikā.</li>
+</ul>
+</p>
+<p>Ir iespējams izīrēt plašu klāstu skaņas, gaismu un skatuves tehnikas ar pasaulē pazīstamiem ražotājiem, kas dos ne tikai kvalitatīvu sniegumu, bet arī lielisku pasākuma norisi: </p>
+<ul class="compact-list red-box">
+<li>ARX</li>
+<li>Beyerdynamic</li>
+<li>Chauvet Professional</li>
+<li>Clay Paky</li>
+<li>Cordial</li>
+<li>Ecler</li>
+<li>Klark Teknik</li>
+<li>König & Meyer</li>
+<li>MA Lighting</li>
+<li>MC² Audio</li>
+<li>Midas</li>
+<li>Radial Engineering</li>
+<li>Selecon</li>
+<li>Swefog</li>
+<li>Turbosound</li>
+</ul>
+    </section>
+
+<!-- FOTOGALERIJA -->
+<section class="gallery">
+    <h2>Fotogalerija</h2>
+
+    <!-- Poga, kas rāda/slēpj galeriju -->
+    <a href="gallery.html" class="gallery-toggle-btn">Atvērt fotogaleriju</a>
+
+</section>
+
+        <!-- Uzņēmuma loma pasākumā -->
+    <section class="ending">
+        <p>Apvienojot ilggadēju pieredzi, profesionālu komandu un kvalitatīvu tehnisko aprīkojumu, SIA GaCo ir kļuvis par uzticamu partneri pasākumu tehniskajā nodrošināšanā. Uzņēmums turpina attīstīties, sekojot līdzi nozares tendencēm un pilnveidojot savus risinājumus, lai arī turpmāk nodrošinātu augsta līmeņa tehnisko atbalstu dažādiem pasākumiem.</p>
+    </section>
+
+        <!-- BOTTOM NAVIGATION -->
+    <nav class="bottom-nav">
+        <a href="home.html" class="active">🏠</a>
+        <a href="gallery.html">🖼️</a> <!-- NEW: Gallery button -->
+        <a href="order form.html">📝</a>
+        <a href="info.html">📍</a>
+        <a href="#" id="profileLink">👤</a>
+    </nav>
+
+    <script>
+const profileLink = document.getElementById("profileLink");
+
+const loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
+const loggedAdmin = JSON.parse(localStorage.getItem("loggedAdmin"));
+
+if (loggedAdmin) {
+    profileLink.href = "admin profile.html";
+} else if (loggedUser) {
+    profileLink.href = "clients profile.html";
+} else {
+    profileLink.href = "login.html";
+}
+
+</script>
+
+</main>
+
+</body>
+</html>

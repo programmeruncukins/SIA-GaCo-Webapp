@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konta dzēšana</title>
+    <link rel="stylesheet" href="style.css">
+
+  <!-- PWA manifest -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="/app-icons/iPhone_app_2160x2160.png">
+
+<style>
+
+/* ===== DELETE ACCOUNT CLIENT PAGE (updated for big box style) ===== */
+
+/* ===== SITE HEADER ===== */
+.site-header {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: #000; /* black bg */
+    border-bottom: 2px solid #e10600; /* red underline */
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+body.danger-page {
+    background-color: #111;
+    font-family: Arial, sans-serif;
+    color: white;
+    padding-top: 260px; /* vieta headeram */
+}
+
+/* Box ar hover un sarkanu border */
+.danger-section {
+    max-width: 450px;
+    margin: 20px auto;      /* centra pozīcija */
+    padding: 25px 30px;
+    background: #000;        /* melns kā pārējās kartītes */
+    border: 1px solid #e10600;
+    border-radius: 12px;
+    box-shadow: 0 0 10px #000;
+    color: white;
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.danger-section:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0 15px #e10600;
+}
+
+/* Heading & text font */
+.danger-section h2,
+.danger-section p,
+.danger-section label,
+.danger-section input {
+    font-family: Arial, sans-serif;
+}
+
+/* Input fields */
+.danger-section input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0 20px 0;
+    background: #111;
+    border: 1px solid #e10600;
+    border-radius: 8px;
+    color: white;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.danger-section input:focus {
+    border-color: #ff3333;
+}
+
+/* Buttons */
+.danger-btn,
+.cancel-btn,
+#deleteWarning .confirm-delete-btn,
+#deleteWarning .cancel-delete-btn {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    box-sizing: border-box;
+    margin-top: 15px;
+}
+
+.danger-btn {
+    background: #e10600;
+    color: white;
+    border: 1px solid #e10600;
+}
+
+.danger-section h2 {
+    color: #e10600; /* sarkans kā citās lapās */
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.danger-btn:hover {
+    background: #9b0000;
+}
+
+.cancel-btn {
+    background: none;
+    color: #ccc;
+    border: 1px solid #e10600;
+}
+
+.cancel-btn:hover {
+    background: #222;
+    border-color: #e10600;
+    color: white;
+}
+
+/* Scroll ja nepieciešams */
+.danger-section {
+    max-height: calc(100vh - 120px - 60px); /* header + bottom nav */
+    overflow-y: auto;
+}
+
+/* Error message */
+.error-msg {
+    color: red;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+</style>
+
+</head>
+
+<body class="danger-page">
+
+<header class="site-header">
+    <img src="GaCo_logo_horizontal_white.png" class="site-logo" alt="Logo">
+</header>
+
+<section class="danger-section">
+    <h2>Dzēst kontu</h2>
+
+    <p class="warning-text">
+        ⚠️ Šī darbība ir neatgriezeniska.<br>
+        Tiks dzēsts Tavs profils un visi pieteikumi.
+    </p>
+
+<form id="deleteForm" class="danger-form">
+    <label>Ievadi savu e-pastu apstiprināšanai</label>
+    <input type="email" id="confirmEmail" placeholder="Tavs e-pasts" required>
+
+    <label>Ievadi savu paroli</label>
+    <input type="password" id="confirmPassword" placeholder="Parole" required>
+
+    <p id="errorMsg" class="error-msg""></p>
+
+    <button type="submit" class="danger-btn">
+        Apstiprināt konta dzēšanu
+    </button>
+</form>
+
+<button type="button" id="cancelDelete" class="cancel-btn">
+    Atcelt
+</button>
+
+</section>
+
+<script>
+/* =====================================================
+   1️⃣ Iegūstam currentUser (viens no diviem)
+===================================================== */
+const currentUser =
+    JSON.parse(localStorage.getItem("loggedUser")) ||
+    JSON.parse(localStorage.getItem("loggedAdmin"));
+
+/* =====================================================
+   2️⃣ Ja nav ielogots → login
+===================================================== */
+if (!currentUser) {
+    window.location.href = "login.html";
+}
+
+/* =====================================================
+   3️⃣ CANCEL poga
+===================================================== */
+document.getElementById("cancelDelete").addEventListener("click", () => {
+    window.location.href =
+        currentUser.role === "admin"
+            ? "admin profile.html"
+            : "clients profile.html";
+});
+
+/* =====================================================
+   4️⃣ DELETE FORM SUBMIT
+===================================================== */
+document.getElementById("deleteForm").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    const emailInput = document.getElementById("confirmEmail").value.trim();
+    const passwordInput = document.getElementById("confirmPassword").value.trim();
+    const errorMsg = document.getElementById("errorMsg");
+    errorMsg.textContent = "";
+
+    // pārbauda e-pastu un paroli
+    if(emailInput.toLowerCase() !== currentUser.email.toLowerCase() || 
+       passwordInput !== currentUser.password){
+        errorMsg.textContent = "E-pasts vai parole neatbilst. Konts netika dzēsts.";
+        return;
+    }
+
+    // izvēlamies pareizo storage
+    const storageKey = currentUser.role === "admin" ? "admins" : "users";
+    let array = JSON.parse(localStorage.getItem(storageKey)) || [];
+    array = array.filter(u => u.email.toLowerCase() !== currentUser.email.toLowerCase());
+    localStorage.setItem(storageKey, JSON.stringify(array));
+
+    // dzēš requestus
+    let requests = JSON.parse(localStorage.getItem("requests")) || [];
+    requests = requests.filter(r => r.userEmail.toLowerCase() !== currentUser.email.toLowerCase());
+    localStorage.setItem("requests", JSON.stringify(requests));
+
+    // dzēš sesiju
+    if(currentUser.role === "admin") {
+        localStorage.removeItem("loggedAdmin");
+    } else {
+        localStorage.removeItem("loggedUser");
+    }
+
+    // redirect uz success
+    window.location.href = currentUser.role === "admin"
+        ? "admin delete success.html"
+        : "clients delete success.html";
+});
+</script>
+
+
+</body>
+</html>

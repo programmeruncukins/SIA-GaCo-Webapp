@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+    <meta charset="UTF-8">
+    <title>Reģistrācija veiksmīga!</title>
+    <link rel="stylesheet" href="style.css">
+
+  <!-- PWA manifest -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="/app-icons/iPhone_app_2160x2160.png">
+
+<style>
+
+/* ===== REGISTRATION SUCCESS PAGE ===== */
+
+body.success-page {
+    background: #111;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.success-box {
+    max-width: 420px;
+    width: 90%;
+    background: #000000;
+    padding: 40px;
+    border-radius: 14px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    border: 1px solid #e10600;
+}
+
+.success-box h1 {
+    color: #e10600;
+    margin-bottom: 15px;
+    font-size: 28px;
+}
+
+.success-box p {
+    font-size: 18px;
+    color: #ddd;
+    margin-bottom: 25px;
+}
+
+.success-box button {
+    background: #e10600;
+    color: #fff;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.success-box button:hover {
+    background: #9b0000;
+}
+
+/* ===== END REGISTRATION SUCCESS PAGE ===== */
+
+</style>
+
+</head>
+<body class="success-page">
+
+<div class="success-box">
+    <h1>Reģistrācija veiksmīga!</h1>
+    <p>Lūdzu, aizpildi savu profilu, lai turpinātu.</p>
+
+    <button type="button" onclick="goNext()">Turpināt</button>
+</div>
+
+<script>
+function goNext() {
+    const admin = JSON.parse(localStorage.getItem("loggedAdmin"));
+    const user = JSON.parse(localStorage.getItem("loggedUser"));
+
+    if (admin) {
+        window.location.href = "admin edit profile.html";
+    } else if (user) {
+        window.location.href = "clients edit profile.html";
+    } else {
+        // drošības fallback
+        window.location.href = "login.html";
+    }
+}
+</script>
+
+</body>
+</html>

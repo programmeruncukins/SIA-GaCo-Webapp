@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Mans profils — Administrators</title>
+
+  <!-- PWA manifest -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="/app-icons/iPhone_app_2160x2160.png">
+
+<style>
+
+/* ===== ADMIN PROFILE PAGE ===== */
+
+.edit-profile-container {
+    background-color: #000000 !important;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #e10600;
+    margin: 0 auto 20px auto; /* centrē horizontāli un mazina apakšējo atstarpi */
+    width: 975px; /* tāds pats kā pogām */
+    color: #fff;
+}
+
+.edit-profile-container p {
+    text-align: center;
+}
+
+.profile-page {
+    background-color: #111;
+    color: #fff;
+    font-family: Arial, sans-serif;
+}
+
+.profile-section {
+    padding: 25px;
+}
+
+.profile-section h2 {
+    text-align: center;
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+    color: #ff0000;
+}
+
+.profile-box {
+    background-color: #111111;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #d66c6c;
+    margin-bottom: 30px;
+}
+
+.profile-box p {
+    margin: 8px 0;
+    font-size: 1rem;
+}
+
+/* Ja bottom nav bloķē saturu */
+body.profile-page {
+    padding-bottom: 80px; /* pietiekami, lai pogas neaizsegts */
+}
+
+.profile-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center; /* lai pogas nebūtu pa visu ekrānu */
+}
+
+.profile-actions button {
+    padding: 14px;
+    background-color: #000000;
+    border: 1px solid #e10600;
+    color: #fff;
+    font-size: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 1000px; /* puse no konteinera platuma */
+    transition: 0.2s;
+}
+
+.profile-actions button:hover {
+    background-color: #e10600;
+}
+
+.logout {
+    background-color: #e10600;
+    border-color: #e10600;
+}
+
+.logout:hover {
+    background-color: #ff3333;
+}
+
+/* Bottom nav */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #000;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-top: 2px solid #e10600;
+    z-index: 1000;
+}
+
+.bottom-nav a {
+    text-decoration: none;
+    font-size: 1.5rem;
+    color: #ffffff;
+    padding: 8px 14px;
+    border-radius: 10px;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.bottom-nav a:hover {
+    background: rgba(225, 7, 0, 0.299);
+    color: #e10600;
+}
+
+.bottom-nav a.active {
+    background: #e10700b2;
+    color: #e10600;
+}
+
+/* ===== END ADMIN PROFILE PAGE ===== */
+
+</style>
+
+</head>
+<body class="profile-page">
+
+<header class="site-header">
+    <img src="GaCo_logo_horizontal_white.png" class="site-logo" alt="Logo">
+</header>
+
+<section class="profile-section">
+    <h2>Mans profils</h2>
+
+    <div class="edit-profile-container">
+        <p><strong>Vārds, Uzvārds:</strong> <span id="fullName"></span></p>
+        <p><strong>E-pasts:</strong> <span id="emailDisplay"></span></p>
+        <p><strong>Loma:</strong> <span id="roleDisplay"></span></p>
+        <p><strong>ID:</strong> <span id="idDisplay"></span></p>
+        <p><strong>Pēdējais pieteikums/darbība:</strong> <span id="lastAction">nav datu</span></p>
+    </div>
+
+    <div class="profile-actions">
+        <button onclick="location.href='admin applications.html'">📄 Pieteikumi</button>
+        <button onclick="location.href='admin registrated clients.html'">🔐 Reģistrētie lietotāji</button>
+        <button onclick="location.href='admin edit profile.html'">✏️ Rediģēt profilu</button>
+        <button onclick="location.href='admin notifications.html'">🔔 Paziņojumi</button>
+        <button class="delete-account" onclick="location.href='admin delete account.html'">🗑️ Dzēst kontu</button>
+        <button class="logout" id="logoutBtn">🚪 Izrakstīties</button>
+    </div>
+</section>
+ 
+<nav class="bottom-nav">
+    <a href="home.html">🏠</a>
+    <a href="gallery.html">🖼️</a>
+    <a href="order form.html">📝</a>
+    <a href="info.html">📍</a>
+    <a href="admin profile.html" class="active">👤</a>
+</nav>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const admin = JSON.parse(localStorage.getItem("loggedAdmin"));
+    if (!admin) {
+        window.location.href = "login.html";
+        return;
+    }
+
+    // logout
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+        localStorage.removeItem("loggedAdmin");
+        window.location.href = "login.html";
+    });
+
+    // parāda datus
+    document.getElementById("fullName").textContent = `${admin.firstName || ""} ${admin.lastName || ""}`;
+    document.getElementById("emailDisplay").textContent = admin.email;
+    document.getElementById("roleDisplay").textContent = "Administrators";
+
+    // ID
+const users = JSON.parse(localStorage.getItem("users")) || [];
+const index = users.findIndex(u => u.email === admin.email);
+document.getElementById("idDisplay").textContent =
+    index !== -1 ? String(index + 1).padStart(3,"0") : "—";
+
+    // pēdējā darbība
+    const requests = JSON.parse(localStorage.getItem("requests")) || [];
+    const adminRequests = requests.filter(r => r.handledBy === admin.email);
+    if(adminRequests.length > 0){
+        adminRequests.sort((a,b)=>new Date(a.date) - new Date(b.date));
+        const last = adminRequests.at(-1);
+
+        // formatē LV laika formātā
+        const d = new Date(last.date);
+        const day = String(d.getDate()).padStart(2,"0");
+        const month = String(d.getMonth()+1).padStart(2,"0");
+        const year = d.getFullYear();
+        const hours = String(d.getHours()).padStart(2,"0");
+        const minutes = String(d.getMinutes()).padStart(2,"0");
+        const seconds = String(d.getSeconds()).padStart(2,"0");
+
+        document.getElementById("lastAction").textContent = `${day}-${month}-${year}, ${hours}:${minutes}:${seconds}`;
+    }
+});
+</script>
+
+
+</body>
+</html>

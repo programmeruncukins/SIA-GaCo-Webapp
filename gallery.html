@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fotogalerija</title>
+<link rel="stylesheet" href="style.css">
+
+  <!-- PWA manifest -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="/app-icons/iPhone_app_2160x2160.png">
+
+<style>
+
+/* FOTOGALERIJA */
+.gallery {
+    text-align: center;
+    margin-top: 40px;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+    position: relative;   /* vai absolute */
+    right: 3%;
+}
+
+.gallery-toggle-btn {
+    margin: 20px auto;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    border-radius: 8px;
+    background-color: #e10600;
+    color: white;
+    transition: 0.3s ease;
+}
+
+.gallery-toggle-btn:hover {
+    background-color: #900;
+}
+
+.photo-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.photo-item img {
+    width: 100%;
+    display: block;
+    border-radius: 8px;
+}
+
+.photo-item p {
+    text-align: center;
+    margin-top: 5px;
+    font-size: 0.9rem;
+}
+
+/* BOTTOM NAVigation */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #000; /* black bg */
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-top: 2px solid #e10600; /* red top border */
+}
+
+.bottom-nav a {
+    text-decoration: none;
+    font-size: 1.5rem;
+    color: #ffffff; /* white icons */
+    transition: color 0.3s ease;
+    padding: 8px 14px;
+    border-radius: 10px;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.bottom-nav a:hover {
+    background: rgba(225, 7, 0, 0.299);
+    color: #e10600;
+}
+
+.bottom-nav a.active {
+    background: #e10700b2;
+    color: #e10600;
+}
+
+section form {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+section:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 40px rgba(225,6,0,0.25);
+    transition: all 0.25s ease;
+}
+
+@keyframes fadeInSection {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== GALLERY PAGE ===== */
+
+.photo-item {
+    border-radius: 8px;
+    overflow: hidden;
+    padding: 20px;          /* 🔥 THIS controls box size */
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4); /* sākotnējais ēnojums */
+    flex: 0 0 calc(50% - 20px); /* divas kolonnas ar atstarpi */
+    box-sizing: border-box;
+}
+
+.photo-item:hover {
+    box-shadow: 0 0 20px rgba(225,6,0,0.25), 0 0 30px rgba(225,6,0,0.25), 0 0 40px rgba(225,6,0,0.25); /* glow efekt */
+    transform: translateY(-3px);
+}
+
+.photo-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* centrējas horizontāli */
+    gap: 20px;
+    margin: 0 auto;          /* papildus centram */
+    max-width: 100%;         /* neizplešas ārpus box */
+}
+
+.photo-item img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 6px;
+    background: #000;
+}
+
+.gallery-page {
+    margin: 0px;
+    font-family: Arial, sans-serif;
+    background-color: #111;
+    color: #fff;
+    flex-direction: column;
+    text-align: center;
+    min-height: 100vh;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+body.gallery-page {
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.gallery-page main {
+    width: 100%;
+    padding: 50px;
+    display: block;
+    padding-bottom: 100px; /* space for bottom-nav + extra */
+    padding-top: 0px; /* adjust as needed */
+}
+
+/* Kopējie section stili */
+.gallery-page section {
+    background: #000;
+    padding: 25px 22px;
+    max-width: 1100px;
+    width: 100%;
+    border: 2px solid #e10600;
+    border-radius: 16px;
+    margin: 22px auto;
+}
+
+.gallery-page section:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 40px rgba(225,6,0,0.25);
+    transition: all 0.25s ease;
+}
+
+/* section virsraksti */
+.gallery-page section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #e10600;
+}
+
+/* section teksts */
+.gallery-page section p {
+    font-size: 1rem;
+    color: #fff;
+    line-height: 1.5;
+    max-width: 100ch;
+    margin: 0 auto 15px auto;
+    text-align: left;
+}
+
+.gallery-intro {
+    text-align: center;
+    margin: 0 auto 20px auto;
+    max-width: 80ch;
+}
+
+
+/* gallery photo grid */
+.gallery-page .photo-grid {
+    display: flex;          /* Flexbox */
+    flex-wrap: wrap;        /* pārnes uz nākamo rindu */
+    justify-content: center; /* centrējas horizontāli */
+    gap: 20px;              /* atstarpe starp bildēm */
+}
+
+.gallery-page .photo-item {
+    flex: 0 0 calc(50% - 20px); /* divas kolonnas ar atstarpi */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.gallery-page .photo-item img {
+    max-height: 420px;
+    width: auto;
+    display: block;
+    margin: 0 auto; /* CENTRĒ ATTĒLU */
+}
+
+.gallery-page .photo-item p {
+    text-align: center;
+    margin-top: 2px;
+    font-size: 0.9rem;
+    padding-top: 20px;
+    line-height: 1.35;
+}
+
+.gallery-filter {
+    display: flex;
+    justify-content: center;  /* centrs horizontāli */
+    gap: 10px;               /* atstarpe starp pogām */
+    margin: 20px 0;          /* atstarpe virs un zem */
+}
+.gallery-filter button {
+    padding: 8px 16px;
+    border: 2px solid #e10600;
+    background-color: #000;
+    color: #fff;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+.gallery-filter button:hover {
+    background-color: #e10600;
+    color: #000;
+}
+
+/* gallery filter buttons */
+.gallery-page .gallery-filter {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.gallery-page .gallery-filter button {
+    padding: 6px 12px;
+    background-color: #e10600;
+    color: #ffffff;
+    border: 2px solid #e74c3c;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.gallery-page .gallery-filter button:hover,
+.gallery-page .gallery-filter button.active {
+    background-color: #e74c3c;
+    color: #fff;
+}
+
+/* BOTTOM NAV */
+.gallery-page .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #000;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-top: 2px solid #e10600;
+}
+
+.gallery-page .bottom-nav a {
+    text-decoration: none;
+    font-size: 1.5rem;
+    color: #ffffff;
+    transition: color 0.3s ease;
+    padding: 8px 14px;
+    border-radius: 10px;
+}
+
+.gallery-page .bottom-nav a:hover {
+    background: rgba(225, 7, 0, 0.299);
+    color: #e10600;
+}
+
+.gallery-page .bottom-nav a.active {
+    background: #e10700b2;
+    color: #e10600;
+}
+
+
+.back-btn-gallery-page {
+    background: #e10600;
+    color: #fff;
+    border: 2px solid #e74c3c;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    margin-top: 30px; /* šeit nosaka attālumu no iepriekšējiem elementiem */
+}
+
+.back-btn-gallery-page:hover {
+    background: #e74c3c;
+    color: #fff;
+    box-shadow: 0 0 12px rgba(225,6,0,0.5);
+    transform: translateY(-2px);
+}
+
+.gallery-page .gallery .gallery-intro {
+    text-align: center;
+    margin: 0 auto 24px auto;
+    max-width: 80ch;
+}
+
+
+/* ===== END GALLERY PAGE ===== */
+
+</style>
+
+</head>
+<body class="gallery-page">
+
+<header class="site-header">
+    <img src="GaCo_logo_horizontal_white.png" alt="GaCo logo" class="site-logo">
+</header>
+
+<main>
+<section class="gallery">
+    <h2>Fotogalerija</h2>
+    <p class="gallery-intro">
+    Šajā galerijā apkopoti mirkļi no pasākumiem, kuros SIA GaCo nodrošinājis skaņas, gaismas un skatuves tehniskos risinājumus. 
+    Attēli atspoguļo uzņēmuma pieredzi, darbu dažādos pasākumu formātos un tehnisko risinājumu daudzveidību.
+</p>
+
+    <!-- Sorting -->
+    <div class="gallery-filter">
+        <button onclick="showAll()">Visi</button>
+        <button onclick="filterYear(2025)">2025</button>
+        <button onclick="filterYear(2024)">2024</button>
+        <button onclick="filterYear(2023)">2023</button>
+        <button onclick="filterYear(2022)">2022</button>
+        <button onclick="filterYear(2021)">2021</button>
+        <button onclick="filterYear(2020)">2020</button>
+        <button onclick="filterYear(2019)">2019</button>
+        <button onclick="filterYear(2018)">2018</button>
+        <button onclick="filterYear(2017)">2017</button>
+        <button onclick="filterYear(2016)">2016</button>
+        <button onclick="filterYear(2015)">2015</button>
+    </div>
+
+    <div class="photo-grid">
+
+        <div class="photo-item" data-year="2025" data-month="10">
+            <img src="Gallery_photos/Astro'n'out (Official) 2025.jpg" loading="lazy" alt="Pasākums 25 1">
+            <p>Nosaukums: Astro'n'out koncerts | Vieta: Latvija | Gads: 2025
+            <br>Foto: COLORTIME</p>
+        </div>
+
+        <div class="photo-item" data-year="2025" data-month="10">
+            <img src="Gallery_photos/Astro'n'out (Official) 2025 2.jpg" loading="lazy" alt="Pasākums 25 2">
+            <p>Nosaukums: Astro'n'out koncerts | Vieta: Latvija | Gads: 2025
+            <br>Foto: COLORTIME</p>
+        </div>
+
+        <div class="photo-item" data-year="2025" data-month="9">
+            <img src="Gallery_photos/EuroBasket Fanu zona 2025.jpg" loading="lazy" alt="Pasākums 25 3">
+            <p>Nosaukums: EuroBasket Fanu zona | Vieta: Xiaomi Arēna, Rīga, Latvija | Gads: 2025
+            <br>Foto: WidellStudio</p>
+        </div>
+
+        <div class="photo-item" data-year="2025" data-month="9">
+            <img src="Gallery_photos/EuroBasket Fanu zona 2025 2.jpg" loading="lazy" alt="Pasākums 25 4">
+            <p>Nosaukums: EuroBasket Fanu zona | Vieta: Xiaomi Arēna, Rīga, Latvija | Gads: 2025
+            <br>Foto: WidellStudio</p>
+        </div>
+
+        <div class="photo-item" data-year="2025" data-month="9">
+            <img src="Gallery_photos/Kauguru Svētki 2025.jpg" loading="lazy" alt="Pasākums 25 5">
+            <p>Nosaukums: Kauguru Svētki | Vieta: Kauguri, Jūrmala, Latvija | Gads: 2025
+            <br>Foto: Artis Veigurs</p>
+        </div>
+
+                <div class="photo-item" data-year="2025" data-month="9">
+            <img src="Gallery_photos/Kauguru Svētki 2025 2.jpg" loading="lazy" alt="Pasākums 25 6">
+            <p>Nosaukums: Kauguru Svētki | Vieta: Kauguri, Jūrmala, Latvija | Gads: 2025
+            <br>Foto: Artis Veigurs</p>
+        </div>
+
+                <div class="photo-item" data-year="2025" data-month="9">
+            <img src="Gallery_photos/Kauguru Svētki 2025 3.jpg" loading="lazy" alt="Pasākums 25 7">
+            <p>Nosaukums: Kauguru Svētki | Vieta: Kauguri, Jūrmala, Latvija | Gads: 2025
+            <br>Foto: Artis Veigurs</p>
+        </div>
+
+                <div class="photo-item" data-year="2025" data-month="8">
+            <img src="Gallery_photos/Positivus 2025.jpg" loading="lazy" alt="Pasākums 25 8">
+            <p>Nosaukums: Positivus Festivāls | Vieta: Lucavsala, Rīga, Latvija | Gads: 2025
+            <br>Foto: Positivus Official</p>
+        </div>
+
+                <div class="photo-item" data-year="2025" data-month="8">
+            <img src="Gallery_photos/Positivus 2025 2.jpg" loading="lazy" alt="Pasākums 25 9">
+            <p>Nosaukums: Positivus Festivāls | Vieta: Lucavsala, Rīga, Latvija | Gads: 2025
+            <br>Foto: Jānis Vēveris</p>
+        </div>
+
+                <div class="photo-item" data-year="2025" data-month="8">
+            <img src="Gallery_photos/Summer Sound 2025.jpg" loading="lazy" alt="Pasākums 25 10">
+            <p>Nosaukums: Summer Sound Festivāls | Vieta: Liepājas pludmale, Liepāja, Latvija | Gads: 2025
+            <br>Foto: Summer Sound Official</p>
+        </div>
+
+                <div class="photo-item" data-year="2025" data-month="8">
+            <img src="Gallery_photos/Summer Sound 2025 2.jpg" loading="lazy" alt="Pasākums 25 11">
+            <p>Nosaukums: Summer Sound Festivāls | Vieta: Liepājas pludmale, Liepāja, Latvija | Gads: 2025
+            <br>Foto: Lauris Vīksne & Oskars Timbars</p>
+        </div>
+
+                <div class="photo-item" data-year="2025" data-month="8">
+            <img src="Gallery_photos/Summer Sound 2025 3.jpg" loading="lazy" alt="Pasākums 25 12">
+            <p>Nosaukums: Summer Sound Festivāls | Vieta: Liepājas pludmale, Liepāja, Latvija | Gads: 2025
+            <br>Foto: Lauris Vīksne & Oskars Timbars</p>
+        </div>
+
+                <div class="photo-item" data-year="2025" data-month="6">
+            <img src="Gallery_photos/Ecosystemic Festivāls 2025.jpg" loading="lazy" alt="Pasākums 25 13">
+            <p>Nosaukums: Ecosystemic Festivāls | Vieta: Mežaparka Lielā Estrāde, Rīga, Latvija | Gads: 2025
+        </div>
+
+                <div class="photo-item" data-year="2025" data-month="6">
+            <img src="Gallery_photos/Ecosystemic Festivāls 2025 2.jpg" loading="lazy" alt="Pasākums 25 14">
+            <p>Nosaukums: Ecosystemic Festivāls | Vieta: Mežaparka Lielā Estrāde, Rīga, Latvija | Gads: 2025
+        </div>
+
+                <div class="photo-item" data-year="2025" data-month="5">
+            <img src="Gallery_photos/Jūrmalas Kūrorta svētki 2025.jpg" loading="lazy" alt="Pasākums 25 15">
+            <p>Nosaukums: Jūrmalas Kūrorta svētki | Vieta: Jūrmala, Latvija | Gads: 2025
+        </div>
+
+                <div class="photo-item" data-year="2025" data-month="5">
+            <img src="Gallery_photos/Siguldas svētki 2025.jpg" loading="lazy" alt="Pasākums 25 16">
+            <p>Nosaukums: Siguldas svētki | Vieta: Sigulda, Latvija | Gads: 2025
+        </div>
+
+                <div class="photo-item" data-year="2025" data-month="2">
+            <img src="Gallery_photos/Pasākumu Forums 2025.jpg" loading="lazy" alt="Pasākums 25 17">
+            <p>Nosaukums: Pasākumu Forums | Vieta: Xiaomi Arēna, Rīga, Latvija | Gads: 2025
+        </div>
+
+                <div class="photo-item" data-year="2024" data-month="8">
+            <img src="Gallery_photos/Kauguru Svētki 2024.jpg" loading="lazy" alt="Pasākums 24 1">
+            <p>Nosaukums: Kauguru Svētki | Vieta: Kauguri, Jūrmala, Latvija | Gads: 2024
+        </div>
+
+                <div class="photo-item" data-year="2024" data-month="8">
+            <img src="Gallery_photos/Summer Sound 2024 Urban Stage.jpg" loading="lazy" alt="Pasākums 24 2">
+            <p>Nosaukums: Summer Sound Festivāls | Vieta: Liepājas pludmale, Liepāja, Latvija | Gads: 2024
+            <br>Foto: Gvido Gendrjuks, Ritvars Stankevics, Agris Šarkovskis, Aksels Shotit, Danils Kalinovs, Madars Vagalis, Martin Dremljuga</p>
+        </div>
+
+                <div class="photo-item" data-year="2024" data-month="8">
+            <img src="Gallery_photos/Summer Sound 2024 Urban Stage 2.jpg" loading="lazy" alt="Pasākums 24 3">
+            <p>Nosaukums: Summer Sound Festivāls | Vieta: Liepājas pludmale, Liepāja, Latvija | Gads: 2024
+            <br>Foto: Gvido Gendrjuks, Ritvars Stankevics, Agris Šarkovskis, Aksels Shotit, Danils Kalinovs, Madars Vagalis, Martin Dremljuga</p>
+        </div>
+
+                <div class="photo-item" data-year="2024" data-month="8">
+            <img src="Gallery_photos/Summer Sound 2024 Lielā Skatuve.jpg" loading="lazy" alt="Pasākums 24 4">
+            <p>Nosaukums: Summer Sound Festivāls | Vieta: Liepājas pludmale, Liepāja, Latvija | Gads: 2024
+            <br>Foto: Lauris Vīksne, Gvido Gendrjuks, Ralfs Alksnītis, Martin Dremljuga</p>
+        </div>
+
+                <div class="photo-item" data-year="2024" data-month="8">
+            <img src="Gallery_photos/Summer Sound 2024 Lielā Skatuve 2.jpg" loading="lazy" alt="Pasākums 24 5">
+            <p>Nosaukums: Summer Sound Festivāls | Vieta: Liepājas pludmale, Liepāja, Latvija | Gads: 2024
+            <br>Foto:Lauris Vīksne, Gvido Gendrjuks, Ralfs Alksnītis, Martin Dremljuga </p>
+        </div>
+
+                <div class="photo-item" data-year="2024" data-month="7">
+            <img src="Gallery_photos/Positivus 2024.jpg" loading="lazy" alt="Pasākums 24 6">
+            <p>Nosaukums: Positivus Festivāls | Vieta: Lucavsala, Rīga, Latvija | Gads: 2024
+            <br>Foto: Krists Luhaers</p>
+        </div>
+
+                <div class="photo-item" data-year="2023" data-month="12">
+            <img src="Gallery_photos/Ozols Arēna Rīga 2023.jpg" loading="lazy" alt="Pasākums 23 1">
+            <p>Nosaukums: Ozola koncerts | Vieta: Xiaomi Arēna, Rīga, Latvija | Gads: 2023
+            <br>Foto: Kristīne Šumska, Aksels Bergs, Māris Vancevičs</p>
+        </div>
+
+                <div class="photo-item" data-year="2023" data-month="12">
+            <img src="Gallery_photos/Ozols Arēna Rīga 2023 2.jpg" loading="lazy" alt="Pasākums 23 2">
+            <p>Nosaukums: Ozola koncerts | Vieta: Xiaomi Arēna, Rīga, Latvija | Gads: 2023
+            <br>Foto: Kristīne Šumska, Aksels Bergs, Māris Vancevičs</p>
+        </div>
+
+                <div class="photo-item" data-year="2023" data-month="12">
+            <img src="Gallery_photos/Ozols Arēna Rīga 2023 3.jpg" loading="lazy" alt="Pasākums 23 3">
+            <p>Nosaukums: Ozola koncerts | Vieta: Xiaomi Arēna, Rīga, Latvija | Gads: 2023
+            <br>Foto: Kristīne Šumska, Aksels Bergs, Māris Vancevičs</p>
+        </div>
+
+                <div class="photo-item" data-year="2023" data-month="11">
+            <img src="Gallery_photos/Astro'n'out (Official) 2023.jpg" loading="lazy" alt="Pasākums 23 7">
+            <p>Nosaukums: Astro'n'out koncerts | Vieta: Xiaomi Arēna, Rīga, Latvija | Gads: 2023
+            <br>Foto: Krists Luhaers</p>
+        </div>
+
+                <div class="photo-item" data-year="2023" data-month="11">
+            <img src="Gallery_photos/Astro'n'out (Official) 2023 2.jpg" loading="lazy" alt="Pasākums 23 8">
+            <p>Nosaukums: Astro'n'out koncerts | Vieta: Xiaomi Arēna, Rīga, Latvija | Gads: 2023
+            <br>Foto: Krists Luhaers</p>
+        </div>
+
+                <div class="photo-item" data-year="2023" data-month="9">
+            <img src="Gallery_photos/LIELAIS KONCERTS 2 2023.jpg" loading="lazy" alt="Pasākums 23 9">
+            <p>Nosaukums: Lielais Koncerts 2 | Vieta: Mežaparka Lielā Estrāde, Rīga, Latvija | Gads: 2023
+            <br>Foto: Nauris Veiss</p>
+        </div>
+
+                <div class="photo-item" data-year="2023" data-month="9">
+            <img src="Gallery_photos/LIELAIS KONCERTS 2 2023 2.jpg" loading="lazy" alt="Pasākums 23 10">
+            <p>Nosaukums: Lielais Koncerts 2 | Vieta: Mežaparka Lielā Estrāde, Rīga, Latvija | Gads: 2023
+            <br>Foto: Nauris Veiss</p>
+        </div>
+
+                <div class="photo-item" data-year="2023" data-month="9">
+            <img src="Gallery_photos/LIELAIS KONCERTS 2 2023 3.jpg" loading="lazy" alt="Pasākums 23 11">
+            <p>Nosaukums: Lielais Koncerts 2 | Vieta: Mežaparka Lielā Estrāde, Rīga, Latvija | Gads: 2023
+            <br>Foto: Nauris Veiss</p>
+        </div>
+
+                <div class="photo-item" data-year="2023" data-month="9">
+            <img src="Gallery_photos/Kauguru Svētki 2023.jpg" loading="lazy" alt="Pasākums 23 12">
+            <p>Nosaukums: Kauguru Svētki | Vieta: Kauguri, Jūrmala, Latvija | Gads: 2023
+            <br>Foto: Artis Veigurs</p>
+        </div>
+
+                <div class="photo-item" data-year="2023" data-month="9">
+            <img src="Gallery_photos/Kauguru Svētki 2023 2.jpg" loading="lazy" alt="Pasākums 23 13">
+            <p>Nosaukums: Kauguru Svētki | Vieta: Kauguri, Jūrmala, Latvija | Gads: 2023
+            <br>Foto: Artis Veigurs</p>
+        </div>
+
+                <div class="photo-item" data-year="2023" data-month="8">
+            <img src="Gallery_photos/Rīgas svētki 2023.jpg" loading="lazy" alt="Pasākums 23 14">
+            <p>Nosaukums: Rīgas svētki | Vieta: Rīga, Latvija | Gads: 2023
+            <br>Foto: LSM.LV, Agnija Lazdiņa</p>
+        </div>
+
+                <div class="photo-item" data-year="2023" data-month="8">
+            <img src="Gallery_photos/Rīgas svētki 2023 2.jpg" loading="lazy" alt="Pasākums 23 15">
+            <p>Nosaukums: Rīgas svētki | Vieta: Rīga, Latvija | Gads: 2023
+            <br>Foto: LSM.LV, Agnija Lazdiņa</p>
+        </div>
+
+                <div class="photo-item" data-year="2023" data-month="8">
+            <img src="Gallery_photos/Summer Sound 2023 URBAN Stage.jpg" loading="lazy" alt="Pasākums 23 16">
+            <p>Nosaukums: Summer Sound Festivāls URBAN Stage | Vieta: Liepājas pludmale, Liepāja, Latvija | Gads: 2023
+            <br>Foto: Martin Dremljuga - Photography</p>
+        </div>
+
+                <div class="photo-item" data-year="2023" data-month="8">
+            <img src="Gallery_photos/Summer Sound 2023 URBAN Stage 2.jpg" loading="lazy" alt="Pasākums 23 17">
+            <p>Nosaukums: Summer Sound Festivāls URBAN Stage | Vieta: Liepājas pludmale, Liepāja, Latvija | Gads: 2023
+            <br>Foto: Martin Dremljuga - Photography</p>
+        </div>
+
+                <div class="photo-item" data-year="2023" data-month="8">
+            <img src="Gallery_photos/Summer Sound 2023 MAIN Stage.jpg" loading="lazy" alt="Pasākums 23 18">
+            <p>Nosaukums: Summer Sound Festivāls MAIN Stage | Vieta: Liepājas pludmale, Liepāja, Latvija | Gads: 2023
+            <br>Foto: Martin Dremljuga - Photography</p>
+        </div>
+
+                <div class="photo-item" data-year="2023" data-month="8">
+            <img src="Gallery_photos/Summer Sound 2023 MAIN Stage 2.jpg" loading="lazy" alt="Pasākums 23 19">
+            <p>Nosaukums: Summer Sound Festivāls MAIN Stage | Vieta: Liepājas pludmale, Liepāja, Latvija | Gads: 2023
+            <br>Foto: Martin Dremljuga - Photography</p>
+        </div>
+
+                <div class="photo-item" data-year="2023" data-month="8">
+            <img src="Gallery_photos/Summer Sound 2023 MAIN Stage 3.jpg" loading="lazy" alt="Pasākums 23 20">
+            <p>Nosaukums: Summer Sound Festivāls MAIN Stage | Vieta: Liepājas pludmale, Liepāja, Latvija | Gads: 2023
+            <br>Foto: Martin Dremljuga - Photography</p>
+        </div>
+
+                <div class="photo-item" data-year="2023" data-month="7">
+            <img src="Gallery_photos/Positivus 2023.jpg" loading="lazy" alt="Pasākums 23 21">
+            <p>Nosaukums: Positivus Festivāls | Vieta: Lucavsala, Rīga, Latvija | Gads: 2023
+        </div>
+
+                <div class="photo-item" data-year="2023" data-month="7">
+            <img src="Gallery_photos/Positivus 2023 2.jpg" loading="lazy" alt="Pasākums 23 22">
+            <p>Nosaukums: Positivus Festivāls | Vieta: Lucavsala, Rīga, Latvija | Gads: 2023
+        </div>
+
+                <div class="photo-item" data-year="2023" data-month="7">
+            <img src="Gallery_photos/Dziesmu un deju svētku atklāšanas koncerts svētku dalībniekiem 2023.jpg" loading="lazy" alt="Pasākums 23 23">
+            <p>Nosaukums: Dziesmu un deju svētku atklāšanas koncerts svētku dalībniekiem | Vieta: Xiaomi Arēna, Rīga, Latvija | Gads: 2023
+            <br>Foto: Mikus Kļaviņš, Aivars Liepiņš, Jānis Romanovskis</p>
+        </div>
+
+                <div class="photo-item" data-year="2023" data-month="7">
+            <img src="Gallery_photos/Dziesmu un deju svētku atklāšanas koncerts svētku dalībniekiem. 2023 2.jpg" loading="lazy" alt="Pasākums 23 24">
+            <p>Nosaukums: Dziesmu un deju svētku atklāšanas koncerts svētku dalībniekiem | Vieta: Xiaomi Arēna, Rīga, Latvija | Gads: 2023
+            <br>Foto: Mikus Kļaviņš, Aivars Liepiņš, Jānis Romanovskis</p>
+        </div>
+
+                <div class="photo-item" data-year="2023" data-month="7">
+            <img src="Gallery_photos/Dziesmu un deju svētku atklāšanas koncerts svētku dalībniekiem. 2023 3.jpg" loading="lazy" alt="Pasākums 23 25">
+            <p>Nosaukums: Dziesmu un deju svētku atklāšanas koncerts svētku dalībniekiem | Vieta: Xiaomi Arēna, Rīga, Latvija | Gads: 2023
+            <br>Foto: Mikus Kļaviņš, Aivars Liepiņš, Jānis Romanovskis</p>
+        </div>
+
+                <div class="photo-item" data-year="2023" data-month="2">
+            <img src="Gallery_photos/DZELZS VILKS. JAUNI. koncerts 2023.jpg" loading="lazy" alt="Pasākums 23 26">
+            <p>Nosaukums: DZELZS VILKS. JAUNI. koncerts | Vieta: Palladium Rīga, Latvija | Gads: 2023
+            <br>Foto: Ginta Zīverte</p>
+        </div>
+
+                <div class="photo-item" data-year="2023" data-month="2">
+            <img src="Gallery_photos/DZELZS VILKS. JAUNI. koncerts 2023 2.jpg" loading="lazy" alt="Pasākums 23 27">
+            <p>Nosaukums: DZELZS VILKS. JAUNI. koncerts | Vieta: Palladium Rīga, Latvija | Gads: 2023
+            <br>Foto: Ginta Zīverte</p>
+        </div>
+
+                <div class="photo-item" data-year="2022" data-month="11">
+            <img src="Gallery_photos/Gustavo koncerts Beidzot 2023.jpg" loading="lazy" alt="Pasākums 22 1">
+            <p>Nosaukums: Gustavo koncerts "Beidzot" | Vieta: Xiaomi Arēna, Rīga, Latvija | Gads: 2022
+            <br>Foto: Edijs Andersons</p>
+        </div>
+
+                <div class="photo-item" data-year="2022" data-month="11">
+            <img src="Gallery_photos/Gustavo koncerts Beidzot 2023 2.jpg" loading="lazy" alt="Pasākums 22 2">
+            <p>Nosaukums: Gustavo koncerts "Beidzot" | Vieta: Xiaomi Arēna, Rīga, Latvija | Gads: 2022
+            <br>Foto: Edijs Andersons</p>
+        </div>
+
+                <div class="photo-item" data-year="2022" data-month="11">
+            <img src="Gallery_photos/Gustavo koncerts Beidzot 2023 3.jpg" loading="lazy" alt="Pasākums 22 3">
+            <p>Nosaukums: Gustavo koncerts "Beidzot" | Vieta: Xiaomi Arēna, Rīga, Latvija | Gads: 2022
+            <br>Foto: Edijs Andersons</p>
+        </div>
+
+                <div class="photo-item" data-year="2022" data-month="11">
+            <img src="Gallery_photos/Tautumeitas Latvijas rudens tūre 2022.jpg" loading="lazy" alt="Pasākums 22 4">
+            <p>Nosaukums: Tautumeitas Latvijas rudens tūre | Vieta: Latvija | Gads: 2022
+        </div> 
+
+                <div class="photo-item" data-year="2022" data-month="8">
+            <img src="Gallery_photos/Summer Sound 2022.jpg" loading="lazy" alt="Pasākums 22 5">
+            <p>Nosaukums: Summer Sound Festivāls | Vieta: Liepājas Pludmale, Liepāja, Latvija | Gads: 2022
+        </div>
+
+                <div class="photo-item" data-year="2022" data-month="7">
+            <img src="Gallery_photos/Positivus 2022.jpg" loading="lazy" alt="Pasākums 22 6">
+            <p>Nosaukums: Positivus | Vieta: Lucavsala, Rīga, Latvija | Gads: 2022
+        </div>
+
+                <div class="photo-item" data-year="2022" data-month="5">
+            <img src="Gallery_photos/OneRepublic 2022.jpg" loading="lazy" alt="Pasākums 22 7">
+            <p>Nosaukums: OneRepublic koncerts | Vieta: Xiaomi Arēna, Rīga, Latvija | Gads: 2022
+        </div>
+
+                <div class="photo-item" data-year="2021" data-month="12">
+            <img src="Gallery_photos/Rīgas Kultūras un atpūtas centra Imanta fasāde  2021.jpg" loading="lazy" alt="Pasākums 21 1">
+            <p>Nosaukums: Rīgas Kultūras un atpūtas centra "Imanta" fasāde | Vieta: Rīga, Latvija | Gads: 2021
+        </div>
+
+                <div class="photo-item" data-year="2021" data-month="8">
+            <img src="Gallery_photos/Rimi Rīgas Maratons 2021.jpg" loading="lazy" alt="Pasākums 21 2">
+            <p>Nosaukums: Rimi Rīgas Maratons | Vieta: Rīga, Latvija | Gads: 2021
+        </div>
+
+                <div class="photo-item" data-year="2021" data-month="7">
+            <img src="Gallery_photos/WRC Rallijs 2021.jpg" loading="lazy" alt="Pasākums 21 3">
+            <p>Nosaukums: WRC Rallijs | Vieta: Tartu, Igaunija | Gads: 2021
+        </div>
+
+                <div class="photo-item" data-year="2021" data-month="4">
+            <img src="Gallery_photos/Deep Tech Atelier 2021.jpg" loading="lazy" alt="Pasākums 21 4">
+            <p>Nosaukums: Deep Tech Atelier | Vieta: Latvija | Gads: 2021
+            <br>Foto: LIAA</p>
+        </div>
+
+                <div class="photo-item" data-year="2021" data-month="4">
+            <img src="Gallery_photos/Deep Tech Atelier 2021 2.jpg" loading="lazy" alt="Pasākums 21 5">
+            <p>Nosaukums: Deep Tech Atelier | Vieta: Latvija | Gads: 2021
+            <br>Foto: LIAA</p>
+        </div>
+
+                <div class="photo-item" data-year="2020" data-month="12">
+            <img src="Gallery_photos/Vecpuišu parks 2020.jpg" loading="lazy" alt="Pasākums 20 1">
+            <p>Nosaukums: Vecpuišu parks | Vieta: Valmiera, Latvija | Gads: 2020
+        </div>
+
+                <div class="photo-item" data-year="2020" data-month="12">
+            <img src="Gallery_photos/Vecpuišu parks 2020 2.jpg" loading="lazy" alt="Pasākums 20 2">
+            <p>Nosaukums: Vecpuišu parks | Vieta: Valmiera, Latvija | Gads: 2020
+        </div>
+
+                <div class="photo-item" data-year="2020" data-month="12">
+            <img src="Gallery_photos/Ziemas Gaismas Dārzs 2020.jpg" loading="lazy" alt="Pasākums 20 3">
+            <p>Nosaukums: Ziemas Gaismas Dārzs | Vieta: Latvijas Universitātes Botāniskais dārzs, Rīga, Latvija | Gads: 2020
+        </div>
+
+                <div class="photo-item" data-year="2020" data-month="12">
+            <img src="Gallery_photos/Ziemas Gaismas Dārzs 2020 2.jpg" loading="lazy" alt="Pasākums 20 4">
+            <p>Nosaukums: Ziemas Gaismas Dārzs | Vieta: Latvijas Universitātes Botāniskais dārzs, Rīga, Latvija | Gads: 2020
+        </div>
+
+                <div class="photo-item" data-year="2020" data-month="11">
+            <img src="Gallery_photos/Latvijas Republikas Proklamēšanas nedēļa 2020.jpg" loading="lazy" alt="Pasākums 20 5">
+            <p>Nosaukums: Latvijas Republikas Proklamēšanas nedēļa | Vieta: Brīvības Laukums, Rīga, Latvija | Gads: 2020
+        </div>
+
+                <div class="photo-item" data-year="2020" data-month="8">
+            <img src="Gallery_photos/WRC Rallijs 2020.jpg" loading="lazy" alt="Pasākums 20 6">
+            <p>Nosaukums: WRC Rallijs | Vieta: Tartu, Igaunija | Gads: 2020
+        </div>
+
+                <div class="photo-item" data-year="2020" data-month="8">
+            <img src="Gallery_photos/Rīgas svētki 2020.jpg" loading="lazy" alt="Pasākums 20 7">
+            <p>Nosaukums: Rīgas svētki | Vieta: Doma dārzs, Rīga, Latvija | Gads: 2020
+        </div>
+
+                <div class="photo-item" data-year="2020" data-month="8">
+            <img src="Gallery_photos/Rīgas svētki 2020 2.jpg" loading="lazy" alt="Pasākums 20 8">
+            <p>Nosaukums: Rīgas svētki | Vieta: Doma dārzs, Rīga, Latvija | Gads: 2020
+        </div>
+
+                <div class="photo-item" data-year="2020" data-month="7">
+            <img src="Gallery_photos/Dabas Koncertzāles koncertfilma 2020.jpg" loading="lazy" alt="Pasākums 20 9">
+            <p>Nosaukums: Dabas Koncertzāles koncertfilmas prezentācija | Vieta: Mežaparka Lielā Estrāde, Rīga, Latvija | Gads: 2020
+        </div>
+
+                <div class="photo-item" data-year="2020" data-month="7">
+            <img src="Gallery_photos/Smiltenes simtgades nakts pastaigu taka 2020.jpg" loading="lazy" alt="Pasākums 20 10">
+            <p>Nosaukums: Smiltenes simtgades nakts pastaigu taka | Vieta: Smiltene, Latvija | Gads: 2020
+            <br>Foto: Agnis Melderis</p>
+        </div>
+
+                <div class="photo-item" data-year="2020" data-month="7">
+            <img src="Gallery_photos/Smiltenes simtgades nakts pastaigu taka 2020 2.jpg" loading="lazy" alt="Pasākums 20 11">
+            <p>Nosaukums: Smiltenes simtgades nakts pastaigu taka | Vieta: Smiltene, Latvija | Gads: 2020
+            <br>Foto: Agnis Melderis</p>
+        </div>
+
+                <div class="photo-item" data-year="2020" data-month="7">
+            <img src="Gallery_photos/Smiltenes simtgades nakts pastaigu taka 2020 3.jpg" loading="lazy" alt="Pasākums 20 12">
+            <p>Nosaukums: Smiltenes simtgades nakts pastaigu taka | Vieta: Smiltene, Latvija | Gads: 2020
+            <br>Foto: Agnis Melderis</p>
+        </div>
+
+                <div class="photo-item" data-year="2020" data-month="7">
+            <img src="Gallery_photos/Smiltenes simtgades nakts pastaigu taka 2020 4.jpg" loading="lazy" alt="Pasākums 20 13">
+            <p>Nosaukums: Smiltenes simtgades nakts pastaigu taka | Vieta: Smiltene, Latvija | Gads: 2020
+            <br>Foto: Agnis Melderis</p>
+        </div>
+
+                <div class="photo-item" data-year="2020" data-month="7">
+            <img src="Gallery_photos/Smiltenes simtgades nakts pastaigu taka 2020 5.jpg" loading="lazy" alt="Pasākums 20 14">
+            <p>Nosaukums: Smiltenes simtgades nakts pastaigu taka | Vieta: Smiltene, Latvija | Gads: 2020
+            <br>Foto: Agnis Melderis</p>
+        </div>
+
+                <div class="photo-item" data-year="2020" data-month="5">
+            <img src="Gallery_photos/Auto Kino 2020.jpg" loading="lazy" alt="Pasākums 20 15">
+            <p>Nosaukums: Auto Kino | Vieta: Jelgava, Latvija | Gads: 2020
+        </div>
+
+                <div class="photo-item" data-year="2020" data-month="5">
+            <img src="Gallery_photos/Auto Kino 2020 2.jpg" loading="lazy" alt="Pasākums 20 16">
+            <p>Nosaukums: Auto Kino | Vieta: Jelgava, Latvija | Gads: 2020
+        </div>
+
+                <div class="photo-item" data-year="2020" data-month="5">
+            <img src="Gallery_photos/Carnival Youth virtuālais koncerts 2020.jpg" loading="lazy" alt="Pasākums 20 17">
+            <p>Nosaukums: Carnival Youth virtuālais koncerts | Vieta: Latvija  | Gads: 2020
+        </div>
+
+                <div class="photo-item" data-year="2020" data-month="1">
+            <img src="Gallery_photos/Rīga Street Food festival 2020.jpg" loading="lazy" alt="Pasākums 20 18">
+            <p>Nosaukums: Rīga Street Food festivāls | Vieta: Rīga, Latvija | Gads: 2020
+        </div>
+
+                <div class="photo-item" data-year="2019" data-month="10">
+            <img src="Gallery_photos/Astro'n'out (Official) 2019.jpg" loading="lazy" alt="Pasākums 19 1">
+            <p>Nosaukums: Astro'n'out koncerts | Vieta: Latvija | Gads: 2019
+        </div>
+
+                <div class="photo-item" data-year="2019" data-month="9">
+            <img src="Gallery_photos/iNOVUSS 2019.jpg" loading="lazy" alt="Pasākums 19 2">
+            <p>Nosaukums: iNOVUSS | Vieta: Latvija | Gads: 2019
+        </div>
+
+                <div class="photo-item" data-year="2019" data-month="9">
+            <img src="Gallery_photos/iNOVUSS 2019 2.jpg" loading="lazy" alt="Pasākums 19 3">
+            <p>Nosaukums: iNOVUSS | Vieta: Latvija | Gads: 2019
+        </div>
+
+                <div class="photo-item" data-year="2019" data-month="8">
+            <img src="Gallery_photos/Summer Sound 2019.jpg" loading="lazy" alt="Pasākums 19 4">
+            <p>Nosaukums: Summer Sound festivāls| Vieta: Liepājs pludmale, Liepāja, Latvija | Gads: 2019
+        </div>
+
+                <div class="photo-item" data-year="2019" data-month="7">
+            <img src="Gallery_photos/Dabas koncertzāle 2019.jpg" loading="lazy" alt="Pasākums 19 5">
+            <p>Nosaukums: Dabas koncertzāle | Vieta: Skrīveri, Latvija | Gads: 2019
+            <br>Foto: Andris Soms</p>
+        </div>
+
+                <div class="photo-item" data-year="2019" data-month="7">
+            <img src="Gallery_photos/Dabas koncertzāle 2019 2.jpg" loading="lazy" alt="Pasākums 19 6">
+            <p>Nosaukums: Dabas koncertzāle | Vieta: Skrīveri, Latvija | Gads: 2019
+            <br>Foto: Andris Soms</p>
+        </div>
+
+                <div class="photo-item" data-year="2019" data-month="5">
+            <img src="Gallery_photos/Eiropas diena 2019.jpg" loading="lazy" alt="Pasākums 19 7">
+            <p>Nosaukums: Eiropas diena | Vieta: Latvija | Gads: 2019
+        </div>
+
+                <div class="photo-item" data-year="2019" data-month="3">
+            <img src="Gallery_photos/Summer Sound Preparty 2019.jpg" loading="lazy" alt="Pasākums 19 8">
+            <p>Nosaukums: Summer Sound Pre-party | Vieta: Rīgas Sporta Manēža, Rīga, Latvija | Gads: 2019
+            <br>Foto: Summer Sound Official</p>
+        </div>
+
+                <div class="photo-item" data-year="2019" data-month="3">
+            <img src="Gallery_photos/Summer Sound Preparty 2019 2.jpg" loading="lazy" alt="Pasākums 19 9">
+            <p>Nosaukums: Summer Sound Pre-party | Vieta: Rīgas Sporta Manēža, Rīga, Latvija | Gads: 2019
+            <br>Foto: Summer Sound Official</p>
+        </div>
+
+                <div class="photo-item" data-year="2019" data-month="3">
+            <img src="Gallery_photos/Summer Sound Preparty 2019 3.jpg" loading="lazy" alt="Pasākums 19 10">
+            <p>Nosaukums: Summer Sound Pre-party | Vieta: Rīgas Sporta Manēža, Rīga, Latvija | Gads: 2019
+            <br>Foto: Summer Sound Official</p>
+        </div>
+
+                <div class="photo-item" data-year="2018" data-month="11">
+            <img src="Gallery_photos/Mīlestības vārdā Latvijas Nacionālā bibliotēka 2019.jpg" loading="lazy" alt="Pasākums 18 1">
+            <p>Nosaukums: "Mīlestības vārdā" koncerts | Vieta: Latvijas Nacionālā bibliotēka, Rīga, Latvija | Gads: 2018
+        </div>
+
+                <div class="photo-item" data-year="2018" data-month="11">
+            <img src="Gallery_photos/Mīlestības vārdā Latvijas Nacionālā bibliotēka 2019 2.jpg" loading="lazy" alt="Pasākums 18 2">
+            <p>Nosaukums: "Mīlestības vārdā" koncerts | Vieta: Latvijas Nacionālā bibliotēka, Rīga, Latvija | Gads: 2018
+        </div>
+
+                <div class="photo-item" data-year="2018" data-month="11">
+            <img src="Gallery_photos/Latvijas Republikas Proklamēšanas diena Latvijai 100 2018.jpg" loading="lazy" alt="Pasākums 18 3">
+            <p>Nosaukums: Latvijas Republikas Proklamēšanas diena | Vieta: 11. Novembra krastmala, Rīga, Latvija | Gads: 2018
+        </div>
+
+                <div class="photo-item" data-year="2018" data-month="11">
+            <img src="Gallery_photos/Eposs Lāčplēsis 2018.jpg" loading="lazy" alt="Pasākums 18 4">
+            <p>Nosaukums: Eposs "Lāčplēsis" un Dižkoncerts | Vieta: Xiaomi Arēna, Rīga, Latvija | Gads: 2018
+        </div>
+
+                <div class="photo-item" data-year="2018" data-month="11">
+            <img src="Gallery_photos/Eposs Lāčplēsis 2018 2.jpg" loading="lazy" alt="Pasākums 18 5">
+            <p>Nosaukums: Eposs "Lāčplēsis" un Dižkoncerts | Vieta: Xiaomi Arēna, Rīga, Latvija | Gads: 2018
+            <br>Foto: Artis Dzērve</p>
+        </div>
+
+                <div class="photo-item" data-year="2018" data-month="11">
+            <img src="Gallery_photos/Eposs Lāčplēsis 2018 3.jpg" loading="lazy" alt="Pasākums 18 6">
+            <p>Nosaukums: Eposs "Lāčplēsis" un Dižkoncerts | Vieta: Xiaomi Arēna, Rīga, Latvija | Gads: 2018
+            <br>Foto: Artis Dzērve</p>
+        </div>
+
+                <div class="photo-item" data-year="2018" data-month="11">
+            <img src="Gallery_photos/Eposs Lāčplēsis 2018 4.jpg" loading="lazy" alt="Pasākums 18 7">
+            <p>Nosaukums: Eposs "Lāčplēsis" un Dižkoncerts | Vieta: Xiaomi Arēna, Rīga, Latvija | Gads: 2018
+            <br>Foto: Artis Dzērve</p>
+        </div>
+
+                <div class="photo-item" data-year="2018" data-month="9">
+            <img src="Gallery_photos/Latvijas Pasākumu foruma 3. rudens sesija 2018.jpg" loading="lazy" alt="Pasākums 18 8">
+            <p>Nosaukums: Latvijas Pasākumu foruma 3. rudens sesija | Vieta: Xiaomi Arēna, Rīga, Latvija | Gads: 2018
+        </div>
+
+                <div class="photo-item" data-year="2018" data-month="8">
+            <img src="Gallery_photos/4. Baltijas Bundzinieku Samits 2018.jpg" loading="lazy" alt="Pasākums 18 9">
+            <p>Nosaukums: 4. Baltijas Bundzinieku Samits, Rīgas svētki | Vieta: 11. Novembra Krastmala, Rīga, Latvija | Gads: 2018
+        </div>
+
+                <div class="photo-item" data-year="2018" data-month="8">
+            <img src="Gallery_photos/Summer Sound 2018.jpg" loading="lazy" alt="Pasākums 18 10">
+            <p>Nosaukums: Summer Sound festivāls | Vieta: Liepājas pludmale, Liepāja, Latvija | Gads: 2018
+        </div>
+
+                <div class="photo-item" data-year="2018" data-month="8">
+            <img src="Gallery_photos/Summer Sound 2018 2.jpg" loading="lazy" alt="Pasākums 18 11">
+            <p>Nosaukums: Summer Sound festivāls | Vieta: Liepājas pludmale, Liepāja, Latvija | Gads: 2018
+        </div>
+
+                <div class="photo-item" data-year="2018" data-month="8">
+            <img src="Gallery_photos/Summer Sound 2018 3.jpg" loading="lazy" alt="Pasākums 18 12">
+            <p>Nosaukums: Summer Sound festivāls | Vieta: Liepājas pludmale, Liepāja, Latvija | Gads: 2018
+        </div>
+
+                <div class="photo-item" data-year="2018" data-month="8">
+            <img src="Gallery_photos/Summer Sound 2018 4.jpg" loading="lazy" alt="Pasākums 18 13">
+            <p>Nosaukums: Summer Sound festivāls | Vieta: Liepājas pludmale, Liepāja, Latvija | Gads: 2018
+        </div>
+
+                <div class="photo-item" data-year="2018" data-month="7">
+            <img src="Gallery_photos/World Jazz festivāls 2018.jpg" loading="lazy" alt="Pasākums 18 14">
+            <p>Nosaukums: World Jazz festivāls | Vieta: Rīgas Kongresu nams, Rīga, Latvija | Gads: 2018
+        </div>
+
+                <div class="photo-item" data-year="2018" data-month="7">
+            <img src="Gallery_photos/Positivus 2018.jpg" loading="lazy" alt="Pasākums 18 15">
+            <p>Nosaukums: Positivus festivāls | Vieta: Salacgrīva, Latvija | Gads: 2018
+        </div>
+
+                <div class="photo-item" data-year="2018" data-month="7">
+            <img src="Gallery_photos/A - ha - Electric Summer 2018.jpg" loading="lazy" alt="Pasākums 18 16">
+            <p>Nosaukums: A - ha - Electric Summer | Vieta: Siguldas Pilsdrupas, Sigulda, Latvija | Gads: 2018
+        </div>
+
+                <div class="photo-item" data-year="2018" data-month="5">
+            <img src="Gallery_photos/ZZČ 2018.jpg" loading="lazy" alt="Pasākums 18 17">
+            <p>Nosaukums: ZZ Čempionāts  | Vieta: Sporta komplekss "333", Ropažu pagasts, Latvija | Gads: 2018
+        </div>
+
+                <div class="photo-item" data-year="2018" data-month="5">
+            <img src="Gallery_photos/ZZČ 2018 2.jpg" loading="lazy" alt="Pasākums 18 18">
+            <p>Nosaukums: ZZ Čempionāts  | Vieta: Sporta komplekss "333", Ropažu pagasts, Latvija | Gads: 2018
+        </div>
+
+                <div class="photo-item" data-year="2018" data-month="5">
+            <img src="Gallery_photos/ZZČ 2018 3.jpg" loading="lazy" alt="Pasākums 18 19">
+            <p>Nosaukums: ZZ Čempionāts  | Vieta: Sporta komplekss "333", Ropažu pagasts, Latvija | Gads: 2018
+        </div>
+
+                <div class="photo-item" data-year="2018" data-month="5">
+            <img src="Gallery_photos/James Arthur koncerts 2018.jpg" loading="lazy" alt="Pasākums 18 20">
+            <p>Nosaukums: James Arthur koncerts | Vieta: Lucavsala, Rīga, Latvija | Gads: 2018
+        </div>
+
+                <div class="photo-item" data-year="2018" data-month="2">
+            <img src="Gallery_photos/Dona koncerts 2018.jpg" loading="lazy" alt="Pasākums 18 21">
+            <p>Nosaukums: Dona koncerts | Vieta: Xiaomi Arēna, Rīga, Latvija | Gads: 2018
+        </div>
+
+                <div class="photo-item" data-year="2018" data-month="2">
+            <img src="Gallery_photos/Dona koncerts 2018 2.jpg" loading="lazy" alt="Pasākums 18 22">
+            <p>Nosaukums: Dona koncerts | Vieta: Xiaomi Arēna, Rīga, Latvija | Gads: 2018
+        </div>
+
+                <div class="photo-item" data-year="2018" data-month="2">
+            <img src="Gallery_photos/Dona koncerts 2018 3.jpg" loading="lazy" alt="Pasākums 18 23">
+            <p>Nosaukums: Dona koncerts | Vieta: Xiaomi Arēna, Rīga, Latvija | Gads: 2018
+        </div>
+
+                <div class="photo-item" data-year="2017" data-month="12">
+            <img src="Gallery_photos/ABLV Ziemassvētku balle 2017.jpg" loading="lazy" alt="Pasākums 17 1">
+            <p>Nosaukums: ABLV Ziemassvētku balle darbiniekiem | Vieta: Concert hall Godvill, Rīga, Latvija | Gads: 2017
+            <br>Foto: Lauris Vīksne, Reinis Oliņš</p>
+        </div>
+
+                <div class="photo-item" data-year="2017" data-month="12">
+            <img src="Gallery_photos/ABLV Ziemassvētku balle 2017 2.jpg" loading="lazy" alt="Pasākums 17 2">
+            <p>Nosaukums: ABLV Ziemassvētku balle dabiniekiem | Vieta: Concert hall Godvill, Rīga, Latvija | Gads: 2017
+            <br>Foto: Lauris Vīksne, Reinis Oliņš</p>
+        </div>
+
+                <div class="photo-item" data-year="2017" data-month="11">
+            <img src="Gallery_photos/Latvijas Republikas Proklamēšanas nedēļa 2017.jpg" loading="lazy" alt="Pasākums 17 3">
+            <p>Nosaukums: Latvijas Republikas Proklamēšanas nedēļa | Vieta: Brīvības Piemineklis, Rīga, Latvija | Gads: 2017
+        </div>
+
+                <div class="photo-item" data-year="2017" data-month="11">
+            <img src="Gallery_photos/Latvijas Republikas Proklamēšanas nedēļa 2017 2.jpg" loading="lazy" alt="Pasākums 17 4">
+            <p>Nosaukums: Latvijas Republikas Proklamēšanas nedēļa | Vieta: Brīvības Piemineklis, Rīga, Latvija | Gads: 2017
+        </div>
+
+                <div class="photo-item" data-year="2017" data-month="10">
+            <img src="Gallery_photos/LTips 2017.jpg" loading="lazy" alt="Pasākums 17 5">
+            <p>Nosaukums: Labvēlīgais Tips 2017 | Vieta: Xiaomi Arēna, Rīga, Latvija | Gads: 2017
+        </div>
+
+                <div class="photo-item" data-year="2017" data-month="9">
+            <img src="Gallery_photos/Kauguru balle 2017.jpg" loading="lazy" alt="Pasākums 17 6">
+            <p>Nosaukums: Kauguru balle | Vieta: Kauguri, Jūrmala, Latvija | Gads: 2017
+        </div>
+
+                <div class="photo-item" data-year="2017" data-month="8">
+            <img src="Gallery_photos/iNOVUSS 2017.jpg" loading="lazy" alt="Pasākums 17 7">
+            <p>Nosaukums: iNOVUSS | Vieta: Lucavsala, Rīga, Latvija | Gads: 2017
+        </div>
+
+                <div class="photo-item" data-year="2017" data-month="8">
+            <img src="Gallery_photos/iNOVUSS 2017 2.jpg" loading="lazy" alt="Pasākums 17 8">
+            <p>Nosaukums: iNOVUSS | Vieta: Lucavsala, Rīga, Latvija | Gads: 2017
+        </div>
+
+                <div class="photo-item" data-year="2017" data-month="8">
+            <img src="Gallery_photos/Rīgas svētki, Piena svētki 2017.jpg" loading="lazy" alt="Pasākums 17 9">
+            <p>Nosaukums: Rīgas svētki, Piena svētki | Vieta: Rīga, Latvija | Gads: 2017
+        </div>
+
+                <div class="photo-item" data-year="2017" data-month="7">
+            <img src="Gallery_photos/Summer Sound 2017.jpg" loading="lazy" alt="Pasākums 17 10">
+            <p>Nosaukums: Summer Sound Festivāls| Vieta: Liepājas pludmale, Liepāja, Latvija | Gads: 2017
+        </div>
+
+                <div class="photo-item" data-year="2017" data-month="7">
+            <img src="Gallery_photos/Summer Sound 2017 2.jpg" loading="lazy" alt="Pasākums 17 11">
+            <p>Nosaukums: Summer Sound Festivāls | Vieta: Liepājas pludmale, Liepāja, Latvija | Gads: 2017
+        </div>
+
+                <div class="photo-item" data-year="2017" data-month="7">
+            <img src="Gallery_photos/Summer Sound 2017 3.jpg" loading="lazy" alt="Pasākums 17 12">
+            <p>Nosaukums: Summer Sound Festivāls | Vieta: Liepājas pludmale, Liepāja, Latvija | Gads: 2017
+        </div>
+
+                <div class="photo-item" data-year="2017" data-month="7">
+            <img src="Gallery_photos/Fonocēsis 2017.jpg" loading="lazy" alt="Pasākums 17 13">
+            <p>Nosaukums: Fonocēsis | Vieta: Cēsu pils, Cēsis, Latvija | Gads: 2017
+        </div>
+
+                <div class="photo-item" data-year="2017" data-month="7">
+            <img src="Gallery_photos/Kuldīgas Pilsētas svētki 2017.jpg" loading="lazy" alt="Pasākums 17 14">
+            <p>Nosaukums: Kuldīgas pilsētas svētki | Vieta: Kuldīga, Latvija | Gads: 2017
+        </div>
+
+                <div class="photo-item" data-year="2017" data-month="7">
+            <img src="Gallery_photos/Sarunu festivāls Lampa 2017.jpg" loading="lazy" alt="Pasākums 17 15">
+            <p>Nosaukums: Sarunu festivāls "Lampa" | Vieta: Cēsu pils, Cēsis, Latvija | Gads: 2017
+        </div>
+
+                <div class="photo-item" data-year="2017" data-month="6">
+            <img src="Gallery_photos/Džeza festivāls Rīgas Ritmi 2017.jpg" loading="lazy" alt="Pasākums 17 16">
+            <p>Nosaukums: Džeza festivāls "Rīgas Ritmi" | Vieta: Doma Dārzs, Rīga, Latvija | Gads: 2017
+        </div>
+
+                <div class="photo-item" data-year=2017" data-month="6">
+            <img src="Gallery_photos/Džeza festivāls Rīgas Ritmi 2017 2.jpg" loading="lazy" alt="Pasākums 17 17">
+            <p>Nosaukums: Džeza festivāls "Rīgas Ritmi" | Vieta: Doma Dārzs, Rīga, Latvija | Gads: 2017
+        </div>
+
+                <div class="photo-item" data-year="2017" data-month="6">
+            <img src="Gallery_photos/Līgo krastmalā 2017.jpg" loading="lazy" alt="Pasākums 17 18">
+            <p>Nosaukums: Līgo krastmalā | Vieta: Rīga, Latvija | Gads: 2017
+        </div>
+
+                <div class="photo-item" data-year="2017" data-month="6">
+            <img src="Gallery_photos/Līgo krastmalā 2017 2.jpg" loading="lazy" alt="Pasākums 17 19">
+            <p>Nosaukums: Līgo krastmalā | Vieta: Rīga, Latvija | Gads: 2017
+        </div>
+
+                <div class="photo-item" data-year="2017" data-month="6">
+            <img src="Gallery_photos/Līgo krastmalā 2017 3.jpg" loading="lazy" alt="Pasākums 17 20">
+            <p>Nosaukums: Līgo krastmalā | Vieta: Rīga, Latvija | Gads: 2017
+        </div>
+
+                <div class="photo-item" data-year="2017" data-month="5">
+            <img src="Gallery_photos/Jūrmalas Kūrorta svētki 2017.jpg" loading="lazy" alt="Pasākums 17 20">
+            <p>Nosaukums: Jūrmalas Kūrorta svētki | Vieta: Jūrmala, Latvija | Gads: 2017
+        </div>
+
+                <div class="photo-item" data-year="2017" data-month="2">
+            <img src="Gallery_photos/Astro'n'out (Official) 2017.jpg" loading="lazy" alt="Pasākums 17 21">
+            <p>Nosaukums: Astro'n'out tūre "Urda" | Vieta: Latvija | Gads: 2017
+        </div>
+
+                <div class="photo-item" data-year="2017" data-month="2">
+            <img src="Gallery_photos/Astro'n'out (Official) 2017 2.jpg" loading="lazy" alt="Pasākums 17 22">
+          <p>Nosaukums: Astro'n'out tūre "Urda" | Vieta: Latvija | Gads: 2017
+        </div>
+
+                <div class="photo-item" data-year="2017" data-month="2">
+            <img src="Gallery_photos/Astro'n'out (Official) 2017 3.jpg" loading="lazy" alt="Pasākums 17 23">
+          <p>Nosaukums: Astro'n'out tūre "Urda" | Vieta: Latvija | Gads: 2017
+        </div>
+
+                <div class="photo-item" data-year="2017" data-month="2">
+            <img src="Gallery_photos/Dona koncerts 2017.jpg" loading="lazy" alt="Pasākums 17 24">
+            <p>Nosaukums: Dona koncerts | Vieta: Xiaomi Arēna, Rīga, Latvija | Gads: 2017
+        </div>
+
+                <div class="photo-item" data-year="2017" data-month="2">
+            <img src="Gallery_photos/Dona koncerts 2017 2.jpg" loading="lazy" alt="Pasākums 17 25">
+            <p>Nosaukums: Dona koncerts | Vieta: Xiaomi Arēna, Rīga, Latvija | Gads: 2017
+        </div>
+
+
+                <div class="photo-item" data-year="2016" data-month="10">
+            <img src="Gallery_photos/Lielais Kristaps atklāšana ar Raimondu Paulu 2016.jpg" loading="lazy" alt="Pasākums 16 1">
+            <p>Nosaukums: Lielais Kristaps atklāšana ar Raimondu Paulu | Vieta: Splendid Palace, Rīga, Latvija | Gads: 2016
+        </div>
+
+
+                <div class="photo-item" data-year="2016" data-month="9">
+            <img src="Gallery_photos/Kauguru svētki 2016.jpg" loading="lazy" alt="Pasākums 16 2">
+            <p>Nosaukums: Kauguru svētki | Vieta: Kauguri, Jūrmala, Latvija | Gads: 2016
+        </div>
+
+
+                <div class="photo-item" data-year="2016" data-month="8">
+            <img src="Gallery_photos/Piena svētki pirmā diena! 2016.jpg" loading="lazy" alt="Pasākums 16 3">
+            <p>Nosaukums: Piena svētki | Vieta: Lucavsala, Rīga, Latvija | Gads: 2016
+        </div>
+
+
+                <div class="photo-item" data-year="2016" data-month="8">
+            <img src="Gallery_photos/Piena svētki pirmā diena! 2016 2.jpg" loading="lazy" alt="Pasākums 16 4">
+            <p>Nosaukums: Piena svētki | Vieta: Lucavsala, Rīga, Latvija | Gads: 2016
+        </div>
+
+
+                <div class="photo-item" data-year="2016" data-month="8">
+            <img src="Gallery_photos/Weekend Festival  2016.jpg" loading="lazy" alt="Pasākums 16 5">
+            <p>Nosaukums: Weekend festivāls | Vieta: Helsinki, Ūsimā, Somija | Gads: 2016
+        </div>
+
+
+                <div class="photo-item" data-year="2016" data-month="8">
+            <img src="Gallery_photos/Weekend Festival  2016 2.jpg" loading="lazy" alt="Pasākums 16 6">
+            <p>Nosaukums: Weekend festivāls | Vieta: Helsinki, Ūsimā, Somija | Gads: 2016
+        </div>
+
+
+                <div class="photo-item" data-year="2016" data-month="7">
+            <img src="Gallery_photos/Positivus 2016.jpg" loading="lazy" alt="Pasākums 16 7">
+            <p>Nosaukums: Positivus 2016 | Vieta: Salacgrīva, Latvija | Gads: 2016
+        </div>
+
+
+                <div class="photo-item" data-year="2016" data-month="7">
+            <img src="Gallery_photos/Positivus 2016 2.jpg" loading="lazy" alt="Pasākums 16 8">
+            <p>Nosaukums: Positivus 2016 | Vieta: Salacgrīva, Latvija | Gads: 2016
+        </div>
+
+
+                <div class="photo-item" data-year="2016" data-month="7">
+            <img src="Gallery_photos/Positivus 2016 3.jpg" loading="lazy" alt="Pasākums 16 9">
+            <p>Nosaukums: Positivus 2016 | Vieta: Salacgrīva, Latvija | Gads: 2016
+        </div>
+
+
+                <div class="photo-item" data-year="2016" data-month="6">
+            <img src="Gallery_photos/TEDxRīga 2016.jpg" loading="lazy" alt="Pasākums 16 10">
+            <p>Nosaukums: Ted x Rīga | Vieta: Splendid Palace, Rīga, Latvija | Gads: 2016
+            <br>Foto: </p>
+        </div>
+
+                <div class="photo-item" data-year="2016" data-month="5">
+            <img src="Gallery_photos/Lattelecom Rīgas maratons 2016.jpg" loading="lazy" alt="Pasākums 16 11">
+            <p>Nosaukums: Lattelecom Rīgas maratons | Vieta: Rīga, Latvija | Gads: 2016
+        </div>
+
+                <div class="photo-item" data-year="2016" data-month="5">
+            <img src="Gallery_photos/Lattelecom Rīgas maratons 2.jpg" loading="lazy" alt="Pasākums 16 12">
+            <p>Nosaukums: Lattelecom Rīgas maratons | Vieta: Rīga, Latvija | Gads: 2016
+        </div>
+
+                <div class="photo-item" data-year="2016" data-month="5">
+            <img src="Gallery_photos/Eiropas dienas koncerts 2016.jpg" loading="lazy" alt="Pasākums 16 13">
+            <p>Nosaukums: Eiropas dienas koncerts | Vieta: Rīgas Kongresu nams, Rīga, Latvija | Gads: 2016
+        </div>
+
+                <div class="photo-item" data-year="2016" data-month="5">
+            <img src="Gallery_photos/Eiropas dienas koncerts 2016 2.jpg" loading="lazy" alt="Pasākums 16 14">
+            <p>Nosaukums: Eiropas dienas koncerts | Vieta: Rīgas Kongresu nams, Rīga, Latvija | Gads: 2016
+        </div>
+
+                <div class="photo-item" data-year="2015" data-month="10">
+            <img src="Gallery_photos/Global Business forums 2015.jpg" loading="lazy" alt="Pasākums 15 1">
+            <p>Nosaukums: Global Business forums | Gads: 2015
+        </div>
+
+                <div class="photo-item" data-year="2015" data-month="8">
+            <img src="Gallery_photos/Weekend festival 2015.jpg" loading="lazy" alt="Pasākums 15 2">
+            <p>Nosaukums: Weekend festivāls | Vieta: Helsinki, Ūsimā, Somija | Gads: 2015
+        </div>
+
+                <div class="photo-item" data-year="2015" data-month="8">
+            <img src="Gallery_photos/Weekend festival 2015 2.jpg" loading="lazy" alt="Pasākums 15 3">
+            <p>Nosaukums: Weekend festivāls | Vieta: Helsinki, Ūsimā, Somija | Gads: 2015
+        </div>
+
+                <div class="photo-item" data-year="2015" data-month="8">
+            <img src="Gallery_photos/Weekend festival 2015 3.jpg" loading="lazy" alt="Pasākums 15 4">
+            <p>Nosaukums: Weekend festivāls | Vieta: Helsinki, Ūsimā, Somija | Gads: 2015
+        </div>
+
+                <div class="photo-item" data-year="2015" data-month="8">
+            <img src="Gallery_photos/Weekend festival 2015 4.jpg" loading="lazy" alt="Pasākums 15 5">
+            <p>Nosaukums: Weekend festivāls | Vieta: Helsinki, Ūsimā, Somija | Gads: 2015
+        </div>
+
+                <div class="photo-item" data-year="2015" data-month="8">
+            <img src="Gallery_photos/Weekend festival 2015 5.jpg" loading="lazy" alt="Pasākums 15 6">
+            <p>Nosaukums: Weekend festivāls | Vieta: Helsinki, Ūsimā, Somija | Gads: 2015
+        </div>
+
+                <div class="photo-item" data-year="2015" data-month="8">
+            <img src="Gallery_photos/Piena svētki 2015.jpg" loading="lazy" alt="Pasākums 15 7">
+            <p>Nosaukums: Piena svētki | Vieta: Lucavsala, Rīga, Latvija | Gads: 2015
+        </div>
+
+                <div class="photo-item" data-year="2015" data-month="8">
+            <img src="Gallery_photos/Ventspils pilsētas svētki 2015.jpg" loading="lazy" alt="Pasākums 15 8">
+            <p>Nosaukums: Ventspils pilsētas svētki | Vieta: Ventspils, Latvija | Gads: 2015
+        </div>
+
+
+                <div class="photo-item" data-year="2015" data-month="8">
+            <img src="Gallery_photos/Ventspils pilsētas svētki 2015 2.jpg" loading="lazy" alt="Pasākums 15 9">
+            <p>Nosaukums: Ventspils pilsētas svētki | Vieta: Ventspils, Latvija | Gads: 2015
+        </div>
+
+
+                <div class="photo-item" data-year="2015" data-month="7">
+            <img src="Gallery_photos/Roisin Murphy 2015.jpg" loading="lazy" alt="Pasākums 15 10">
+            <p>Nosaukums: Roisin Murphy koncerts | Vieta: Sigulda, Latvija | Gads: 2015
+        </div>
+
+                <div class="photo-item" data-year="2015" data-month="7">
+            <img src="Gallery_photos/Positivus 2015.jpg" loading="lazy" alt="Pasākums 15 11">
+            <p>Nosaukums: Positivus festivāls | Vieta: Salacgrīva, Latvija | Gads: 2015
+        </div>
+
+                <div class="photo-item" data-year="2015" data-month="7">
+            <img src="Gallery_photos/Positivus 2015 2.jpg" loading="lazy" alt="Pasākums 15 12">
+            <p>Nosaukums: Positivus festivāls | Vieta: Salacgrīva, Latvija | Gads: 2015
+        </div>
+
+                <div class="photo-item" data-year="2015" data-month="7">
+            <img src="Gallery_photos/Positivus 2015 3.jpg" loading="lazy" alt="Pasākums 15 13">
+            <p>Nosaukums: Positivus festivāls | Vieta: Salacgrīva, Latvija | Gads: 2015
+        </div>
+
+
+                <div class="photo-item" data-year="2015" data-month="7">
+            <img src="Gallery_photos/Summer Sound 2015.jpg" loading="lazy" alt="Pasākums 15 14">
+            <p>Nosaukums: Summer Sound festivāls | Vieta: Liepājas pludmale, Liepāja | Gads: 2015
+        </div>
+
+
+                <div class="photo-item" data-year="2015" data-month="7">
+            <img src="Gallery_photos/Summer Sound 2015 2.jpg" loading="lazy" alt="Pasākums 15 15">
+            <p>Nosaukums: Summer Sound festivāls | Vieta: Liepājas pludmale, Liepāja | Gads: 2015
+        </div>
+
+
+                <div class="photo-item" data-year="2015" data-month="6">
+            <img src="Gallery_photos/Dabas Koncertzāle 2015.jpg" loading="lazy" alt="Pasākums 15 16">
+            <p>Nosaukums: Dabas Koncertzāle | Vieta: Latvija | Gads: 2015
+        </div>
+
+
+                <div class="photo-item" data-year="2015" data-month="6">
+            <img src="Gallery_photos/Dabas Koncertzāle 2015 2.jpg" loading="lazy" alt="Pasākums 15 17">
+            <p>Nosaukums: Dabas Koncertzāle | Vieta: Latvija | Gads: 2015
+        </div>
+
+
+                <div class="photo-item" data-year="2015" data-month="5">
+            <img src="Gallery_photos/Lattelecom Rīgas Maratons 2015.jpg" loading="lazy" alt="Pasākums 15 18">
+            <p>Nosaukums: Lattelecom Rīgas Maratons | Vieta: Rīga, Latvija | Gads: 2015
+        </div>
+
+
+                <div class="photo-item" data-year="2015" data-month="5">
+            <img src="Gallery_photos/Leningrad 2015.jpg" loading="lazy" alt="Pasākums 15 19">
+            <p>Nosaukums: Leningrad koncerts | Vieta: Xiaomi Arēna, Rīga Latvija | Gads: 2015
+        </div>
+
+
+                <div class="photo-item" data-year="2015" data-month="5">
+            <img src="Gallery_photos/Leningrad 2015 2.jpg" loading="lazy" alt="Pasākums 15 20">
+            <p>Nosaukums: Leningrad koncerts | Vieta: Xiaomi Arēna, Rīga Latvija | Gads: 2015
+        </div>
+
+    </div>
+
+    <script>
+    function showAll() {
+    const items = document.querySelectorAll('.photo-item');
+    items.forEach(item => item.style.display = 'block');
+    sortItems(items); // optional: sort by year descending
+}
+
+function filterYear(year) {
+    const items = document.querySelectorAll('.photo-item');
+    items.forEach(item => {
+        item.style.display = (item.dataset.year == year) ? 'block' : 'none';
+    });
+    const visibleItems = Array.from(items).filter(i => i.style.display === 'block');
+    sortItems(visibleItems); // sort by month ascending
+}
+
+function sortItems(items) {
+    items = Array.from(items);
+
+    items.sort((a, b) => {
+        const yearA = parseInt(a.dataset.year);
+        const yearB = parseInt(b.dataset.year);
+        const monthA = parseInt(a.dataset.month);
+        const monthB = parseInt(b.dataset.month);
+
+        if (yearA !== yearB) return yearB - yearA;   // jaunākais gads augšā
+        return monthB - monthA;                     // jaunākais mēnesis augšā
+    });
+
+    const grid = document.querySelector('.photo-grid');
+    items.forEach(item => grid.appendChild(item));
+}
+
+    </script>
+
+    <script>
+document.addEventListener("DOMContentLoaded", () => {
+    const items = document.querySelectorAll('.photo-item');
+    sortItems(items);
+});
+</script>
+
+
+    <button onclick="goBack()" class="back-btn-gallery-page">⬅ Atpakaļ uz sākumu</button>
+</section>
+
+    <!-- BOTTOM NAVIGATION -->
+    <nav class="bottom-nav">
+        <a href="home.html">🏠</a>
+        <a href="gallery.html"class="active">🖼️</a> <!-- NEW: Gallery button -->
+        <a href="order form.html">📝</a>
+        <a href="info.html">📍</a>
+        <a href="#" id="profileLink">👤</a>
+    </nav>
+
+        <script>
+const profileLink = document.getElementById("profileLink");
+
+const loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
+const loggedAdmin = JSON.parse(localStorage.getItem("loggedAdmin"));
+
+if (loggedAdmin) {
+    profileLink.href = "admin profile.html";
+} else if (loggedUser) {
+    profileLink.href = "clients profile.html";
+} else {
+    profileLink.href = "login.html";
+}
+
+</script>
+
+<script>
+function goBack() {
+    window.location.href = "home.html";
+}
+</script>
+
+</main>
+
+</body>
+</html>

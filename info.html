@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Info lapa</title>
+
+  <!-- PWA manifest -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="/app-icons/iPhone_app_2160x2160.png">
+
+<style>
+
+/* ===== INFO PAGE ===== */
+.info-page {
+    margin: 0;
+    padding: 0 0 100px 0; /* padding-bottom vieta bottom-nav */
+    font-family: Arial, sans-serif;
+    background-color: #111; /* black bg */
+    color: #fff;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.info-page section {
+    background: #000;            /* melns box */
+    border: 2px solid #e10600;   /* sarkana robeža */
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 1100px;
+    text-align: center;
+    transition: box-shadow 0.3s ease; /* smooth glow */
+}
+
+.info-page section:hover {
+    box-shadow: 0 0 20px rgba(225, 6, 0, 0.6); /* glow on hover */
+}
+
+.info-page h2 {
+    font-size: 28px;
+    color: #e10600;
+    margin-bottom: 10px;
+}
+
+.info-page a {
+    color: #e10600;
+    text-decoration: none;
+}
+
+.maps-wrapper {
+    display: flex;
+    flex-wrap: wrap;        /* responsive */
+    justify-content: center;
+    gap: 30px;
+    margin-top: 15px;
+}
+
+.map-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.map-container {
+    width: 450px;
+    height: 450px;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 2px solid #e10600;
+}
+
+.map-container iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+.map-block .map-link {
+    margin-top: 8px;
+    color: #fff;
+    font-weight: bold;
+    text-decoration: underline;
+    background: rgba(0,0,0,0.4);
+    padding: 4px 6px;
+    border-radius: 4px;
+}
+
+/* Social links inline */
+.social a {
+    margin: 0 10px;
+    font-size: 20px;
+}
+
+/* Bottom nav */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #000;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-top: 2px solid #e10600;
+    z-index: 1000;
+}
+
+.bottom-nav a {
+    text-decoration: none;
+    font-size: 1.5rem;
+    color: #ffffff;
+    padding: 8px 14px;
+    border-radius: 10px;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.bottom-nav a:hover {
+    background: rgba(225, 7, 0, 0.299);
+    color: #e10600;
+}
+
+.bottom-nav a.active {
+    background: #e10700b2;
+    color: #e10600;
+}
+
+.info-page p {
+    font-size: 15px;
+    line-height: 1.5;
+    color: #fff;
+}
+
+.compact-text {    
+    margin: 20px auto;      /* centrē horizontāli */
+    padding: 15px 20px;     /* mazāk padding */
+    background-color: #000;
+    color: #fff;
+    border: 2px solid #e10600;
+    border-radius: 12px;
+    text-align: center;     /* centrē tekstu */
+}
+
+.compact-text h2 {
+    color: #e10600;
+    margin-bottom: 10px;
+    font-size: 26px;
+}
+
+.compact-text p {
+    font-size: 15px;
+    line-height: 1.4;
+    margin: 0;
+}
+
+
+/* ===== END INFO PAGE ===== */
+
+</style>
+
+</head>
+<body class="info-page">
+
+    <!-- HEADER -->
+    <header class="site-header">
+        <img src="GaCo_logo_horizontal_white.png" alt="StartUpLook logo" class="site-logo">
+    </header>
+
+<main>
+
+    <!-- UZŅĒMUMA INFO -->
+<section class="company-info compact-text">
+        <h2>Par uzņēmumu</h2>
+        <p>SIA GaCo ir pasākumu tehniskā nodrošinājuma uzņēmums <br>ar ilggadēju pieredzi, kas piedāvā profesionālus skaņas, gaismas <br>un skatuves risinājumus dažāda mēroga pasākumiem.
+    </p>
+
+
+        <h2>Kontakti</h2>
+        <p>Telefons: <a href="tel:+371 67 408 260">+371 67 408 260</a></p>
+        <p>E-pasts: <a href="gaco@gaco.lv">gaco@gaco.lv</a></p>
+
+        <h2>Rekvizīti</h2>
+          <p>Reģ. Nr. 40003333684
+          <br>PVN Reģ. Nr. LV40003333684
+          <br>Luminor Bank AS
+          <br>Kods: RIKOLV2X
+          <br>Konta Nr. LV57RIKO0002013152890
+        </p>
+    </section>
+
+    <!-- KĀ MŪS ATRAST -->
+<section class="location">
+  <h2>Kā mūs atrast?</h2>
+
+  <div class="maps-wrapper">
+    <!-- Google Map -->
+    <div class="map-block">
+      <div class="map-container">
+        <iframe 
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d154.2016561577403!2d24.047515087556423!3d56.93184935068325!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46eed06d2d9940e1%3A0xe443cea84b0adf4!2sVentspils%20iela%2050%20k-6%2C%20Zemgales%20priek%C5%A1pils%C4%93ta%2C%20R%C4%ABga%2C%20LV-1002!5e0!3m2!1slv!2slv!4v1766090005351!5m2!1slv!2slv"
+          loading="lazy" 
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+      <a href="https://maps.app.goo.gl/hASGCRH2vouGpRNC6" target="_blank" class="map-link">
+        Atvērt Google Maps →
+      </a>
+    </div>
+
+    <!-- Waze Map -->
+    <div class="map-block">
+      <div class="map-container">
+        <iframe
+          src="https://embed.waze.com/iframe?zoom=16&lat=56.932132&lon=24.047567&ct=livemap"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+      <a href="https://ul.waze.com/ul?place=ChIJOwixNm3Q7kYR9rRVw7SfCm4&ll=56.93185410%2C24.04680860&navigate=yes&utm_campaign=default&utm_source=waze_website&utm_medium=lm_share_location" target="_blank" class="map-link">
+        Atvērt Waze →
+      </a>
+    </div>
+  </div>
+
+  <h2>Adrese: birojs, noliktava</h2>
+  <p>Ventspils iela 50-K6, Zemgales priekšpilsēta, Rīga, LV-1002</p>
+</section>
+
+
+    <!-- KONTAKTPERSONAS -->
+    <section class="contacts">
+        <h2>Kontaktpersonas</h2>
+        <p>Raimonds Ulpe – <a href="tel:+371 29 414 789">+371 29414789</a> – <a href="mailto:raimonds@gaco.lv">raimonds@gaco.lv</a></p>
+        <p>Oskars Timbars – <a href="tel:+371 26 568 205">+371 26568205</a> – <a href="mailto:oskars@gaco.lv">oskars@gaco.lv</a></p>
+    </section>
+
+    <!-- SOCIĀLIE TĪKLI -->
+    <section class="social">
+        <h2>Sociālie tīkli</h2>
+        <p>
+            <a href="https://www.facebook.com/GaCo.Sia?locale=lv_LV" target="_blank">Facebook</a> | 
+            <a href="https://www.instagram.com/gaco.sia?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">Instagram</a>
+        </p>
+    </section>
+
+    <!-- DARBA LAIKS -->
+    <section class="hours">
+        <h2>Darba laiks</h2>
+        <p>Pirmdiena - Piektdiena: 10:00 – 18:00</p>
+        <p>Sestdiena: Slēgts</p>
+        <p>Svētdiena: Slēgts</p>
+    </section>
+
+    <!-- BOTTOM NAV -->
+    <nav class="bottom-nav">
+        <a href="home.html" >🏠</a>
+        <a href="gallery.html">🖼️</a>
+        <a href="order form.html">📝</a>
+        <a href="info.html"class="active">📍</a>
+        <a href="#" id="profileLink">👤</a>
+    </nav>
+
+
+    <script>
+
+const profileLink = document.getElementById("profileLink");
+
+const loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
+const loggedAdmin = JSON.parse(localStorage.getItem("loggedAdmin"));
+
+if (loggedAdmin) {
+    profileLink.href = "admin profile.html";
+} else if (loggedUser) {
+    profileLink.href = "clients profile.html";
+} else {
+    profileLink.href = "login.html";
+}
+
+</script>
+
+</main>
+
+
+</body>
+</html>

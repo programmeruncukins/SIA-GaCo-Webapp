@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Pasūtījuma forma</title>
+
+  <!-- PWA manifest -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="/app-icons/iPhone_app_2160x2160.png">
+
+<style>
+
+/* ===== FORM PAGE ===== */
+.form-page {
+margin: 0px;
+  padding: 0 0 100px 0; /* vieta bottom-nav */
+  font-family: Arial, sans-serif;
+  background-color: #111;
+  color: #fff;
+  box-sizing: border-box;
+}
+
+.form-page h2, .form-page p {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-page h2 {
+    color: red; /* sarkans */
+}
+
+.intro-box {
+    max-width: 700px;
+    margin: 20px auto;
+    padding: 22px 25px 22px;  /* palielināju bottom padding no 18px uz 22px */
+
+    background-color: #000000;
+    color: #fff;  /* noteikti balts teksts, ne #111 */
+
+    border: 2px solid #e10600; /* sarkans rāmis */
+    border-radius: 12px;
+
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+
+    box-sizing: border-box; /* ļoti svarīgi, lai border iet kopā ar padding */
+    display: block;          /* drošībai */
+}
+
+.intro-box p {
+    margin: 0;
+    line-height: 1.6;
+}
+
+.intro-box p + p{
+    margin-top: 12px;
+}
+
+.intro-box a {
+    color: #e10600;
+    font-weight: 600;
+}
+
+.order-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 500px;
+    margin: 0 auto 50px auto; /* centrē formu */
+}
+
+.order-form label {
+    font-weight: bold;
+}
+
+.order-form input,
+.order-form textarea {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #fff;
+    background-color: #000000;  /* tumšs input */
+    color: #fff;
+}
+
+.order-form input::placeholder,
+.order-form textarea::placeholder {
+    color: #bbb;
+}
+
+.submit-btn {
+    padding: 12px;
+    background-color: #e10600;  /* sarkans */
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: #ff3333;
+}
+
+.error-msg {
+  color: red;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+/* Bottom nav */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #000;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-top: 2px solid #e10600;
+    z-index: 1000;
+}
+
+.bottom-nav a {
+    text-decoration: none;
+    font-size: 1.5rem;
+    color: #ffffff;
+    padding: 8px 14px;
+    border-radius: 10px;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.bottom-nav a:hover {
+    background: rgba(225, 7, 0, 0.299);
+    color: #e10600;
+}
+
+.bottom-nav a.active {
+    background: #e10700b2;
+    color: #e10600;
+}
+
+.order-form-container {
+    max-width: 640px;
+
+}
+
+/* ===== GLOW BOXES LIKE GALLERY PHOTO ===== */
+.intro-box, .order-form-container {
+    background-color: #000;
+    border: 2px solid #e10600;
+    border-radius: 12px;
+    padding: 25px 30px;
+    margin: 30px auto;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4); /* sākotnējais ēnojums */
+    transition: all 0.3s ease;
+}
+
+.intro-box:hover, .order-form-container:hover {
+    box-shadow: 
+        0 0 20px rgba(225,6,0,0.25), 
+        0 0 30px rgba(225,6,0,0.25), 
+        0 0 40px rgba(225,6,0,0.25); /* tieši kā gallery photo */
+    transform: translateY(-3px);       /* pacel hover efektu */
+}
+
+/* Lielais box glow tikai uz hover */
+.order-container {
+  max-width: 750px;
+  margin: 30px auto;
+  padding: 25px;
+  background-color: #000;
+  border: 2px solid #e10600;
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2); /* sākotnējais ēnojums */
+  transition: all 0.3s ease;
+}
+
+.order-container:hover {
+  box-shadow: 
+      0 0 20px rgba(225,6,0,0.25), 
+      0 0 30px rgba(225,6,0,0.3), 
+      0 0 40px rgba(225,6,0,0.35);
+  transform: translateY(-2px);
+}
+
+main {
+    padding-bottom: 120px; /* vieta bottom-nav */
+}
+
+</style>
+
+</head>
+<body class="form-page">
+
+    <!-- HEADER -->
+    <header class="site-header">
+        <img src="GaCo_logo_horizontal_white.png" alt="StartUpLook logo" class="site-logo">
+    </header>
+
+<main>
+
+  <!-- Lielais box -->
+  <section class="order-container">
+      <h2>Pasūtījuma forma</h2>
+
+      <div class="intro-box"> 
+          <p>
+              Aizpildi šo formu, lai iesniegtu pasākuma pieteikumu. <br> 
+              Pēc formas iesniegšanas Jūsu pieteikums tiks apstrādāts. <br> 
+              Kāds no atbildīgajiem ar Jums sazināsies tuvāko 3-5 darba dienu laikā.
+          </p>
+
+          <p>
+              Visi lauki ir obligāti aizpildāmi. 
+              Pieteikuma apstrādi var pārbaudīt savā 
+              <a href="clients applications.html">profila</a> sadaļā.
+          </p>
+      </div>
+
+      <div class="order-form-container">
+          <form class="order-form">
+
+            <!-- Uzņēmums -->
+            <label for="company">Uzņēmums:</label>
+            <input type="text" id="company" name="company">
+
+            <!-- Kontaktpersona -->
+            <label for="contact">Kontaktpersonas vārds, uzvārds:</label>
+            <input type="text" id="contact" name="contact">
+
+            <!-- Telefons -->
+            <label for="phone">Telefona numurs:</label>
+            <input type="tel" id="phone" name="phone">
+
+            <!-- E-pasts -->
+            <label for="email">E-pasts:</label>
+            <input type="email" id="email" name="email" >
+
+            <!-- Pasākuma nosaukums -->
+            <label for="event-name">Pasākuma nosaukums:</label>
+            <input type="text" id="event-name" name="event-name">
+
+            <!-- Pasākuma tēma/joma -->
+            <label for="event-topic">Pasākuma tēma/joma:</label>
+            <input type="text" id="event-topic" name="event-topic">
+
+            <!-- Info par pasākumu -->
+            <label for="event-info">Info par pasākumu:</label>
+            <textarea id="event-info" name="event-info" rows="5"></textarea>
+
+            <!-- Datums -->
+            <label>Pasākuma datums:</label>
+            <input type="date" id="event-day">
+
+            <!-- Laiks -->
+            <label>Pasākuma laiks (24h):</label>
+            <input type="time" id="event-time">
+
+            <!-- Vietas -->
+            <label for="event-place">Vieta:</label>
+            <input type="text" id="event-place" name="event-place">
+
+            <!-- Budžets -->
+            <label for="budget">Budžets (€):</label>
+            <input type="number" id="budget" name="budget">
+
+            <!-- Submit -->
+            <button type="submit" class="submit-btn">Iesniegt</button>
+
+            <!-- Error message -->
+            <p id="errorMsg" class="error-msg"></p>
+
+          </form>
+      </div>
+  </section>
+
+    <!-- BOTTOM NAVIGATION -->
+    <nav class="bottom-nav">
+        <a href="home.html">🏠</a>
+        <a href="gallery.html">🖼️</a>
+        <a href="order form.html" class="active">📝</a>
+        <a href="info.html">📍</a>
+        <a href="login.html" id="profileLink">👤</a>
+
+    </nav>
+
+    <!-- JS -->
+    <script>
+    // Profile link
+ const profileLink = document.getElementById("profileLink");
+
+const loggedAdmin = JSON.parse(localStorage.getItem("loggedAdmin"));
+const loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
+
+if (loggedAdmin) {
+    profileLink.href = "admin profile.html";
+} else if (loggedUser) {
+    profileLink.href = "clients profile.html";
+} else {
+    profileLink.href = "login.html";
+}
+
+    // Form submit
+    document.querySelector(".order-form").addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const errorMsg = document.getElementById("errorMsg");
+        errorMsg.textContent = ""; // Reset error message
+
+        // Visu lauku pārbaude
+const fields = [
+    "company", "contact", "phone", "email",
+    "event-name", "event-topic", "event-info",
+    "event-day", "event-time", "event-place", "budget"
+];
+
+        for (let f of fields) {
+            if (!document.getElementById(f).value.trim()) {
+                errorMsg.textContent = "Visi lauki ir obligāti!";
+                return;
+            }
+        }
+
+        const emailInput = document.getElementById("email").value.trim();
+
+        const requests = JSON.parse(localStorage.getItem("requests")) || [];
+
+// Atsevišķi date + time
+const eventDay = document.getElementById("event-day").value;   // yyyy-mm-dd
+const eventTime = document.getElementById("event-time").value; // hh:mm
+
+// saliec kopā un pārveido uz dd.mm.yyyy hh:mm
+const [year, month, day] = eventDay.split("-");
+const formattedEventDate = `${day}.${month}.${year} ${eventTime}`;
+
+const newRequest = {
+    id: Date.now(), 
+    title: document.getElementById("event-name").value,
+    date: new Date().toISOString(),
+    status: "procesā",
+
+    company: document.getElementById("company").value,
+    contact: document.getElementById("contact").value,
+    phone: document.getElementById("phone").value,
+    email: document.getElementById("email").value,
+    eventTopic: document.getElementById("event-topic").value,
+    eventInfo: document.getElementById("event-info").value,
+    eventDate: formattedEventDate,
+    eventPlace: document.getElementById("event-place").value,
+    budget: document.getElementById("budget").value,
+
+    userId: loggedUser ? loggedUser.id : null,
+    userEmail: loggedUser ? loggedUser.email : emailInput,
+    userType: loggedUser ? "registered" : "guest"
+};
+
+
+        requests.push(newRequest);
+        localStorage.setItem("requests", JSON.stringify(requests));
+
+        // Redirect uz success page
+        window.location.href = "order form success.html";
+    });
+    </script>
+
+</main>
+
+</body>
+</html>

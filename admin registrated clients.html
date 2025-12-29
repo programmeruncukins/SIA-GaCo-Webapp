@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reģistrētie lietotāji — Administrators</title>
+<link rel="stylesheet" href="style.css">
+
+  <!-- PWA manifest -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="/app-icons/iPhone_app_2160x2160.png">
+
+<style>
+
+/* ===== ADMIN REGISTERED USERS PAGE ===== */
+.site-header {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: #000;
+    border-bottom: 2px solid #e10600;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+
+}
+
+body {
+    background: #0f0f0f;
+    color: #ff0000;
+    font-family: Arial, sans-serif;
+}
+
+/* virsraksts */
+h1 {
+    text-align: center;
+    margin-top: 170px;
+    margin-bottom: 20px;
+    font-size: 32px;
+    font-weight: 600;
+}
+
+/* back poga */
+.back-btn {
+    display: block;
+    margin: 50px auto 50px auto;
+    padding: 12px 25px;
+    background-color: #e10600;
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    width: auto;
+    transition: 0.3s;
+}
+
+.back-btn:hover {
+    background-color: #ff3333;
+}
+
+/* tabulas konteiners */
+table {
+    width: 85%;
+    margin: 0 auto 60px;
+    border-collapse: collapse;
+    background: #2a2a2a;
+    border-radius: 14px;
+    overflow: visible;
+}
+
+/* galvene */
+thead {
+    background: #000000;
+}
+
+thead th {
+    padding: 16px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 15px;
+    color: #ddd;
+}
+
+/* rindas */
+tbody tr {
+    border-bottom: 1px solid #2a2a2a;
+    transition: 0.15s;
+}
+
+tbody tr:hover {
+    background: #444444;
+}
+
+/* šūnas */
+tbody td {
+    padding: 14px 16px;
+    font-size: 14px;
+    color: #eee;
+}
+
+/* pēdējā rinda bez līnijas */
+tbody tr:last-child {
+    border-bottom: none;
+}
+
+.danger-table thead th {
+    border-bottom: 4px solid #ff0000dc;
+}
+
+/* Delete / Danger table */
+.danger-table {
+    border-collapse: collapse;
+    border: 2px solid #ff0000; /* galvenā sarkanā mala */
+    background: #141414;
+    color: #eee;
+    transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+/* table hover glow */
+.danger-table:hover {
+    box-shadow: 0 0 14px rgba(225, 6, 0, 0.6);
+    border-color: #ff3333;
+}
+
+/* Galvenes */
+.danger-table th {
+    background: #1c1c1c;
+    color: #ff0000;
+    font-weight: 600;
+    border-bottom: 2px solid #ff0000;
+    padding: 12px;
+    text-align: left;
+}
+
+/* Šūnas */
+.danger-table td {
+    padding: 12px;
+    border-bottom: 1px solid rgb(255, 0, 0);
+}
+
+.danger-table tbody tr {
+    transition: background 0.2s, color 0.2s;
+}
+
+/* Vertikālās līnijas */
+.danger-table th,
+.danger-table td {
+    border-right: 1px solid rgb(255, 0, 0);
+}
+
+/* Noņem pēdējo labo līniju */
+.danger-table th:last-child,
+.danger-table td:last-child {
+    border-right: none;
+}
+
+td.role {
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+td.role.admin {
+    color: #00ff00!important; 
+}
+
+td.role.client {
+    color: #ffffff !important; /* zaļš */
+}
+
+
+/* ===== END ADMIN REGISTERED USERS PAGE ===== */
+
+
+</style>
+
+</head>
+<body>
+
+<header class="site-header">
+    <img src="GaCo_logo_horizontal_white.png" class="site-logo" alt="Logo">
+</header>
+
+<h1>Reģistrētie lietotāji</h1>
+<button class="back-btn" onclick="window.location.href='admin profile.html'">← Atpakaļ uz profilu</button>
+
+<table class="danger-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Vārds</th>
+            <th>Uzvārds</th>
+            <th>E-pasts</th>
+            <th>Loma</th>
+        </tr>
+    </thead>
+    <tbody id="usersTableBody"></tbody>
+</table>
+
+<script>
+const loggedAdmin = JSON.parse(localStorage.getItem("loggedAdmin"));
+if (!loggedAdmin) window.location.href = "login.html";
+
+const users = JSON.parse(localStorage.getItem("users")) || [];
+const tbody = document.getElementById("usersTableBody");
+
+users.forEach((u, i) => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+        <td>${i + 1}</td>
+        <td>${u.firstName || u.name || ""}</td>
+        <td>${u.lastName || u.surname || ""}</td>
+        <td>${u.email || ""}</td>
+        <td class="role ${u.role}">${u.role}</td>
+    `;
+    tbody.appendChild(tr);
+});
+</script>
+
+</body>
+</html>

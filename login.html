@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Ielogošanās</title>
+
+  <!-- PWA manifest -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="/app-icons/iPhone_app_2160x2160.png">
+
+<style>
+
+/* ==== LOGIN PAGE ==== */
+.login-page {
+    background-color: #000;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.login-container {
+    background: #111;
+    padding: 30px 25px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 380px;
+    border: 1px solid #e10600;
+    box-shadow: 0 0 15px rgba(225, 6, 0, 0.4);
+}
+
+.login-container h2 {
+    text-align: center;
+    color: #e10600;
+    margin-bottom: 20px;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.login-form input {
+    padding: 12px;
+    border-radius: 5px;
+    border: 1px solid #fff;
+    background-color: #000;
+    color: #fff;
+}
+
+.login-btn {
+    padding: 12px;
+    background-color: #e10600;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.login-btn:hover {
+    background-color: #ff2a2a;
+}
+
+.register-link {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.register-link a {
+    color: #e10600;
+    text-decoration: none;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+}
+
+.error-msg {
+    color: #e10600;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 5px;
+    animation: shake 0.2s ease-in-out 2;
+}
+
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    50% { transform: translateX(4px); }
+    75% { transform: translateX(-4px); }
+    100% { transform: translateX(0); }
+}
+
+/* Bottom nav */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #000;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-top: 2px solid #e10600;
+    z-index: 1000;
+}
+
+.bottom-nav a {
+    text-decoration: none;
+    font-size: 1.5rem;
+    color: #ffffff;
+    padding: 8px 14px;
+    border-radius: 10px;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.bottom-nav a:hover {
+    background: rgba(225, 7, 0, 0.299);
+    color: #e10600;
+}
+
+.bottom-nav a.active {
+    background: #e10700b2;
+    color: #e10600;
+}
+
+/* ==== END LOGIN PAGE ==== */
+
+</style>
+</head>
+
+<body class="login-page">
+
+    <div class="login-container">
+
+        <h2>Ielogoties</h2>
+
+        <form id="loginForm" class="login-form">
+            <label>E-pasts</label>
+            <input type="email" id="email" placeholder="Ievadi e-pastu">
+
+            <label>Parole</label>
+            <input type="password" id="password" placeholder="Parole">
+
+            <button type="submit" class="login-btn">Ienākt</button>
+
+            <!-- kļūdu teksts -->
+            <p id="errorMsg" class="error-msg"></p>
+        </form>
+
+        <p class="register-link">
+            Nav profila? <a href="registration.html">Reģistrēties</a>
+        </p>
+
+    </div>
+
+<script>
+const admin = localStorage.getItem("loggedAdmin");
+const user = localStorage.getItem("loggedUser");
+
+if (admin) {
+    window.location.href = "admin profile.html";
+} else if (user) {
+    window.location.href = "clients profile.html";
+}
+
+</script>
+
+<script>
+document.getElementById("loginForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const email = document.getElementById("email").value.trim().toLowerCase();
+    const password = document.getElementById("password").value.trim();
+    const errorMsg = document.getElementById("errorMsg");
+
+    if (!email || !password) {
+        errorMsg.textContent = "Lūdzu aizpildi abus laukus!";
+        return;
+    }
+
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+    const admins = JSON.parse(localStorage.getItem("admins")) || [];
+
+    const account =
+        users.find(u => u.email === email) ||
+        admins.find(a => a.email === email);
+
+    if (!account) {
+        errorMsg.textContent = "Šāds e-pasts nav reģistrēts!";
+        return;
+    }
+
+    if (account.password !== password) {
+        errorMsg.textContent = "Nepareiza parole!";
+        return;
+    }
+
+    if (account.role === "admin") {
+        localStorage.setItem("loggedAdmin", JSON.stringify(account));
+        localStorage.removeItem("loggedUser");
+        window.location.href = "admin profile.html";
+    } else {
+        localStorage.setItem("loggedUser", JSON.stringify(account));
+        localStorage.removeItem("loggedAdmin");
+        window.location.href = "clients profile.html";
+    }
+});
+</script>
+
+<!-- BOTTOM NAVIGATION -->
+<nav class="bottom-nav">
+    <a href="home.html">🏠</a>
+    <a href="gallery.html">🖼️</a>
+    <a href="order form.html">📝</a>
+    <a href="info.html">📍</a>
+    <a href="profile.html" class="active">👤</a>
+</nav>
+
+
+</body>
+</html>

@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pieteikumi — Administrators</title>
+<link rel="stylesheet" href="style.css">
+
+  <!-- PWA manifest -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="/app-icons/iPhone_app_2160x2160.png">
+
+<style>
+/* ===== ADMIN APPLICATIONS PAGE ===== */
+
+/* Header */
+.site-header {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: #000;
+    border-bottom: 2px solid #e10600;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1001;
+}
+
+/* Page background */
+.profile-page {
+    background-color: #111;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    padding: 25px 25px 80px 25px;
+    padding-top: 150px;
+    font-family: Arial, sans-serif;
+}
+
+/* Section */
+.applications-section {
+    width: 90%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Section title */
+.applications-section h2 {
+    text-align: center;
+    color: #e10600;
+    margin-bottom: 20px;
+}
+
+/* Back button */
+.back-btn {
+    display: block;
+    margin: 0 auto 20px auto;
+    padding: 12px 20px;
+    background-color: #e10600;
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    width: 200px;
+    transition: 0.3s;
+}
+
+.back-btn:hover {
+    background-color: #ff3333;
+}
+
+/* Request table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #000000;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+/* Box ap header row */
+.table-header-box th {
+    border: 2px solid red;
+    border-radius: 8px;
+    padding: 10px;
+    transition: all 0.3s;
+    cursor: default;
+}
+
+.table-header-box th:hover {
+    background-color: rgba(225,0,0,0.2);
+}
+
+
+thead {
+    background: #000000;
+}
+
+thead th {
+    padding: 12px;
+    text-align: left;
+    font-weight: 600;
+    color: #e10600;
+    border-bottom: 2px solid #e10600;
+}
+
+tbody tr {
+    transition: background 0.2s, color 0.2s;
+}
+
+tbody td {
+    padding: 12px;
+    border-bottom: 1px solid #e10600;
+    color: #fff;
+}
+
+.status {
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+    display: inline-block;
+    color: white;
+}
+
+.status.apstiprināts {
+    background: green;
+    color: white;
+}
+
+.status.noraidīts {
+    background: red;
+    color: white;
+}
+
+.status.procesā {
+    background: orange;
+    color: #111;
+}
+
+/* Admin action buttons */
+.view-btn-admin {
+    background-color: black;
+    color: white;
+    border: 2px solid red;
+    border-radius: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    margin-right: 5px;
+    transition: 0.3s;
+}
+
+.view-btn-admin:hover {
+    background-color: rgb(34, 34, 34);
+    color: white;
+}
+
+.approve-btn {
+    background-color: green;
+    color: white;
+    border: 2px solid darkgreen;
+    border-radius: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    transition: 0.3s;
+}
+
+.approve-btn:hover {
+    background-color: #00cc00;
+}
+
+.decline-btn {
+    background-color: red;
+    color: white;
+    border: 2px solid darkred;
+    border-radius: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.decline-btn:hover {
+    background-color: #cc0000;
+}
+
+/* Delete button */
+.delete-btn {
+    background-color: red;
+    color: white;
+    border: 2px solid darkred;
+    border-radius: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    width: 75px
+}
+
+.delete-btn:hover {
+    background-color: #cc0000;
+}
+
+
+/* Empty message */
+.empty-msg {
+    text-align: center;
+    margin-top: 40px;
+    font-size: 16px;
+    color: #ccc;
+}
+
+/* Bottom nav */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #000;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-top: 2px solid #e10600;
+    z-index: 1000;
+}
+
+.bottom-nav a {
+    text-decoration: none;
+    font-size: 1.5rem;
+    color: #ffffff;
+    padding: 8px 14px;
+    border-radius: 10px;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.bottom-nav a:hover {
+    background: rgba(225, 7, 0, 0.299);
+    color: #e10600;
+}
+
+.bottom-nav a.active {
+    background: #e10700b2;
+    color: #e10600;
+}
+
+/* Scrollable table if many requests */
+table tbody {
+    max-height: 60vh;
+    overflow-y: auto;
+    display: block;
+}
+
+table thead, table tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+/* ===== ADMIN VIEW POPUP ===== */
+/* Apvilkt visu popup ar sarkanu border */
+#requestPopupAdmin {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #000000;
+    color: white;
+    padding: 20px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 450px;
+    font-family: Arial, sans-serif;
+    display: none;
+    z-index: 1000;
+    
+    border: 3px solid red;      /* sarkans rāmītis */
+    transition: 0.3s;           /* lai hover efektu varam likt */
+}
+
+/* Hover efekts popup */
+#requestPopupAdmin:hover {
+    box-shadow: 0 0 15px #e10600;    /* gaišāks sarkans hover laikā */
+}
+
+
+#requestPopupAdmin h3 {
+    margin-top: 0;
+}
+
+#requestPopupAdmin button {
+    margin-top: 15px;
+    padding: 8px 12px;
+    background: red;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+#requestPopupAdmin button:hover { background: #cc0000; }
+
+#overlayAdmin {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    display: none;
+    z-index: 900;
+}
+
+/* Popup nosaukumu box */
+#requestPopupAdmin p {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 6px 0;
+}
+
+#requestPopupAdmin p strong {
+    display: inline-block;
+    width: 150px; /* nosaukuma platums */
+    border: 0.5px solid red;
+    border-radius: 8px;
+    padding: 4px 8px;
+    margin-right: 20px;
+    transition: 0.3s;
+}
+
+</style>
+
+</head>
+<body class="profile-page">
+
+<header class="site-header">
+    <img src="GaCo_logo_horizontal_white.png" class="site-logo" alt="Logo">
+</header>
+
+<section class="applications-section">
+    <button class="back-btn" onclick="window.location.href='admin profile.html'">← Atpakaļ uz profilu</button>
+    <h2>Visi pieteikumi</h2>
+
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Lietotājs</th>
+                <th>Statuss</th>
+                <th>Darbība</th>
+            </tr>
+        </thead>
+        <tbody id="applicationsBody"></tbody>
+    </table>
+
+    <p class="empty-msg" id="emptyMsg" style="display:none;">Nav jaunu pieteikumu</p>
+</section>
+
+<!-- Popup / Modal adminam -->
+<div id="requestPopupAdmin">
+    <div id="requestDetailsAdmin"></div>
+    <button onclick="closePopupAdmin()">Aizvērt</button>
+</div>
+<div id="overlayAdmin"></div>
+
+<script>
+// login check
+const admin=JSON.parse(localStorage.getItem("loggedAdmin"));
+if(!admin) window.location.href="login.html";
+
+// requests
+let requests=JSON.parse(localStorage.getItem("requests"))||[];
+const tbody=document.getElementById("applicationsBody");
+const emptyMsg = document.getElementById("emptyMsg");
+
+// notification function
+function sendNotification(email,text){
+    let notifications=JSON.parse(localStorage.getItem("notifications"))||[];
+    notifications.push({id:Date.now(),email:email,text:text,enabled:true});
+    localStorage.setItem("notifications",JSON.stringify(notifications));
+}
+
+function renderRequests(){
+    tbody.innerHTML="";
+    let hasPending = false;
+    requests.forEach((r,i)=>{
+        const tr = document.createElement("tr");
+
+        // Tr iekš HTML: ja status = "procesā", redz Apstiprināt/Noraidīt; ja apstiprināts/noraidīts, redz Dzēst
+        tr.innerHTML = `
+            <td>${i+1}</td>
+            <td>${r.userEmail}</td>
+            <td><span class="status ${r.status}">${r.status}</span></td>
+            <td>
+                <button class="view-btn-admin">Apskatīt</button>
+                ${r.status === "procesā" ? `
+                <button class="approve-btn">Apstiprināt</button>
+                <button class="decline-btn">Noraidīt</button>` : `
+                <button class="delete-btn">Dzēst</button>`}
+            </td>
+        `;
+        tbody.appendChild(tr);
+
+        // Apskatīt
+        tr.querySelector(".view-btn-admin").onclick = () => viewRequestAdmin(r.id);
+
+        // Apstiprināt
+        if(r.status === "procesā") {
+            tr.querySelector(".approve-btn").onclick = () => {
+                r.status = "apstiprināts";
+                r.handledBy = admin.email;
+                sendNotification(r.userEmail, "Tavs pieteikums tika apstiprināts.");
+                localStorage.setItem("requests", JSON.stringify(requests));
+                renderRequests();
+            };
+
+            // Noraidīt
+            tr.querySelector(".decline-btn").onclick = () => {
+                r.status = "noraidīts";
+                r.handledBy = admin.email;
+                sendNotification(r.userEmail, "Tavs pieteikums tika noraidīts.");
+                localStorage.setItem("requests", JSON.stringify(requests));
+                renderRequests();
+            };
+        } else {
+            // Dzēst
+            tr.querySelector(".delete-btn").onclick = () => {
+                requests = requests.filter(req => req.id !== r.id);
+                localStorage.setItem("requests", JSON.stringify(requests));
+                renderRequests();
+            };
+        }
+
+        if(r.status === "procesā") hasPending = true;
+    });
+
+    emptyMsg.style.display = hasPending ? "none" : "block";
+}
+
+
+renderRequests();
+
+// Apskatīt pieteikumu adminam
+function viewRequestAdmin(id) {
+    const requests = JSON.parse(localStorage.getItem("requests")) || [];
+    const req = requests.find(r => r.id === id);
+    if (!req) return;
+
+    const details = `
+        <h3>${req.title}</h3>
+        <p><strong>Uzņēmums:</strong> ${req.company}</p>
+        <p><strong>Kontaktpersona:</strong> ${req.contact}</p>
+        <p><strong>Telefons:</strong> ${req.phone}</p>
+        <p><strong>E-pasts:</strong> ${req.email}</p>
+        <p><strong>Tēma/joma:</strong> ${req.eventTopic}</p>
+        <p><strong>Info:</strong> ${req.eventInfo}</p>
+        <p><strong>Pasākuma datums:</strong> ${req.eventDate}</p>
+        <p><strong>Vieta:</strong> ${req.eventPlace}</p>
+        <p><strong>Budžets:</strong> ${req.budget}€</p>
+        <p><strong>Statuss:</strong> ${req.status}</p>
+    `;
+
+    document.getElementById("requestDetailsAdmin").innerHTML = details;
+    document.getElementById("requestPopupAdmin").style.display = "block";
+    document.getElementById("overlayAdmin").style.display = "block";
+}
+
+function closePopupAdmin() {
+    document.getElementById("requestPopupAdmin").style.display = "none";
+    document.getElementById("overlayAdmin").style.display = "none";
+}
+
+</script>
+
+<nav class="bottom-nav">
+    <a href="home.html">🏠</a>
+    <a href="gallery.html">🖼️</a>
+    <a href="order form.html">📝</a>
+    <a href="info.html">📍</a>
+    <a href="admin profile.html" class="active">👤</a>
+</nav>
+
+</body>
+</html>

@@ -1,0 +1,31 @@
+.intro-box,
+.order-form,
+.home-page {
+  margin-bottom: 30px;
+}
+
+/* ===== SITE HEADER ===== */
+.site-header {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: #000; /* black bg */
+    border-bottom: 2px solid #e10600; /* red underline */
+    justify-content: center;
+}
+
+.site-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #fff;
+}
+
+.site-logo {
+    width: 250px;
+    height: auto;
+    margin: 0 auto;
+}
+
+.intro-box, section:first-of-type {
+    margin-top: 20px; /* adjust number as needed */
+}

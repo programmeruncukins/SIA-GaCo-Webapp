@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>GaCo</title>
+
+  <!-- PWA manifest -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="/app-icons/iPhone_app_2160x2160.png">
+
+<style> 
+
+/* ===== INTRO PAGE ===== */
+
+.intro-bg {
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.intro-container {
+    text-align: center;
+}
+
+/* LOGO */
+.intro-logo {
+    height: auto;
+    margin-bottom: 40px;
+    animation: fadeIn 1.5s ease forwards;
+}
+
+/* LOADING BAR STILS */
+.loading-bar {
+  width: 80%;
+  height: 25px; /* biezāka līnija */
+  background-color: black;
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 10px auto 0 auto;
+}
+
+.loading-fill {
+  width: 0;
+  height: 100%;
+  background-color: red;
+  transition: width 2.5s ease-in-out;
+}
+
+
+/* Fade-in animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Loading animation */
+@keyframes loading {
+    from { width: 0; }
+    to   { width: 100%; }
+}
+
+/* ===== END INTRO PAGE ===== */
+
+</style>
+
+</head>
+
+<body class="intro-bg">
+  <div class="intro-container">
+    
+    <!-- LOGO -->
+    <img src="GaCo_Logo_White_bg.png" alt="Logo" class="intro-logo"> <!-- Add your logo image in the project folder -->
+
+    <!-- LOADING LINE -->
+    <div class="loading-bar">
+      <div class="loading-fill"></div>
+    </div>
+
+  </div>
+
+  <script>
+const fill = document.querySelector(".loading-fill");
+setTimeout(() => {
+  fill.style.width = "100%";
+}, 100);
+
+setTimeout(() => {
+  window.location.href = "home.html";
+}, 2500);
+
+  </script>
+
+</body>
+</html>
