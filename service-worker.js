@@ -1,34 +1,39 @@
-const CACHE_NAME = "GaCoawebappCache-v1";
+const CACHE_NAME = "GaCowebappCache-v1";
+
 const urlsToCache = [
-  "/",
-  "/admin applications.html",
-  "/admin delete account.html",
-  "/admin delete success.html",
-  "/admin edit profile.html",
-  "/admin notifications.html",
-  "/admin profile.html",
-  "/admin registrated clients.html",
-  "/clients applications.html",
-  "/clients delete account.html",
-  "/clients delete success.html",
-  "/clients edit profile.html",
-  "/clients notifications.html",
-  "/clients profile.html",
-  "/GaCo_logo_horizontal_white.png",
-  "/GaCo_Logo_White_bg.png",
-  "/gallery.html",
-  "/home.html",
-  "/index.html",
-  "/info.html",
-  "/intro.html",
-  "/login.html",
-  "/main.js",
-  "/order form success.html",
-  "/order form.html",
-  "/registration success.html",
-  "/registration.html",
-  "/style.css"
+  "./",
+  "./index.html",
+  "./home.html",
+  "./info.html",
+  "./gallery.html",
+  "./login.html",
+  "./style.css",
+  "./main.js",
+
+  "./admin applications.html",
+  "./admin delete account.html",
+  "./admin delete success.html",
+  "./admin edit profile.html",
+  "./admin notifications.html",
+  "./admin profile.html",
+  "./admin registrated clients.html",
+
+  "./clients applications.html",
+  "./clients delete account.html",
+  "./clients delete success.html",
+  "./clients edit profile.html",
+  "./clients notifications.html",
+  "./clients profile.html",
+
+  "./order form.html",
+  "./order form success.html",
+  "./registration.html",
+  "./registration success.html",
+
+  "./GaCo_logo_horizontal_white.png",
+  "./GaCo_Logo_White_bg.png"
 ];
+
 
 // Instalēšana un failu kešošana
 self.addEventListener("install", event => {

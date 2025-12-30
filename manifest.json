@@ -1,11 +1,11 @@
 {
   "name": "GaCo Webapp",
   "short_name": "GaCo",
-  "start_url": "/index.html",
+  "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#111",
   "theme_color": "#e10600",
-
   "icons": [
     {
       "src": "./app-icons/iPhone_app_2160x2160.png",
@@ -17,15 +17,10 @@
       "sizes": "192x192",
       "type": "image/png"
     },
-
     {
       "src": "./app-icons/Android_app_2_2048x2048.png",
       "sizes": "512x512",
       "type": "image/png"
     }
   ]
-
 }
-
-
-
