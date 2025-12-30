@@ -13,14 +13,25 @@
 <style>
 
 /* ===== INFO PAGE ===== */
+.site-header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* 👈 key change */
+    padding: 15px 20px;
+    background-color: #000;
+    border-bottom: 2px solid #e10600;
+    box-sizing: border-box;
+}
+
 .info-page {
     margin: 0;
-    padding: 0 0 100px 0; /* padding-bottom vieta bottom-nav */
+    padding: 0 16px 100px 16px; /* 👈 adds phone-safe margins */
     font-family: Arial, sans-serif;
     background-color: #111; /* black bg */
     color: #fff;
     box-sizing: border-box;
     text-align: center;
+    padding-top: 0px; /* header height */
 }
 
 .info-page section {
@@ -152,6 +163,54 @@
     font-size: 15px;
     line-height: 1.4;
     margin: 0;
+}
+
+@media screen and (max-width: 600px) {
+
+    /* sections stay inside phone screen */
+    .info-page section,
+    .compact-text {
+        width: 100%;
+        margin: 16px auto;
+        padding: 16px;
+        box-sizing: border-box;
+    }
+
+    /* maps layout */
+    .maps-wrapper {
+        gap: 20px;
+    }
+
+    .map-container {
+        width: 100%;      /* full width of phone */
+        max-width: 320px; /* but not too wide */
+        height: 260px;    /* 👈 smaller vertically */
+    }
+
+    .map-block {
+        width: 100%;
+        align-items: center;
+    }
+}
+
+.bottom-nav {
+    position: fixed;
+    left: 0;
+    right: 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.site-header {
+    position: relative; /* instead of fixed */
+    width: 100%;
+    z-index: 1000; /* optional, only if needed for stacking */
+}
+
+
+html, body {
+    margin: 0;
+    padding: 0;
 }
 
 

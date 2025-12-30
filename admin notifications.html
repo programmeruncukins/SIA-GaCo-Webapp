@@ -211,6 +211,65 @@ input:checked + .admin-slider:before {
 
 /* ===== END NOTIFICATIONS PAGE ADMIN ===== */
 
+/* ===== PHONE-SPECIFIC STYLING ===== */
+@media only screen and (max-width: 600px) {
+
+    /* Header like info page */
+    .site-header {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start; /* same as info page */
+        position: relative;          /* scrolls with page */
+        width: 100%;
+        padding: 15px 16px;          /* phone-friendly padding */
+        background-color: #000;
+        border-bottom: 2px solid #e10600;
+        box-sizing: border-box;
+        text-align: left;
+    }
+
+    body.admin-profile-page {
+        padding-top: 0;             /* header scrolls, no extra space needed */
+        padding-bottom: 60px;       /* space for fixed bottom nav */
+    }
+
+    /* Notifications box smaller for phones */
+    .admin-notifications-section {
+        width: 100%;
+        max-width: 350px;
+        padding: 16px;
+        margin: 16px auto 30px auto;
+        box-sizing: border-box;
+    }
+
+    .admin-notifications-section h2 {
+        font-size: 1.4rem;
+        margin-bottom: 15px;
+    }
+
+    /* Notification cards smaller */
+    .admin-notification-card {
+        padding: 10px 10px;
+    }
+
+    .admin-notification-card p {
+        font-size: 13px;
+    }
+
+    /* Bottom nav always visible */
+    .bottom-nav {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        height: 50px;
+    }
+
+    .bottom-nav a {
+        font-size: 1.2rem;
+        padding: 6px 10px;
+    }
+}
+
 </style>
 
 </head>

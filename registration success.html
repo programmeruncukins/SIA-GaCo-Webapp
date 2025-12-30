@@ -2,6 +2,7 @@
 <html lang="lv">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reģistrācija veiksmīga!</title>
     <link rel="stylesheet" href="style.css">
 
@@ -13,25 +14,38 @@
 
 /* ===== REGISTRATION SUCCESS PAGE ===== */
 
+/* HEADER LEFT */
+.site-header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* aligns left */
+    padding: 15px 20px;
+    background-color: #000;
+    border-bottom: 2px solid #e10600;
+    box-sizing: border-box;
+}
+
 body.success-page {
     background: #111;
     color: #fff;
     font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    margin: 0;
+    padding: 0;
+    display: block;  /* normal flow */
+    min-height: 100vh;
 }
 
+/* SHRINK SUCCESS BOX */
 .success-box {
-    max-width: 420px;
-    width: 90%;
-    background: #000000;
-    padding: 40px;
+    width: 85%;
+    max-width: 380px;
+    background: #000;
+    padding: 30px;
     border-radius: 14px;
     text-align: center;
     box-shadow: 0 4px 15px rgba(0,0,0,0.5);
     border: 1px solid #e10600;
+    margin: 200px auto 80px auto; /* 👈 top margin controls vertical position */
 }
 
 .success-box h1 {
@@ -61,12 +75,41 @@ body.success-page {
     background: #9b0000;
 }
 
+/* Mobile adjustments */
+@media screen and (max-width: 600px) {
+    .success-box {
+        width: 95%;
+        max-width: 320px;
+        padding: 25px;
+        margin: 200px auto 30px auto; /* smaller top margin for phones */
+    }
+
+    .success-box h1 {
+        font-size: 22px;
+    }
+
+    .success-box p {
+        font-size: 15px;
+    }
+
+    .success-box button {
+        width: 100%;
+        padding: 12px 0;
+        font-size: 14px;
+    }
+}
+
 /* ===== END REGISTRATION SUCCESS PAGE ===== */
 
 </style>
 
 </head>
 <body class="success-page">
+
+    <!-- HEADER -->
+    <header class="site-header">
+        <img src="GaCo_logo_horizontal_white.png" alt="StartUpLook logo" class="site-logo">
+    </header>
 
 <div class="success-box">
     <h1>Reģistrācija veiksmīga!</h1>

@@ -167,6 +167,47 @@ body.edit-profile-page {
 
 /* ===== END EDIT PROFILE CLIENT PAGE ===== */
 
+/* ===== PHONE-SPECIFIC STYLING ===== */
+@media only screen and (max-width: 600px) {
+
+    /* Container box smaller for phones */
+    .edit-profile-container {
+        width: 95%;
+        max-width: 320px;
+        padding: 16px;
+        margin: 10px auto 20px auto;
+    }
+
+    /* Title smaller */
+    .edit-profile-container h1 {
+        font-size: 22px;
+        margin-bottom: 15px;
+    }
+
+    /* Input fields slightly smaller */
+    .edit-profile-container input {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    /* Save and Cancel buttons uniform for phone */
+    .save-btn,
+    .cancel-btn {
+        width: 100%;      /* full container width */
+        padding: 10px;    /* thickness/height */
+        font-size: 15px;
+        box-sizing: border-box;
+    }
+
+    /* Keep Back button original size */
+    .back-btn {
+        width: 200px;     /* same as desktop */
+        padding: 10px;    /* same thickness */
+        font-size: 16px;  /* original font size */
+        margin: 0 auto 20px auto; /* keep centered */
+    }
+}
+
 
 </style>
 

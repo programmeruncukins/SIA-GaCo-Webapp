@@ -122,37 +122,68 @@
         }
         .view-btn:hover { background: #cc0000; }
 
-        /* Popup/modal */
-        #requestPopup {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: #111;
-            color: white;
-            padding: 20px;
-            border-radius: 12px;
-            width: 90%;
-            max-width: 450px;
-            box-shadow: 0 0 20px #000;
-            display: none;
-            z-index: 1000;
-        }
+/* ===== CLIENT VIEW POPUP (PREMIUM) ===== */
+#requestPopup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #000;
+    color: white;
+    padding: 20px;
+    border-radius: 14px;
+    width: 90%;
+    max-width: 450px;
+    display: none;
+    z-index: 1000;
 
-        #requestPopup h3 {
-            margin-top: 0;
-        }
+    border: 3px solid red;
+    box-shadow: 0 0 15px rgba(225, 7, 0, 0.3);
+    transition: 0.3s;
+}
 
-        #requestPopup button {
-            margin-top: 15px;
-            padding: 8px 12px;
-            background: red;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-        #requestPopup button:hover { background: #cc0000; }
+/* Hover glow */
+#requestPopup:hover {
+    box-shadow: 0 0 20px #e10600;
+}
+
+#requestPopup h3 {
+    margin-top: 0;
+    color: #e10600;
+    text-align: center;
+}
+
+#requestPopup p {
+    display: flex;
+    align-items: center;
+    margin: 6px 0;
+    font-size: 14px;
+}
+
+#requestPopup p strong {
+    display: inline-block;
+    width: 140px;
+    border: 1px solid red;
+    border-radius: 8px;
+    padding: 4px 8px;
+    margin-right: 12px;
+    font-weight: 600;
+}
+
+#requestPopup button {
+    margin-top: 18px;
+    padding: 10px 14px;
+    background: rgb(255, 0, 0);
+    color: white;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s;
+    width: 100%;
+}
+
+#requestPopup button:hover { background: #cc0000; }
 
         /* Overlay */
         #overlay {
@@ -298,6 +329,82 @@
 }
 
 /* ===== END APPLICATIONS PAGE CLIENTS ===== */
+
+@media only screen and (max-width: 600px) {
+    .site-header {
+        display: flex;
+        justify-content: center;  /* center horizontally */
+        align-items: center;      /* center vertically */
+        width: 100%;              /* full width */
+        padding: 12px 0;          /* no extra horizontal padding */
+        box-sizing: border-box;
+        text-align: center;
+    }
+    
+   .bottom-nav {
+        position: fixed;      /* ensure fixed at bottom */
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 50px;         /* slightly smaller for phones */
+        padding: 0 5px;       /* remove extra padding */
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        z-index: 1001;        /* above popups */
+        background-color: #000;
+        border-top: 2px solid #e10600;
+    }
+
+    .bottom-nav a {
+        font-size: 1.3rem;    /* smaller icons/text */
+        padding: 6px 10px;    /* smaller buttons */
+    }
+
+    #requestPopup {
+        max-width: 320px;
+    }
+
+    #requestPopup p strong {
+        width: 110px;
+        padding: 3px 6px;
+    }
+
+    /* Request popup smaller */
+    #requestPopup,
+    .popup-delete {
+        width: 90%;             /* almost full width of phone */
+        max-width: 300px;       /* smaller than desktop */
+        padding: 15px;          /* less padding */
+        font-size: 14px;        /* smaller text */
+    }
+
+
+    
+    #requestPopup button,
+    .popup-buttons button {
+        padding: 8px 12px;      /* smaller buttons */
+        font-size: 14px;        /* easier to fit */
+        margin-top: 18px;
+    padding: 10px 14px;
+    background: rgb(255, 0, 0);
+    color: white;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s;
+    width: 100%;
+}
+
+#requestPopup button:hover { background: #cc0000; }
+    
+    /* Applications list scroll area smaller */
+    #applicationsList {
+        max-height: 50vh;       /* a bit smaller for phone screens */
+    }
+}
 
 </style>
 

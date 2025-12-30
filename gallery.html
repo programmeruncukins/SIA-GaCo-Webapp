@@ -17,21 +17,28 @@
 .site-header {
     display: flex;
     align-items: center;
+    justify-content: flex-start; /* 👈 key change */
     padding: 15px 20px;
     background-color: #000;
     border-bottom: 2px solid #e10600;
-    justify-content: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000;
+    box-sizing: border-box;
 }
+
+.site-logo {
+    margin: 0 auto; /* visually centered but aligned with content */
+    display: block;
+}
+
 
 .site-header,
 .gallery-page .bottom-nav {
     width: 100vw;   /* garantē pilnu viewport platumu */
     left: 0;
+}
+
+html, body {
+    overflow-x: hidden;
+    width: 100%;
 }
 
 .gallery {
@@ -42,7 +49,6 @@
     margin: 0 auto;
     box-sizing: border-box;
     position: relative;   /* vai absolute */
-    right: 3%;
 }
 
 .gallery-toggle-btn {
@@ -66,7 +72,7 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
-    margin-top: 20px;
+    max-width: 100%;
 }
 
 .photo-item img {
@@ -137,7 +143,7 @@ section:hover {
 .photo-item {
     border-radius: 8px;
     overflow: hidden;
-    padding: 20px;          /* 🔥 THIS controls box size */
+    padding: 26px;          /* 🔥 THIS controls box size */
     transition: all 0.3s ease;
     box-shadow: 0 4px 12px rgba(0,0,0,0.4); /* sākotnējais ēnojums */
     flex: 0 0 calc(50% - 20px); /* divas kolonnas ar atstarpi */
@@ -149,21 +155,29 @@ section:hover {
     transform: translateY(-3px);
 }
 
-.photo-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center; /* centrējas horizontāli */
-    gap: 20px;
-    margin: 0 auto;          /* papildus centram */
-    max-width: 100%;         /* neizplešas ārpus box */
+/* Mobile: viens stabiņš */
+@media screen and (max-width: 600px) {
+    .photo-item {
+        flex: 0 0 100%; /* vienā kolonnā */
+    }
+
+    @media (max-width: 600px) {
+    .photo-grid {
+        grid-template-columns: 1fr;
+    }
 }
+
 
 .photo-item img {
     width: 100%;
-    height: 300px;
+    height: auto;
     object-fit: cover;
     border-radius: 6px;
     background: #000;
+    max-height: none;
+    object-fit: contain; /* NEGRIEŽ */
+    display: block;
+}
 }
 
 .gallery-page {
@@ -257,7 +271,6 @@ body.gallery-page {
 
 .gallery-page .photo-item img {
     max-height: 420px;
-    width: auto;
     display: block;
     margin: 0 auto; /* CENTRĒ ATTĒLU */
 }

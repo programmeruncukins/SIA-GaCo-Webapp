@@ -172,9 +172,31 @@ td.role.client {
     color: #ffffff !important; /* zaļš */
 }
 
-
 /* ===== END ADMIN REGISTERED USERS PAGE ===== */
 
+@media only screen and (max-width: 600px) {
+    .site-header {
+        display: flex;
+        justify-content: center;  /* center horizontally */
+        align-items: center;      /* center vertically */
+        width: 100%;              /* full width */
+        padding: 12px 0;          /* no extra horizontal padding */
+        box-sizing: border-box;
+        text-align: center;
+    }
+
+    table {
+        width: 95%;        /* slightly smaller than default 85% for phones */
+        max-width: 340px;  /* limit max width so it fits nicely */
+    }
+
+    thead th, 
+    tbody td {
+        padding: 10px 12px; /* a bit tighter for mobile */
+        font-size: 13px;    /* smaller text to match */
+    }
+
+}
 
 </style>
 

@@ -334,6 +334,117 @@ table thead, table tbody tr {
     transition: 0.3s;
 }
 
+/* ===== PHONE-SPECIFIC STYLING ===== */
+@media only screen and (max-width: 600px) {
+
+    .site-header {
+        display: flex;
+        justify-content: center;  /* center horizontally */
+        align-items: center;      /* center vertically */
+        width: 100%;              /* full width */
+        padding: 12px 0;          /* no extra horizontal padding */
+        box-sizing: border-box;
+        text-align: center;
+    }
+
+
+   .bottom-nav {
+        position: fixed;      /* ensure fixed at bottom */
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 50px;         /* slightly smaller for phones */
+        padding: 0 5px;       /* remove extra padding */
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        z-index: 1001;        /* above popups */
+        background-color: #000;
+        border-top: 2px solid #e10600;
+    }
+
+    .bottom-nav a {
+        font-size: 1.3rem;    /* smaller icons/text */
+        padding: 6px 10px;    /* smaller buttons */
+    }
+
+    /* Popup smaller and readable */
+    #requestPopupAdmin {
+        width: 90%;
+        max-width: 320px;
+        padding: 15px;
+        font-size: 13px;
+    }
+
+    #requestPopupAdmin button {
+        width: 100%;
+        margin-top: 8px;
+        padding: 10px;
+        font-size: 13px;
+    }
+
+    #requestPopupAdmin p strong {
+        width: 120px;
+        padding: 3px 6px;
+        margin-right: 10px;
+    }
+
+    /* ===== MOBILE REQUEST CARDS ===== */
+.admin-table {
+    display: none; /* hide table on mobile */
+}
+
+.applications-section .mobile-request-card {
+    background: #000;
+    border: 1px solid #e10600;
+    border-radius: 12px;
+    padding: 15px 20px;
+    margin-bottom: 15px;
+    color: white;
+    box-shadow: 0 0 5px #000;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.applications-section .mobile-request-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 10px #e10600;
+}
+
+.mobile-request-card p {
+    margin: 5px 0;
+    font-size: 14px;
+} 
+
+.mobile-request-card .mobile-note {
+    color: #ff875ccf;
+    font-size: 12px;
+    margin-top: 10px;
+}
+
+/* Mobile "Apskatīt" button centrēts un kā desktop */
+.mobile-request-card .mobile-view-btn {
+    display: block;
+    margin: 10px auto;       /* centrē horizontāli */
+    padding: 8px 12px;
+    background-color: black;
+    color: white;
+    border: 2px solid red;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s; /* hover efekts plūstošs */
+    text-align: center;
+    font-size: 14px;
+}
+
+.mobile-request-card .mobile-view-btn:hover {
+    background-color: rgb(34, 34, 34);
+    color: white;
+}
+
+
+}
+
 </style>
 
 </head>
@@ -387,62 +498,67 @@ function sendNotification(email,text){
 }
 
 function renderRequests(){
-    tbody.innerHTML="";
-    let hasPending = false;
+    const isMobile = window.innerWidth <= 600;
+    tbody.innerHTML = "";
+    const section = document.querySelector(".applications-section");
+    section.querySelectorAll(".mobile-request-card").forEach(el => el.remove());
+
+if(isMobile){
     requests.forEach((r,i)=>{
-        const tr = document.createElement("tr");
-
-        // Tr iekš HTML: ja status = "procesā", redz Apstiprināt/Noraidīt; ja apstiprināts/noraidīts, redz Dzēst
-        tr.innerHTML = `
-            <td>${i+1}</td>
-            <td>${r.userEmail}</td>
-            <td><span class="status ${r.status}">${r.status}</span></td>
-            <td>
-                <button class="view-btn-admin">Apskatīt</button>
-                ${r.status === "procesā" ? `
-                <button class="approve-btn">Apstiprināt</button>
-                <button class="decline-btn">Noraidīt</button>` : `
-                <button class="delete-btn">Dzēst</button>`}
-            </td>
+        const card = document.createElement("div");
+        card.className = "mobile-request-card";
+        card.innerHTML = `
+            <p><strong>ID:</strong> ${i+1}</p>
+            <p><strong>Lietotājs:</strong> ${r.userEmail}</p>
+            <button class="mobile-view-btn">Apskatīt</button>
+            <p class="mobile-note">Vari apskatīt request, bet dzēst, apstiprināt vai noraidīt var tikai uz datora.</p>
         `;
-        tbody.appendChild(tr);
+        section.appendChild(card);
 
-        // Apskatīt
-        tr.querySelector(".view-btn-admin").onclick = () => viewRequestAdmin(r.id);
-
-        // Apstiprināt
-        if(r.status === "procesā") {
-            tr.querySelector(".approve-btn").onclick = () => {
-                r.status = "apstiprināts";
-                r.handledBy = admin.email;
-                sendNotification(r.userEmail, "Tavs pieteikums tika apstiprināts.");
-                localStorage.setItem("requests", JSON.stringify(requests));
-                renderRequests();
-            };
-
-            // Noraidīt
-            tr.querySelector(".decline-btn").onclick = () => {
-                r.status = "noraidīts";
-                r.handledBy = admin.email;
-                sendNotification(r.userEmail, "Tavs pieteikums tika noraidīts.");
-                localStorage.setItem("requests", JSON.stringify(requests));
-                renderRequests();
-            };
-        } else {
-            // Dzēst
-            tr.querySelector(".delete-btn").onclick = () => {
-                requests = requests.filter(req => req.id !== r.id);
-                localStorage.setItem("requests", JSON.stringify(requests));
-                renderRequests();
-            };
-        }
-
-        if(r.status === "procesā") hasPending = true;
+        // Pogas klikšs atver popup
+        card.querySelector(".mobile-view-btn").onclick = ()=>viewRequestAdmin(r.id);
     });
+    emptyMsg.style.display = requests.length ? "none" : "block";
 
-    emptyMsg.style.display = hasPending ? "none" : "block";
+    } else {
+        tbody.style.display = "table-row-group";
+        requests.forEach((r,i)=>{
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+                <td>${i+1}</td>
+                <td>${r.userEmail}</td>
+                <td><span class="status ${r.status}">${r.status}</span></td>
+                <td>
+                    <button class="view-btn-admin">Apskatīt</button>
+                    ${r.status === "procesā" ? `
+                    <button class="approve-btn">Apstiprināt</button>
+                    <button class="decline-btn">Noraidīt</button>` : `
+                    <button class="delete-btn">Dzēst</button>`}
+                </td>
+            `;
+            tbody.appendChild(tr);
+
+            tr.querySelector(".view-btn-admin").onclick = ()=>viewRequestAdmin(r.id);
+            if(r.status === "procesā"){
+                tr.querySelector(".approve-btn").onclick = ()=>{
+                    r.status="apstiprināts"; r.handledBy=admin.email;
+                    sendNotification(r.userEmail,"Tavs pieteikums tika apstiprināts.");
+                    localStorage.setItem("requests",JSON.stringify(requests)); renderRequests();
+                };
+                tr.querySelector(".decline-btn").onclick = ()=>{
+                    r.status="noraidīts"; r.handledBy=admin.email;
+                    sendNotification(r.userEmail,"Tavs pieteikums tika noraidīts.");
+                    localStorage.setItem("requests",JSON.stringify(requests)); renderRequests();
+                };
+            } else {
+                tr.querySelector(".delete-btn").onclick = ()=>{
+                    requests = requests.filter(req=>req.id!==r.id);
+                    localStorage.setItem("requests",JSON.stringify(requests)); renderRequests();
+                };
+            }
+        });
+    }
 }
-
 
 renderRequests();
 
@@ -475,6 +591,9 @@ function closePopupAdmin() {
     document.getElementById("requestPopupAdmin").style.display = "none";
     document.getElementById("overlayAdmin").style.display = "none";
 }
+
+// Re-render on window resize so mobile/desktop view updates dynamically
+window.addEventListener("resize", renderRequests);
 
 </script>
 

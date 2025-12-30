@@ -135,6 +135,23 @@ body.danger-page {
     margin-top: 10px;
 }
 
+@media only screen and (max-width: 600px) {
+    .site-header {
+        display: flex;
+        justify-content: center;  /* center horizontally */
+        align-items: center;      /* center vertically */
+        width: 100%;              /* full width */
+        padding: 12px 0;          /* no extra horizontal padding */
+        box-sizing: border-box;
+        text-align: center;
+    }
+    .danger-section {
+        margin: 0px auto 40px auto; /* top margin smaller, bottom margin stays */
+        max-width: 320px;            /* optional: smaller width for phone */
+        padding: 20px;               /* slightly less padding for compact look */
+    }
+}
+
 </style>
 
 </head>
