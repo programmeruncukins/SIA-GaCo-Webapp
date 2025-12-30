@@ -13,7 +13,6 @@
 <style>
 
 /* ===== NOTIFICATIONS PAGE CLIENTS ===== */
-/* Header fiksēts augšā */ 
 .site-header {
     display: flex;
     align-items: center;
@@ -21,18 +20,21 @@
     background-color: #000;
     border-bottom: 2px solid #e10600;
     justify-content: center;
-    position: fixed;
-    top: 0;
-    left: 0;
+    position: relative; /* vairs nav fixed */
+    top: auto;
+    left: auto;
     width: 100%;
     z-index: 1000;
+    box-sizing: border-box; /* svarīgi, lai padding neaizskar malas */
 }
+
 body.profile-page {
     background-color: #111;
     font-family: Arial, sans-serif;
     color: white;
-    padding-top: 160px;       /* vieta headeram */
+    padding-top: 0px;       /* vieta header augstumam */
     padding-bottom: 60px;     /* vieta bottom nav scroll laikā */
+    margin: 0;                /* nav default margin */
 }
 
 /* ===== Lielais notifications box ===== */
@@ -209,17 +211,12 @@ input:checked + .slider:before {
 }
 /* ===== END NOTIFICATIONS PAGE CLIENTS ===== */
 
-/* ===== PHONE-SPECIFIC STYLING ===== */
 @media only screen and (max-width: 600px) {
 
-    /* Header like info page */
     .site-header {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start; /* same as info page */
-        position: relative;          /* scrolls with page */
+        position: relative;       /* header scrollē ar lapu */
         width: 100%;
-        padding: 15px 16px;          /* phone-friendly padding */
+        padding: 15px 16px;       /* phone-friendly padding */
         background-color: #000;
         border-bottom: 2px solid #e10600;
         box-sizing: border-box;
@@ -227,11 +224,13 @@ input:checked + .slider:before {
     }
 
     body.profile-page {
-        padding-top: 0;             /* header scrolls, no extra space needed */
-        padding-bottom: 60px;       /* space for fixed bottom nav */
+        padding-top: 0;           /* nav vajadzīgs extra padding */
+        padding-bottom: 60px;     /* vieta bottom nav */
+        margin: 0;
+        box-sizing: border-box;    /* nodrošina, ka padding nepārklāj saturu */
+        overflow-x: hidden;        /* novērš horizontālo scroll */
     }
 
-    /* Notifications box smaller for phones */
     .notifications-section {
         width: 100%;
         max-width: 350px;
@@ -245,7 +244,6 @@ input:checked + .slider:before {
         margin-bottom: 15px;
     }
 
-    /* Notification cards smaller */
     .notification-card {
         padding: 10px 10px;
     }
@@ -254,14 +252,12 @@ input:checked + .slider:before {
         font-size: 13px;
     }
 
-    /* Back button smaller */
     .back-btn {
         width: 90%;
         padding: 10px 0;
         font-size: 0.9rem;
     }
 
-    /* Bottom nav always visible */
     .bottom-nav {
         position: fixed;
         bottom: 0;
@@ -274,6 +270,7 @@ input:checked + .slider:before {
         padding: 6px 10px;
     }
 }
+
 
 
 </style>

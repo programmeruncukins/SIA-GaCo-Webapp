@@ -20,3 +20,19 @@ if ('serviceWorker' in navigator) {
             });
     });
 }
+
+// ===== ACCESS CONTROL =====
+document.addEventListener("DOMContentLoaded", () => {
+    // šeit nosauc lapas, kuras prasa loginu
+    const protectedPages = ["profile.html", "clients profile.html", "admin profile.html"];
+
+    // iegūst pašreizējo faila nosaukumu
+    const currentPage = window.location.pathname.split("/").pop();
+
+    const loggedIn = localStorage.getItem("loggedIn"); // vai kāds tavs login flag
+
+    // ja lapa ir aizsargāta un nav ielogojies
+    if (protectedPages.includes(currentPage) && !loggedIn) {
+        window.location.href = "login.html"; // novirza uz login page
+    }
+});

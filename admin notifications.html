@@ -216,21 +216,22 @@ input:checked + .admin-slider:before {
 
     /* Header like info page */
     .site-header {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start; /* same as info page */
-        position: relative;          /* scrolls with page */
+        position: relative;       /* header scrollē ar lapu */
         width: 100%;
-        padding: 15px 16px;          /* phone-friendly padding */
+        padding: 15px 16px;       /* phone-friendly padding */
         background-color: #000;
         border-bottom: 2px solid #e10600;
         box-sizing: border-box;
         text-align: left;
+
     }
 
     body.admin-profile-page {
-        padding-top: 0;             /* header scrolls, no extra space needed */
-        padding-bottom: 60px;       /* space for fixed bottom nav */
+        padding-top: 0;           /* nav vajadzīgs extra padding */
+        padding-bottom: 60px;     /* vieta bottom nav */
+        margin: 0;
+        box-sizing: border-box;    /* nodrošina, ka padding nepārklāj saturu */
+        overflow-x: hidden;        /* novērš horizontālo scroll */
     }
 
     /* Notifications box smaller for phones */
