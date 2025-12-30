@@ -1,6 +1,6 @@
 {
   "name": "GaCo Webapp",
-  "short_name": "WebApp",
+  "short_name": "GaCo",
   "start_url": "/index.html",
   "display": "standalone",
   "background_color": "#111",
@@ -8,18 +8,18 @@
 
   "icons": [
     {
-      "src": "/app-icons/iPhone_app_2160x2160.png",
+      "src": "./app-icons/iPhone_app_2160x2160.png",
       "sizes": "180x180",
       "type": "image/png"
     },
     {
-      "src": "/app-icons/Android_app_1920x1920.png",
+      "src": "./app-icons/Android_app_1920x1920.png",
       "sizes": "192x192",
       "type": "image/png"
     },
 
     {
-      "src": "/app-icons/Android_app_2_2048x2048.png",
+      "src": "./app-icons/Android_app_2_2048x2048.png",
       "sizes": "512x512",
       "type": "image/png"
     }

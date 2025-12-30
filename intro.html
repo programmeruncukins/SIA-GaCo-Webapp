@@ -7,7 +7,7 @@
   <title>GaCo</title>
 
   <!-- PWA manifest -->
-  <link rel="manifest" href="manifest.json">
+  <link rel="manifest" href="./manifest.json">
   <link rel="apple-touch-icon" href="/app-icons/iPhone_app_2160x2160.png">
 
 <style> 
@@ -68,6 +68,38 @@
 
 /* ===== END INTRO PAGE ===== */
 
+/* ===== PHONE VERSION ===== */
+@media only screen and (max-width: 600px) {
+
+    .intro-bg {
+        padding: 20px;
+        height: 100svh; /* labāk nekā 100vh telefonos */
+    }
+
+    .intro-container {
+        width: 100%;
+    }
+
+    /* LOGO telefonam */
+    .intro-logo {
+        width: 100%;          /* adaptīvs */
+        max-width: 500px;    /* neļauj kļūt par lielu */
+        margin-bottom: 30px;
+    }
+
+    /* Loading bar telefonam */
+    .loading-bar {
+        width: 90%;          /* gandrīz full width */
+        height: 18px;        /* plānāka, elegantāka */
+        border-radius: 10px;
+    }
+
+    .loading-fill {
+        border-radius: 10px;
+    }
+}
+
+
 </style>
 
 </head>
@@ -84,7 +116,7 @@
     </div>
 
   </div>
-
+  
   <script>
 const fill = document.querySelector(".loading-fill");
 setTimeout(() => {

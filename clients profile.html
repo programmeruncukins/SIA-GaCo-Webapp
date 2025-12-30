@@ -7,7 +7,7 @@
     <title>Mans profils — Klients</title>
 
   <!-- PWA manifest -->
-  <link rel="manifest" href="manifest.json">
+  <link rel="manifest" href="./manifest.json">
   <link rel="apple-touch-icon" href="/app-icons/iPhone_app_2160x2160.png">
 
 <style>
@@ -15,14 +15,17 @@
 /* ===== CLIENT  PROFILE PAGE ===== */
 
 .edit-profile-container {
-    background-color: #000000 !important;
+    background-color: #000;
     padding: 12px;
     border-radius: 8px;
     border: 1px solid #e10600;
-    margin: 0 auto 20px auto; /* centrē horizontāli un mazina apakšējo atstarpi */
-    width: 975px; /* tāds pats kā pogām */
+    margin: 0 auto 20px auto;
+    width: 100%;
+    max-width: 975px;
     color: #fff;
+    box-sizing: border-box;
 }
+
 
 .edit-profile-container p {
     text-align: center;
@@ -72,15 +75,18 @@ body.profile-page {
 
 .profile-actions button {
     padding: 14px;
-    background-color: #000000;
+    background-color: #000;
     border: 1px solid #e10600;
     color: #fff;
     font-size: 1rem;
     border-radius: 6px;
     cursor: pointer;
-    width: 1000px; /* puse no konteinera platuma */
+    width: 100%;
+    max-width: 1000px;
     transition: 0.2s;
+    box-sizing: border-box;
 }
+
 
 .profile-actions button:hover {
     background-color: #e10600;
@@ -127,6 +133,13 @@ body.profile-page {
     background: #e10700b2;
     color: #e10600;
 }
+
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
 /* ===== END CLIENT PROFILE PAGE ===== */
 
 /* ===== PHONE-SPECIFIC STYLING ===== */

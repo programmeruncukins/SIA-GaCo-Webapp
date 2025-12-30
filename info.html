@@ -7,12 +7,12 @@
     <title>Info lapa</title>
 
   <!-- PWA manifest -->
-  <link rel="manifest" href="manifest.json">
+  <link rel="manifest" href="./manifest.json">
   <link rel="apple-touch-icon" href="/app-icons/iPhone_app_2160x2160.png">
 
 <style>
 
-/* ===== INFO PAGE ===== */
+/* ===== INFO PAGE ===== */ 
 .site-header {
     display: flex;
     align-items: center;
@@ -25,7 +25,7 @@
 
 .info-page {
     margin: 0;
-    padding: 0 16px 100px 16px; /* 👈 adds phone-safe margins */
+    padding: 0 0 100px 0; /* 👈 adds phone-safe margins */
     font-family: Arial, sans-serif;
     background-color: #111; /* black bg */
     color: #fff;
@@ -43,6 +43,7 @@
     max-width: 1100px;
     text-align: center;
     transition: box-shadow 0.3s ease; /* smooth glow */
+    box-sizing: border-box;
 }
 
 .info-page section:hover {
@@ -145,12 +146,14 @@
 
 .compact-text {    
     margin: 20px auto;      /* centrē horizontāli */
-    padding: 15px 20px;     /* mazāk padding */
+    padding: 20px;     /* mazāk padding */
     background-color: #000;
     color: #fff;
     border: 2px solid #e10600;
     border-radius: 12px;
     text-align: center;     /* centrē tekstu */
+    max-width: 1100px;
+    box-sizing: border-box;
 }
 
 .compact-text h2 {
